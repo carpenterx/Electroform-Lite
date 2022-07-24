@@ -28,10 +28,15 @@ void TestEnumerable()
         new User("User3", "123456"),
     };
 
-
     Users users = new(usersArray);
-    usersArray[0].Name = "Bla";
+    Users users2 = (Users)users.Clone();
+
     foreach (User user in users)
+    {
+        Console.WriteLine($"User {user.Name} has password: {user.Password}");
+    }
+
+    foreach (User user in users2)
     {
         Console.WriteLine($"User {user.Name} has password: {user.Password}");
     }

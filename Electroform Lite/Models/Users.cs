@@ -2,7 +2,7 @@
 
 namespace Electroform_Lite.Models;
 
-internal class Users : IEnumerable
+internal class Users : IEnumerable, ICloneable
 {
     private readonly User[] _users;
 
@@ -14,6 +14,11 @@ internal class Users : IEnumerable
         {
             _users[i] = users[i];
         }
+    }
+
+    public object Clone()
+    {
+        return new Users(_users);
     }
 
     public UsersEnumerator GetEnumerator()
