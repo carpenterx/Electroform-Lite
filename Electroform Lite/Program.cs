@@ -1,16 +1,20 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using Electroform_Lite.Models;
 
-//TestDocumentClasses();
+TestDocumentClasses();
 TestEnumerable();
 
 void TestDocumentClasses()
 {
     Document document = new();
     PDFDocument pdfDocument = new();
+    SealedPDFDocument sealedPDFDocument = new();
+    SpecialPDFDocument specialPDFDocument = new();
     document.Export();
     pdfDocument.Export();
     pdfDocument.Export("watermark");
+    sealedPDFDocument.Export();
+    specialPDFDocument.Export();
 }
 
 /*void TestUserClasses()
