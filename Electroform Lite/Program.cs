@@ -1,9 +1,42 @@
-﻿TestBasicException();
+﻿using Electroform_Lite;
 
-static void TestBasicException()
+//TestBasicException();
+TestCustomException();
+
+static void TestCustomException()
 {
     DateTime date = DateTime.UtcNow.Date;
-    //date = date.AddDays(1);
+    date = date.AddDays(1);
+    try
+    {
+        ValidateBirthDateCustom(date);
+        Console.WriteLine("Store birth date in database");
+    }
+    catch (BirthDateException ex)
+    {
+        Console.WriteLine($"ERROR: {ex.Message}");
+    }
+}
+
+static void ValidateBirthDateCustom(DateTime birthDate)
+{
+    try
+    {
+        if (birthDate > DateTime.UtcNow.Date)
+        {
+            throw new BirthDateException("Birth date is in the future");
+        }
+    }
+    catch (Exception)
+    {
+        throw;
+    }
+}
+
+/*static void TestBasicException()
+{
+    DateTime date = DateTime.UtcNow.Date;
+    date = date.AddDays(1);
     try
     {
         ValidateBirthDate(date);
@@ -13,9 +46,9 @@ static void TestBasicException()
     {
         Console.WriteLine("ERROR: Birth date is in the future");
     }
-}
+}*/
 
-static void ValidateBirthDate(DateTime birthDate)
+/*static void ValidateBirthDate(DateTime birthDate)
 {
     try
     {
@@ -28,4 +61,4 @@ static void ValidateBirthDate(DateTime birthDate)
     {
         throw;
     }
-}
+}*/
