@@ -1,4 +1,5 @@
-﻿using Electroform_Lite;
+﻿#define CUSTOM
+using Electroform_Lite;
 
 //TestBasicException();
 //TestCustomException();
@@ -12,8 +13,14 @@ static void TestRethrowCustomException()
     }
     catch (BirthDateException ex)
     {
+#if CUSTOM
+        Console.WriteLine("++++++++++++++++++++++++++++++++++");
+#endif
         Console.WriteLine($"ERROR: {ex.Message}");
         Console.WriteLine("No time travellers allowed");
+#if CUSTOM
+        Console.WriteLine("++++++++++++++++++++++++++++++++++");
+#endif
     }
 }
 
