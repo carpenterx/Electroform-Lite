@@ -1,5 +1,6 @@
 ﻿#define CUSTOM
 using Electroform_Lite;
+using System.Diagnostics;
 
 //TestBasicException();
 //TestCustomException();
@@ -17,6 +18,12 @@ static void TestRethrowCustomException()
         Console.WriteLine("++++++++++++++++++++++++++++++++++");
 #endif
         Console.WriteLine($"ERROR: {ex.Message}");
+        Debug.Indent();
+        Debug.WriteLine($"ERROR: {ex.Message}");
+        Debug.Unindent();
+        Debug.WriteLineIf(true, "New line");
+        //Debug.Fail("New error!", "New error details");
+        //Debug.Assert(false);
         Console.WriteLine("No time travellers allowed");
 #if CUSTOM
         Console.WriteLine("++++++++++++++++++++++++++++++++++");
@@ -40,6 +47,7 @@ static void RethrowCustomException()
     catch (Exception ex)
     {
         Console.WriteLine($"EXCEPTION: {ex.Message}");
+        Debug.WriteLine($"EXCEPTION: {ex.Message}");
     }
     finally
     {
