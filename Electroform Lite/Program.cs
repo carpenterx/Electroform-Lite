@@ -6,7 +6,7 @@ TestCustomException();
 static void TestCustomException()
 {
     DateTime date = DateTime.UtcNow.Date;
-    date = date.AddDays(1);
+    //date = date.AddDays(1);
     try
     {
         ValidateBirthDateCustom(date);
@@ -15,6 +15,14 @@ static void TestCustomException()
     catch (BirthDateException ex)
     {
         Console.WriteLine($"ERROR: {ex.Message}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"EXCEPTION: {ex.Message}");
+    }
+    finally
+    {
+        Console.WriteLine("Clean up input form");
     }
 }
 
@@ -25,6 +33,13 @@ static void ValidateBirthDateCustom(DateTime birthDate)
         if (birthDate > DateTime.UtcNow.Date)
         {
             throw new BirthDateException("Birth date is in the future");
+        }
+        else
+        {
+            if (DateTime.UtcNow.Year - birthDate.Year < 18)
+            {
+                throw new Exception("You are not old enough to create an account");
+            }
         }
     }
     catch (Exception)
