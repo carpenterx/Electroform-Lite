@@ -1,9 +1,46 @@
 ﻿using Electroform_Lite;
 
 //TestBasicException();
-TestCustomException();
+//TestCustomException();
+TestRethrowCustomException();
 
-static void TestCustomException()
+static void TestRethrowCustomException()
+{
+    try
+    {
+        RethrowCustomException();
+    }
+    catch (BirthDateException ex)
+    {
+        Console.WriteLine($"ERROR: {ex.Message}");
+        Console.WriteLine("No time travellers allowed");
+    }
+}
+
+static void RethrowCustomException()
+{
+    DateTime date = DateTime.UtcNow.Date;
+    date = date.AddDays(1);
+    try
+    {
+        ValidateBirthDateCustom(date);
+        Console.WriteLine("Store birth date in database");
+    }
+    catch (BirthDateException)
+    {
+        throw;
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"EXCEPTION: {ex.Message}");
+    }
+    finally
+    {
+        Console.WriteLine("Clean up input form");
+    }
+}
+
+/*static void TestCustomException()
 {
     DateTime date = DateTime.UtcNow.Date;
     //date = date.AddDays(1);
@@ -24,7 +61,7 @@ static void TestCustomException()
     {
         Console.WriteLine("Clean up input form");
     }
-}
+}*/
 
 static void ValidateBirthDateCustom(DateTime birthDate)
 {
