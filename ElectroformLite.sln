@@ -3,9 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectroformLite.Domain", "ElectroformLite.Domain\ElectroformLite.Domain.csproj", "{FFD97285-F2A9-4B8D-8885-3CA8EB771C93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectroformLite.Domain", "ElectroformLite.Domain\ElectroformLite.Domain.csproj", "{FFD97285-F2A9-4B8D-8885-3CA8EB771C93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectroformLite.Console", "ElectroformLite.Console\ElectroformLite.Console.csproj", "{EF069456-D440-4BEE-91BF-CAF9ADF7D408}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectroformLite.Console", "ElectroformLite.Console\ElectroformLite.Console.csproj", "{EF069456-D440-4BEE-91BF-CAF9ADF7D408}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FFD97285-F2A9-4B8D-8885-3CA8EB771C93} = {FFD97285-F2A9-4B8D-8885-3CA8EB771C93}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
