@@ -1,4 +1,6 @@
-﻿namespace Electroform_Lite.Models;
+﻿using System;
+
+namespace Electroform_Lite.Models;
 
 internal class GenericArray<T>
 {
@@ -27,29 +29,32 @@ internal class GenericArray<T>
     {
         int index1 = GetIndex(item1);
         int index2 = GetIndex(item2);
-        SwapItemsAt(index1, index2);
+        SwapItems(index1, index2);
     }
 
-    public void SwapItemAtWithItem(int item1Index, T item2)
+    public void SwapItems(int item1Index, T item2)
     {
         int index2 = GetIndex(item2);
-        SwapItemsAt(item1Index, index2);
+        SwapItems(item1Index, index2);
     }
 
-    public void SwapItemWithItemAt(T item1, int item2Index)
+    public void SwapItems(T item1, int item2Index)
     {
         int index1 = GetIndex(item1);
-        SwapItemsAt(index1, item2Index);
+        SwapItems(index1, item2Index);
     }
 
-    public void SwapItemsAt(int index1, int index2)
+    public void SwapItems(int index1, int index2)
     {
-        (_items[index2], _items[index1]) = (_items[index1], _items[index2]);
+        if (index1 > -1 && index2 > -1)
+        {
+            (_items[index2], _items[index1]) = (_items[index1], _items[index2]);
+        }
     }
 
     private int GetIndex(T item)
     {
-        for (int i = 0; i < _currentIndex; i++)
+        for (int i = 0; i <= _currentIndex; i++)
         {
             if (_items[i].Equals(item))
             {

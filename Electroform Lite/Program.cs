@@ -12,8 +12,8 @@ genericArray.SetItemAt(0, "A");
 Console.WriteLine(genericArray.GetItemAt(0));
 
 Console.WriteLine($"arr[0] = {genericArray.GetItemAt(0)}, arr[1] = {genericArray.GetItemAt(1)}");
-//genericArray.SwapItemsAt(0, 1);
+//genericArray.SwapItems(0, 1);
 //genericArray.SwapItems("A", "b");
-//genericArray.SwapItemAtWithItem(0, "b");
-genericArray.SwapItemWithItemAt("A", 1);
+//genericArray.SwapItems(0, "b");
+genericArray.SwapItems("A", 1);
 Console.WriteLine($"arr[0] = {genericArray.GetItemAt(0)}, arr[1] = {genericArray.GetItemAt(1)}");
