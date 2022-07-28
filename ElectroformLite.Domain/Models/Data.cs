@@ -7,4 +7,17 @@ public class Data
     public string Placeholder { get; set; }
 
     public string Value { get; set; }
+
+    public Data(string placeholder, string value)
+    {
+        Placeholder = placeholder;
+        Value = value;
+    }
+
+    public Data(int id, string placeholder, string value)
+    {
+        Id = id;
+        Placeholder = placeholder;
+        Value = value;
+    }
 }

@@ -8,5 +8,7 @@ public class User
 
     public string Password { get; set; }
 
+    public List<int> DataGroups { get; set; } = new();
 
+    public List<int> Documents { get; set; } = new();
 }
