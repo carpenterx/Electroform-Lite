@@ -6,17 +6,21 @@ class User{
   Id
   Name
   Password
-  Data
+  DataGroups
   Documents
 
-  GetData()
-  EditData()
+  GetDataGroups()
   GetDocuments()
 }
 class Data{
   Id
   Placeholder
   Value
+}
+class DataGroup{
+  Id
+  Name
+  Data
 }
 class Document{
   Id
@@ -30,7 +34,8 @@ class Template{
   Content
 }
 
-User <.. "1..*" Data
+User <.. "1..*" DataGroup
+DataGroup <.. "1..*" Data
 User -- Document : generates
 Document o-- "1" Template : based on
 ```
