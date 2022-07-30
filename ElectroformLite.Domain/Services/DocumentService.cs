@@ -11,7 +11,7 @@ public class DocumentService
         Document document = new()
         {
             Id = 0,
-            Name = "Document: Cerere Alocare Credentiale Pentru Plata Impozitelor Și Taxelor Locale Pentru Persoane Fizice",
+            Name = "Document: Cerere Alocare Credentiale Pentru Plata Impozitelor Si Taxelor Locale Pentru Persoane Fizice",
             TemplateId = 0
         };
 
