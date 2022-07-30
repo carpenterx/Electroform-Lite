@@ -3,35 +3,35 @@
 ```mermaid
 classDiagram
 class User{
-  Id
-  Name
-  Password
-  DataGroups
-  Documents
-
-  GetDataGroups()
-  GetDocuments()
+Id
+Name
+Password
+DataGroups
+Documents
 }
 class Data{
-  Id
-  Placeholder
-  Value
+Id
+Placeholder
+Value
 }
 class DataGroup{
-  Id
-  Name
-  Data
+Id
+Name
+Type
+Data
 }
 class Document{
-  Id
-  Name
-  TemplateId
-  Export()
+Id
+Name
+Content
+Created
+DataGroups
+TemplateId
 }
 class Template{
-  Id
-  Name
-  Content
+Id
+Name
+Content
 }
 
 User <.. "1..*" DataGroup
@@ -43,24 +43,22 @@ Document o-- "1" Template : based on
 ## Template example
 
 ```
-CERERE ALOCARE CREDENTIALE PENTRU PLATA IMPOZITELOR ȘI TAXELOR LOCALE
+CERERE ALOCARE CREDENTIALE PENTRU PLATA IMPOZITELOR SI TAXELOR LOCALE
 PENTRU PERSOANE FIZICE,
 PRIN WWW.GHISEUL.RO
 
-Subsemnatul/a [Nume] [Prenume], CNP [CNP], cu domiciliul în județul [Judet]
-localitatea [Localitate], strada [Strada], nr [Numarul], bloc [Bloc], scara
-[Scara], etaj [Etaj], apartament [Apartament], e-mail [Email], numar de
-telefon [Telefon], solicit a-mi fi atribuit credențial în
-vederea plății prin www.ghiseul.ro
-	- Sunt de acord ca orice corespondență să fie expediată doar pe adresa
-de e-mail mai sus menționată sau telefonic;
-	- Ridicarea credențialului se va face personal sau prin mandatar, dacă
-nu este comunicat la adresa de e-mail mai sus menționată;
+Subsemnatul/a [Person.FirstName] [Person.LastName], e-mail [Contact.Email], numar de
+telefon [Contact.PhoneNumber], solicit a-mi fi atribuit credential in
+vederea platii prin www.ghiseul.ro
+	- Sunt de acord ca orice corespondenta sa fie expediata doar pe adresa
+de e-mail mai sus mentionata sau telefonic;
+	- Ridicarea credentialului se va face personal sau prin mandatar, daca
+nu este comunicat la adresa de e-mail mai sus mentionata;
 	- Plata se va efectua doar prin intermediul unui card bancar;
-	- Atașez la prezenta cerere, copie a actului de identitate a numitului/ei
-[Nume] [Prenume]
+	- Atasez la prezenta cerere, copie a actului de identitate a numitului/ei
+[Person.FirstName] [Person.LastName]
 
-Data [DateTime.Today]							Semnătura
+Data {DateTime.Today}							Semnatura
 ```
 
 All the values between square brackets represent data placeholders. In order to generate the document, we replace the placeholders from the template with their respective values that are obtained from the user data.
