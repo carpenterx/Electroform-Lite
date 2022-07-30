@@ -6,5 +6,11 @@ public class Document
 
     public string Name { get; set; }
 
+    public string Content { get; set; }
+
+    public DateTime Created { get; set; }
+
+    public List<int> DataGroups { get; set; } = new();
+
     public int TemplateId { get; set; }
 }
