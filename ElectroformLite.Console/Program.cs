@@ -23,7 +23,7 @@ List<int> documentIndices = new();
 
 //User user = UserService.GetUser("John Doh", dataGroupIndices, documentIndices);
 
-/*DataGroup personDataGroup = CreateBasicDataGroup(0, "John Doh");
+DataGroup personDataGroup = CreateBasicDataGroup(0, "John Doh");
 FillDataGroup(personDataGroup);
 dataGroups.Add(personDataGroup);
 
@@ -42,9 +42,9 @@ try
 catch (Exception)
 {
     
-}*/
+}
 
-Type[] typelist = GetTypesInNamespace(typeof(Data).GetTypeInfo().Assembly, "ElectroformLite.Domain.Models");
+/*Type[] typelist = GetTypesInNamespace(typeof(Data).GetTypeInfo().Assembly, "ElectroformLite.Domain.Models");
 Console.WriteLine(Mermaid.GenerateClassDiagram(typelist));
 
 Type[] GetTypesInNamespace(Assembly assembly, string nameSpace)
@@ -52,7 +52,7 @@ Type[] GetTypesInNamespace(Assembly assembly, string nameSpace)
     return assembly.GetTypes()
         .Where(t => String.Equals(t.Namespace, nameSpace, StringComparison.Ordinal))
         .ToArray();
-}
+}*/
 
 DataGroup CreateBasicDataGroup(int dataGroupTemplateId, string name)
 {
@@ -77,8 +77,7 @@ void FillDataGroup(DataGroup dataGroup)
     {
         Data data = dataList[dataIndex];
         Console.WriteLine($"{data.Placeholder}: ");
-        string value = Console.ReadLine();
-        data.Value = value;
+        data.Value = Console.ReadLine();
     }
 }
 
