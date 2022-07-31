@@ -19,4 +19,11 @@ public class DataGroup
     {
         Name = name;
     }
+
+    public DataGroup(DataGroupTemplate dataGroupTemplate, string name)
+    {
+        Name = name;
+
+        Type = dataGroupTemplate.Type;
+    }
 }

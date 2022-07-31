@@ -5,11 +5,13 @@ using System.Text.RegularExpressions;
 
 List<DataType> dataTypes = DataTypeService.GetDataTypes();
 List<DataTemplate> dataTemplates = DataTemplateService.GetDataTemplates();
-List<Data> dataList = DataService.GetData();
+//List<Data> dataList = DataService.GetData();
+List<Data> dataList = new();
 
 List<DataGroupType> dataGroupTypes = DataGroupTypeService.GetDataGroupTypes();
 List<DataGroupTemplate> dataGroupTemplates = DataGroupTemplateService.GetDataGroupTemplates();
-List<DataGroup> dataGroups = DataGroupService.GetDataGroups();
+//List<DataGroup> dataGroups = DataGroupService.GetDataGroups();
+List<DataGroup> dataGroups = new();
 
 List<Template> templates = TemplateService.GetTemplates();
 List<Document> documents = DocumentService.GetDocuments();
@@ -18,6 +20,14 @@ List<int> dataGroupIndices = new() { 0, 1 };
 List<int> documentIndices = new();
 
 //User user = UserService.GetUser("John Doh", dataGroupIndices, documentIndices);
+
+DataGroup personDataGroup = CreateBasicDataGroup(0, "John Doh");
+FillDataGroup(personDataGroup);
+dataGroups.Add(personDataGroup);
+
+DataGroup contactDataGroup = CreateBasicDataGroup(1, "John Doh Contact");
+FillDataGroup(contactDataGroup);
+dataGroups.Add(contactDataGroup);
 
 Console.WriteLine("Select template id:");
 try
@@ -102,6 +112,34 @@ catch (Exception)
     return stringBuilder;
 }*/
 
+DataGroup CreateBasicDataGroup(int dataGroupTemplateId, string name)
+{
+    DataGroup dataGroup = new DataGroup(dataGroupTemplates[dataGroupTemplateId], name);
+
+    int index = dataList.Count;
+    foreach (int dataTemplateId in dataGroupTemplates[dataGroupTemplateId].DataTemplates)
+    {
+        Data data = new(dataTemplates[dataTemplateId]);
+        data.Id = index++;
+        dataList.Add(data);
+        dataGroup.Data.Add(data.Id);
+    }
+
+    return dataGroup;
+}
+
+void FillDataGroup(DataGroup dataGroup)
+{
+    Console.WriteLine($"Data group: {dataGroup.Name}");
+    foreach (int dataIndex in dataGroup.Data)
+    {
+        Data data = dataList[dataIndex];
+        Console.WriteLine($"{data.Placeholder}: ");
+        string value = Console.ReadLine();
+        data.Value = value;
+    }
+}
+
 Document CreateBasicDocument(int templateId)
 {
     Template template = templates[templateId];
@@ -121,7 +159,7 @@ Document CreateBasicDocument(int templateId)
         {
             Data data = dataList[dataIndex];
 
-            string templatePlaceholder = $"[{dataGroup.Type}.{data.Placeholder}]";
+            string templatePlaceholder = $"[{dataGroupTypes[dataGroup.Type]}.{data.Placeholder}]";
 
             output = output.Replace(templatePlaceholder, data.Value);
         }

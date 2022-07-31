@@ -22,4 +22,11 @@ public class Data
         Placeholder = placeholder;
         Value = value;
     }
+
+    public Data(DataTemplate dataTemplate)
+    {
+        Placeholder = dataTemplate.Placeholder;
+        Value = "";
+        Type = dataTemplate.Type;
+    }
 }

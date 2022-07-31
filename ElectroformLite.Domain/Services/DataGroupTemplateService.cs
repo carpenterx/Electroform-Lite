@@ -14,8 +14,8 @@ public class DataGroupTemplateService
         dataGroupTemplates.Add(personDataGroupTemplate);
 
         DataGroupTemplate contactDataGroupTemplate = new() { Id = 1, Type = 1 };
-        contactDataGroupTemplate.DataTemplates.Add(0);
-        contactDataGroupTemplate.DataTemplates.Add(1);
+        contactDataGroupTemplate.DataTemplates.Add(2);
+        contactDataGroupTemplate.DataTemplates.Add(3);
         dataGroupTemplates.Add(contactDataGroupTemplate);
 
         return dataGroupTemplates;
