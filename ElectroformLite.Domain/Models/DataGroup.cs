@@ -6,7 +6,7 @@ public class DataGroup
 
     public string Name { get; set; }
 
-    public string Type { get; set; }
+    public int Type { get; set; }
 
     public List<int> Data { get; set; } = new();
 
