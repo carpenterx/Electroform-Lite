@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 List<Data> dataList = DataService.GetData();
+List<DataGroupType> dataGroupTypes = DataGroupTypeService.GetDataGroupTypes();
 List<DataGroup> dataGroups = DataGroupService.GetDataGroups();
 
 List<Template> templates = TemplateService.GetTemplates();
@@ -14,7 +15,7 @@ List<int> documentIndices = new();
 
 //User user = UserService.GetUser("John Doh", dataGroupIndices, documentIndices);
 
-/*Console.WriteLine("Select template id:");
+Console.WriteLine("Select template id:");
 try
 {
     int templateId = int.Parse(Console.ReadLine());
@@ -25,11 +26,11 @@ try
 catch (Exception)
 {
     
-}*/
+}
 
-Console.WriteLine(GenerateClassDiagram()); ;
+//Console.WriteLine(GenerateClassDiagram());
 
-string GenerateClassDiagram()
+/*string GenerateClassDiagram()
 {
     StringBuilder classDiagramStringBuilder = new();
     //classDiagramStringBuilder.AppendLine("```mermaid");
@@ -40,9 +41,9 @@ string GenerateClassDiagram()
     classDiagramStringBuilder.Append(ExtractMethods(typeof(Template)));
     //classDiagramStringBuilder.AppendLine("```");
     return classDiagramStringBuilder.ToString();
-}
+}*/
 
-StringBuilder ExtractMethods(Type type)
+/*StringBuilder ExtractMethods(Type type)
 {
     List<string> props = new();
     List<string> methods = new();
@@ -74,9 +75,9 @@ StringBuilder ExtractMethods(Type type)
     }
 
     return GenerateClassCode(type.Name, props, methods);
-}
+}*/
 
-StringBuilder GenerateClassCode(string name, List<string> props, List<string> methods)
+/*StringBuilder GenerateClassCode(string name, List<string> props, List<string> methods)
 {
     StringBuilder stringBuilder = new();
     stringBuilder.AppendLine($"class {name}{{");
@@ -95,7 +96,7 @@ StringBuilder GenerateClassCode(string name, List<string> props, List<string> me
     stringBuilder.AppendLine("}");
 
     return stringBuilder;
-}
+}*/
 
 Document CreateBasicDocument(int templateId)
 {
@@ -145,5 +146,6 @@ List<string> GetDataGroupTypesFromTemplate(string templateContent)
 
 DataGroup GetDataGroupByType(string dataType)
 {
-    return dataGroups.First(g => g.Type == dataType);
+    int dataTypeId = dataGroupTypes.First(t => t.Value == dataType).Id;
+    return dataGroups.First(g => g.Type == dataTypeId);
 }

@@ -11,7 +11,7 @@ public class DataGroupService
         {
             Id = 0,
             Name = "John Doh",
-            Type = "Person"
+            Type = 0
         };
         personDataGroup.Data.Add(0);
         personDataGroup.Data.Add(1);
@@ -21,7 +21,7 @@ public class DataGroupService
         {
             Id = 1,
             Name = "John Doh Contact",
-            Type = "Contact"
+            Type = 1
         };
         contactDataGroup.Data.Add(2);
         contactDataGroup.Data.Add(3);
