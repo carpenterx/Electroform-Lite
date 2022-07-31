@@ -7,8 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectroformLite.Domain", "E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectroformLite.Console", "ElectroformLite.Console\ElectroformLite.Console.csproj", "{EF069456-D440-4BEE-91BF-CAF9ADF7D408}"
 	ProjectSection(ProjectDependencies) = postProject
+		{3A6E3A72-12DE-4DB4-A8E1-759379684575} = {3A6E3A72-12DE-4DB4-A8E1-759379684575}
 		{FFD97285-F2A9-4B8D-8885-3CA8EB771C93} = {FFD97285-F2A9-4B8D-8885-3CA8EB771C93}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectroformLite.ClassDiagram", "ElectroformLite.ClassDiagram\ElectroformLite.ClassDiagram.csproj", "{3A6E3A72-12DE-4DB4-A8E1-759379684575}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +27,10 @@ Global
 		{EF069456-D440-4BEE-91BF-CAF9ADF7D408}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF069456-D440-4BEE-91BF-CAF9ADF7D408}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF069456-D440-4BEE-91BF-CAF9ADF7D408}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A6E3A72-12DE-4DB4-A8E1-759379684575}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A6E3A72-12DE-4DB4-A8E1-759379684575}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A6E3A72-12DE-4DB4-A8E1-759379684575}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A6E3A72-12DE-4DB4-A8E1-759379684575}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

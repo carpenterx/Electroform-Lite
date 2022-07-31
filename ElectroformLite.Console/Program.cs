@@ -1,5 +1,7 @@
-﻿using ElectroformLite.Domain.Models;
+﻿using ElectroformLite.ClassDiagram;
+using ElectroformLite.Domain.Models;
 using ElectroformLite.Domain.Services;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -42,74 +44,14 @@ catch (Exception)
     
 }
 
-//Console.WriteLine(GenerateClassDiagram());
+/*Type[] typelist = GetTypesInNamespace(typeof(Data).GetTypeInfo().Assembly, "ElectroformLite.Domain.Models");
+Console.WriteLine(Mermaid.GenerateClassDiagram(typelist));
 
-/*string GenerateClassDiagram()
+Type[] GetTypesInNamespace(Assembly assembly, string nameSpace)
 {
-    StringBuilder classDiagramStringBuilder = new();
-    //classDiagramStringBuilder.AppendLine("```mermaid");
-    classDiagramStringBuilder.Append(ExtractMethods(typeof(User)));
-    classDiagramStringBuilder.Append(ExtractMethods(typeof(Data)));
-    classDiagramStringBuilder.Append(ExtractMethods(typeof(DataGroup)));
-    classDiagramStringBuilder.Append(ExtractMethods(typeof(Document)));
-    classDiagramStringBuilder.Append(ExtractMethods(typeof(Template)));
-    //classDiagramStringBuilder.AppendLine("```");
-    return classDiagramStringBuilder.ToString();
-}*/
-
-/*StringBuilder ExtractMethods(Type type)
-{
-    List<string> props = new();
-    List<string> methods = new();
-    foreach (var method in type.GetMethods())
-    {
-        var parameters = method.GetParameters();
-        var parameterDescriptions = string.Join(", ", method.GetParameters()
-            .Select(x => x.ParameterType.Name + " " + x.Name)
-            .ToArray());
-        
-        if (type.FullName == method.DeclaringType.FullName)
-        {
-            string methodName = method.Name;
-            if (methodName.StartsWith("get_"))
-            {
-                //props.Add($"{method.ReturnType.Name} {methodName.Replace("get_", "")}");
-                props.Add($"{methodName.Replace("get_", "")}");
-            }
-            else if (methodName.StartsWith("set_"))
-            {
-                //Console.WriteLine($"{method.ReturnType.Name} {methodName.Replace("get_", "")}");
-            }
-            else
-            {
-                //methods.Add($"{method.ReturnType.Name} {methodName}({parameterDescriptions})");
-                methods.Add($"{methodName}({parameterDescriptions})");
-            }
-        }
-    }
-
-    return GenerateClassCode(type.Name, props, methods);
-}*/
-
-/*StringBuilder GenerateClassCode(string name, List<string> props, List<string> methods)
-{
-    StringBuilder stringBuilder = new();
-    stringBuilder.AppendLine($"class {name}{{");
-    foreach (string prop in props)
-    {
-        stringBuilder.AppendLine(prop);
-    }
-    if (methods.Count > 0)
-    {
-        stringBuilder.AppendLine();
-    }
-    foreach (string method in methods)
-    {
-        stringBuilder.AppendLine(method);
-    }
-    stringBuilder.AppendLine("}");
-
-    return stringBuilder;
+    return assembly.GetTypes()
+        .Where(t => String.Equals(t.Namespace, nameSpace, StringComparison.Ordinal))
+        .ToArray();
 }*/
 
 DataGroup CreateBasicDataGroup(int dataGroupTemplateId, string name)
@@ -135,8 +77,7 @@ void FillDataGroup(DataGroup dataGroup)
     {
         Data data = dataList[dataIndex];
         Console.WriteLine($"{data.Placeholder}: ");
-        string value = Console.ReadLine();
-        data.Value = value;
+        data.Value = Console.ReadLine();
     }
 }
 
