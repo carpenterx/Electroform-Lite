@@ -8,5 +8,5 @@ public class DataGroupTemplate
 
     public int Type { get; set; }
 
-    public List<int> DataTemplates { get; set; }
+    public List<int> DataTemplates { get; set; } = new();
 }

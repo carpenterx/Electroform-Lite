@@ -3,8 +3,12 @@ using ElectroformLite.Domain.Services;
 using System.Text;
 using System.Text.RegularExpressions;
 
+List<DataType> dataTypes = DataTypeService.GetDataTypes();
+List<DataTemplate> dataTemplates = DataTemplateService.GetDataTemplates();
 List<Data> dataList = DataService.GetData();
+
 List<DataGroupType> dataGroupTypes = DataGroupTypeService.GetDataGroupTypes();
+List<DataGroupTemplate> dataGroupTemplates = DataGroupTemplateService.GetDataGroupTemplates();
 List<DataGroup> dataGroups = DataGroupService.GetDataGroups();
 
 List<Template> templates = TemplateService.GetTemplates();
