@@ -16,33 +16,14 @@ List<DataGroupTemplate> dataGroupTemplates = DataGroupTemplateService.GetDataGro
 List<DataGroup> dataGroups = new();
 
 List<Template> templates = TemplateService.GetTemplates();
-List<Document> documents = DocumentService.GetDocuments();
+//List<Document> documents = DocumentService.GetDocuments();
+List<Document> documents = new();
 
-List<int> dataGroupIndices = new() { 0, 1 };
+/*List<int> dataGroupIndices = new() { 0, 1 };
 List<int> documentIndices = new();
+User user = UserService.GetUser("John Doh", dataGroupIndices, documentIndices);*/
 
-//User user = UserService.GetUser("John Doh", dataGroupIndices, documentIndices);
-
-DataGroup personDataGroup = CreateBasicDataGroup(0, "John Doh");
-FillDataGroup(personDataGroup);
-dataGroups.Add(personDataGroup);
-
-DataGroup contactDataGroup = CreateBasicDataGroup(1, "John Doh Contact");
-FillDataGroup(contactDataGroup);
-dataGroups.Add(contactDataGroup);
-
-Console.WriteLine("Select template id:");
-try
-{
-    int templateId = int.Parse(Console.ReadLine());
-    Document document = CreateBasicDocument(templateId);
-    Console.WriteLine(document.Name);
-    Console.WriteLine(document.Content);
-}
-catch (Exception)
-{
-    
-}
+DisplayCommandsMenu();
 
 /*Type[] typelist = GetTypesInNamespace(typeof(Data).GetTypeInfo().Assembly, "ElectroformLite.Domain.Models");
 Console.WriteLine(Mermaid.GenerateClassDiagram(typelist));
@@ -54,9 +35,82 @@ Type[] GetTypesInNamespace(Assembly assembly, string nameSpace)
         .ToArray();
 }*/
 
-DataGroup CreateBasicDataGroup(int dataGroupTemplateId, string name)
+void DisplayCommandsMenu()
 {
-    DataGroup dataGroup = new DataGroup(dataGroupTemplates[dataGroupTemplateId], name);
+    DisplayCommandsHint();
+
+    ConsoleKeyInfo consoleKeyInfo;
+
+    do
+    {
+        consoleKeyInfo = Console.ReadKey(true);
+        Console.Clear();
+        switch (consoleKeyInfo.Key)
+        {
+            case ConsoleKey.D1:
+                CreateDataGroups();
+                break;
+            case ConsoleKey.D2:
+                CreateDocument();
+                break;
+            default:
+                DisplayCommandsHint();
+                break;
+        }
+    } while (consoleKeyInfo.Key != ConsoleKey.Escape);
+}
+
+void DisplayCommandsHint()
+{
+    Console.WriteLine("+-----------------------+");
+    Console.WriteLine("|Commands:              |");
+    Console.WriteLine("|(1) Create data groups |");
+    Console.WriteLine("|(2) Create document    |");
+    Console.WriteLine("|(Esc) to quit          |");
+    Console.WriteLine("+-----------------------+");
+}
+
+void CreateDataGroups()
+{
+    Console.WriteLine("Create data groups");
+    DataGroup personDataGroup = CreateBasicDataGroup(0);
+    FillDataGroup(personDataGroup);
+
+    DataGroup contactDataGroup = CreateBasicDataGroup(1);
+    FillDataGroup(contactDataGroup);
+    DisplayCommandsHint();
+}
+
+void CreateDocument()
+{
+    Console.WriteLine("Create document");
+    //Console.WriteLine("Select template id:");
+    try
+    {
+        //int templateId = int.Parse(Console.ReadLine());
+        int templateId = 0;
+        Document document = CreateBasicDocument(templateId);
+        DisplayDocument(document);
+        DisplayCommandsHint();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+}
+
+void DisplayDocument(Document document)
+{
+    Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++");
+    Console.WriteLine(document.Name);
+    Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++");
+    Console.WriteLine(document.Content);
+    Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++");
+}
+
+DataGroup CreateBasicDataGroup(int dataGroupTemplateId)
+{
+    DataGroup dataGroup = new(dataGroupTemplates[dataGroupTemplateId], $"{dataGroupTypes[dataGroupTemplates[dataGroupTemplateId].Type].Value} data group");
 
     int index = dataList.Count;
     foreach (int dataTemplateId in dataGroupTemplates[dataGroupTemplateId].DataTemplates)
@@ -72,13 +126,14 @@ DataGroup CreateBasicDataGroup(int dataGroupTemplateId, string name)
 
 void FillDataGroup(DataGroup dataGroup)
 {
-    Console.WriteLine($"Data group: {dataGroup.Name}");
+    Console.WriteLine($"{dataGroupTypes[dataGroup.Type].Value} data group:");
     foreach (int dataIndex in dataGroup.Data)
     {
         Data data = dataList[dataIndex];
         Console.WriteLine($"{data.Placeholder}: ");
         data.Value = Console.ReadLine();
     }
+    dataGroups.Add(dataGroup);
 }
 
 Document CreateBasicDocument(int templateId)
@@ -93,7 +148,13 @@ Document CreateBasicDocument(int templateId)
 
     foreach (string dataGroupType in dataGroupTypes)
     {
-        DataGroup dataGroup = GetDataGroupByType(dataGroupType);
+        DataGroup? dataGroup = GetDataGroupByType(dataGroupType);
+        if (dataGroup is null)
+        {
+            dataGroup = CreateBasicDataGroup(GetDataGroupTemplateIdByType(dataGroupType));
+            FillDataGroup(dataGroup);
+            dataGroups.Add(dataGroup);
+        }
         usedDataGroupIds.Add(dataGroup.Id);
 
         foreach (int dataIndex in dataGroup.Data)
@@ -127,8 +188,14 @@ List<string> GetDataGroupTypesFromTemplate(string templateContent)
     return matchvalues.Distinct().ToList();
 }
 
-DataGroup GetDataGroupByType(string dataType)
+DataGroup? GetDataGroupByType(string dataGroupType)
 {
-    int dataTypeId = dataGroupTypes.First(t => t.Value == dataType).Id;
-    return dataGroups.First(g => g.Type == dataTypeId);
+    int dataGroupTypeId = dataGroupTypes.First(t => t.Value == dataGroupType).Id;
+    return dataGroups.FirstOrDefault(g => g.Type == dataGroupTypeId);
+}
+
+int GetDataGroupTemplateIdByType(string dataGroupType)
+{
+    int dataGroupTypeId = dataGroupTypes.First(t => t.Value == dataGroupType).Id;
+    return dataGroupTemplates.First(g => g.Type == dataGroupTypeId).Id;
 }

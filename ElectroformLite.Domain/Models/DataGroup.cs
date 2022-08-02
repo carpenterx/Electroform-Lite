@@ -15,11 +15,6 @@ public class DataGroup
 
     }
 
-    public DataGroup(string name)
-    {
-        Name = name;
-    }
-
     public DataGroup(DataGroupTemplate dataGroupTemplate, string name)
     {
         Name = name;
