@@ -2,23 +2,24 @@
 
 ```mermaid
 classDiagram
+class DataGroup{
+Id
+Name
+Type
+Data
+}
+class DataGroupTemplate{
+Id
+Name
+Type
+DataTemplates
+}
 class User{
 Id
 Name
 Password
 DataGroups
 Documents
-}
-class Data{
-Id
-Placeholder
-Value
-}
-class DataGroup{
-Id
-Name
-Type
-Data
 }
 class Document{
 Id
@@ -28,16 +29,27 @@ Created
 DataGroups
 TemplateId
 }
+class Data{
+Id
+Placeholder
+Value
+Type
+}
 class Template{
 Id
 Name
 Content
 }
+class DataTemplate{
+Id
+Placeholder
+Type
+}
 
-User <.. "1..*" DataGroup
-DataGroup <.. "1..*" Data
-User -- Document : generates
+DataGroup o-- "1" DataGroupTemplate : based on
 Document o-- "1" Template : based on
+Data o-- "1" DataTemplate : based on
+DataGroup ..> Data
 ```
 
 ## Template example

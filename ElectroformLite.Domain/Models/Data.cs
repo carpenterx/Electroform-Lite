@@ -10,12 +10,6 @@ public class Data
 
     public int Type { get; set; }
 
-    public Data(string placeholder, string value)
-    {
-        Placeholder = placeholder;
-        Value = value;
-    }
-
     public Data(int id, string placeholder, string value)
     {
         Id = id;

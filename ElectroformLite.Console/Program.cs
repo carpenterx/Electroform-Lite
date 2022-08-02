@@ -1,5 +1,7 @@
-﻿using ElectroformLite.Domain.Models;
+﻿using ElectroformLite.ClassDiagram;
+using ElectroformLite.Domain.Models;
 using ElectroformLite.Domain.Services;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -14,107 +16,101 @@ List<DataGroupTemplate> dataGroupTemplates = DataGroupTemplateService.GetDataGro
 List<DataGroup> dataGroups = new();
 
 List<Template> templates = TemplateService.GetTemplates();
-List<Document> documents = DocumentService.GetDocuments();
+//List<Document> documents = DocumentService.GetDocuments();
+List<Document> documents = new();
 
-List<int> dataGroupIndices = new() { 0, 1 };
+/*List<int> dataGroupIndices = new() { 0, 1 };
 List<int> documentIndices = new();
+User user = UserService.GetUser("John Doh", dataGroupIndices, documentIndices);*/
 
-//User user = UserService.GetUser("John Doh", dataGroupIndices, documentIndices);
+DisplayCommandsMenu();
 
-DataGroup personDataGroup = CreateBasicDataGroup(0, "John Doh");
-FillDataGroup(personDataGroup);
-dataGroups.Add(personDataGroup);
+/*Type[] typelist = GetTypesInNamespace(typeof(Data).GetTypeInfo().Assembly, "ElectroformLite.Domain.Models");
+Console.WriteLine(Mermaid.GenerateClassDiagram(typelist));
 
-DataGroup contactDataGroup = CreateBasicDataGroup(1, "John Doh Contact");
-FillDataGroup(contactDataGroup);
-dataGroups.Add(contactDataGroup);
-
-Console.WriteLine("Select template id:");
-try
+Type[] GetTypesInNamespace(Assembly assembly, string nameSpace)
 {
-    int templateId = int.Parse(Console.ReadLine());
-    Document document = CreateBasicDocument(templateId);
-    Console.WriteLine(document.Name);
-    Console.WriteLine(document.Content);
-}
-catch (Exception)
-{
-    
-}
-
-//Console.WriteLine(GenerateClassDiagram());
-
-/*string GenerateClassDiagram()
-{
-    StringBuilder classDiagramStringBuilder = new();
-    //classDiagramStringBuilder.AppendLine("```mermaid");
-    classDiagramStringBuilder.Append(ExtractMethods(typeof(User)));
-    classDiagramStringBuilder.Append(ExtractMethods(typeof(Data)));
-    classDiagramStringBuilder.Append(ExtractMethods(typeof(DataGroup)));
-    classDiagramStringBuilder.Append(ExtractMethods(typeof(Document)));
-    classDiagramStringBuilder.Append(ExtractMethods(typeof(Template)));
-    //classDiagramStringBuilder.AppendLine("```");
-    return classDiagramStringBuilder.ToString();
+    return assembly.GetTypes()
+        .Where(t => String.Equals(t.Namespace, nameSpace, StringComparison.Ordinal))
+        .ToArray();
 }*/
 
-/*StringBuilder ExtractMethods(Type type)
+void DisplayCommandsMenu()
 {
-    List<string> props = new();
-    List<string> methods = new();
-    foreach (var method in type.GetMethods())
+    DisplayCommandsHint();
+
+    ConsoleKeyInfo consoleKeyInfo;
+
+    do
     {
-        var parameters = method.GetParameters();
-        var parameterDescriptions = string.Join(", ", method.GetParameters()
-            .Select(x => x.ParameterType.Name + " " + x.Name)
-            .ToArray());
-        
-        if (type.FullName == method.DeclaringType.FullName)
+        consoleKeyInfo = Console.ReadKey(true);
+        Console.Clear();
+        switch (consoleKeyInfo.Key)
         {
-            string methodName = method.Name;
-            if (methodName.StartsWith("get_"))
-            {
-                //props.Add($"{method.ReturnType.Name} {methodName.Replace("get_", "")}");
-                props.Add($"{methodName.Replace("get_", "")}");
-            }
-            else if (methodName.StartsWith("set_"))
-            {
-                //Console.WriteLine($"{method.ReturnType.Name} {methodName.Replace("get_", "")}");
-            }
-            else
-            {
-                //methods.Add($"{method.ReturnType.Name} {methodName}({parameterDescriptions})");
-                methods.Add($"{methodName}({parameterDescriptions})");
-            }
+            case ConsoleKey.D1:
+                CreateDataGroups();
+                break;
+            case ConsoleKey.D2:
+                CreateDocument();
+                break;
+            default:
+                DisplayCommandsHint();
+                break;
         }
-    }
+    } while (consoleKeyInfo.Key != ConsoleKey.Escape);
+}
 
-    return GenerateClassCode(type.Name, props, methods);
-}*/
-
-/*StringBuilder GenerateClassCode(string name, List<string> props, List<string> methods)
+void DisplayCommandsHint()
 {
-    StringBuilder stringBuilder = new();
-    stringBuilder.AppendLine($"class {name}{{");
-    foreach (string prop in props)
-    {
-        stringBuilder.AppendLine(prop);
-    }
-    if (methods.Count > 0)
-    {
-        stringBuilder.AppendLine();
-    }
-    foreach (string method in methods)
-    {
-        stringBuilder.AppendLine(method);
-    }
-    stringBuilder.AppendLine("}");
+    Console.WriteLine("+-----------------------+");
+    Console.WriteLine("|Commands:              |");
+    Console.WriteLine("|(1) Create data groups |");
+    Console.WriteLine("|(2) Create document    |");
+    Console.WriteLine("|(Esc) to quit          |");
+    Console.WriteLine("+-----------------------+");
+}
 
-    return stringBuilder;
-}*/
-
-DataGroup CreateBasicDataGroup(int dataGroupTemplateId, string name)
+void CreateDataGroups()
 {
-    DataGroup dataGroup = new DataGroup(dataGroupTemplates[dataGroupTemplateId], name);
+    Console.WriteLine("Create data groups");
+    DataGroup personDataGroup = CreateBasicDataGroup(0);
+    FillDataGroup(personDataGroup);
+
+    DataGroup contactDataGroup = CreateBasicDataGroup(1);
+    FillDataGroup(contactDataGroup);
+    DisplayCommandsHint();
+}
+
+void CreateDocument()
+{
+    Console.WriteLine("Create document");
+    //Console.WriteLine("Select template id:");
+    try
+    {
+        //int templateId = int.Parse(Console.ReadLine());
+        int templateId = 0;
+        Document document = CreateBasicDocument(templateId);
+        DisplayDocument(document);
+        DisplayCommandsHint();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+}
+
+void DisplayDocument(Document document)
+{
+    Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++");
+    Console.WriteLine(document.Name);
+    Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++");
+    Console.WriteLine(document.Content);
+    Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++");
+}
+
+DataGroup CreateBasicDataGroup(int dataGroupTemplateId)
+{
+    DataGroup dataGroup = new(dataGroupTemplates[dataGroupTemplateId], $"{dataGroupTypes[dataGroupTemplates[dataGroupTemplateId].Type].Value} data group");
 
     int index = dataList.Count;
     foreach (int dataTemplateId in dataGroupTemplates[dataGroupTemplateId].DataTemplates)
@@ -130,14 +126,14 @@ DataGroup CreateBasicDataGroup(int dataGroupTemplateId, string name)
 
 void FillDataGroup(DataGroup dataGroup)
 {
-    Console.WriteLine($"Data group: {dataGroup.Name}");
+    Console.WriteLine($"{dataGroupTypes[dataGroup.Type].Value} data group:");
     foreach (int dataIndex in dataGroup.Data)
     {
         Data data = dataList[dataIndex];
         Console.WriteLine($"{data.Placeholder}: ");
-        string value = Console.ReadLine();
-        data.Value = value;
+        data.Value = Console.ReadLine();
     }
+    dataGroups.Add(dataGroup);
 }
 
 Document CreateBasicDocument(int templateId)
@@ -152,7 +148,13 @@ Document CreateBasicDocument(int templateId)
 
     foreach (string dataGroupType in dataGroupTypes)
     {
-        DataGroup dataGroup = GetDataGroupByType(dataGroupType);
+        DataGroup? dataGroup = GetDataGroupByType(dataGroupType);
+        if (dataGroup is null)
+        {
+            dataGroup = CreateBasicDataGroup(GetDataGroupTemplateIdByType(dataGroupType));
+            FillDataGroup(dataGroup);
+            dataGroups.Add(dataGroup);
+        }
         usedDataGroupIds.Add(dataGroup.Id);
 
         foreach (int dataIndex in dataGroup.Data)
@@ -186,8 +188,14 @@ List<string> GetDataGroupTypesFromTemplate(string templateContent)
     return matchvalues.Distinct().ToList();
 }
 
-DataGroup GetDataGroupByType(string dataType)
+DataGroup? GetDataGroupByType(string dataGroupType)
 {
-    int dataTypeId = dataGroupTypes.First(t => t.Value == dataType).Id;
-    return dataGroups.First(g => g.Type == dataTypeId);
+    int dataGroupTypeId = dataGroupTypes.First(t => t.Value == dataGroupType).Id;
+    return dataGroups.FirstOrDefault(g => g.Type == dataGroupTypeId);
+}
+
+int GetDataGroupTemplateIdByType(string dataGroupType)
+{
+    int dataGroupTypeId = dataGroupTypes.First(t => t.Value == dataGroupType).Id;
+    return dataGroupTemplates.First(g => g.Type == dataGroupTypeId).Id;
 }
