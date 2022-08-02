@@ -53,6 +53,12 @@ void DisplayCommandsMenu()
             case ConsoleKey.D2:
                 CreateDocument();
                 break;
+            case ConsoleKey.D3:
+                DisplayUserData();
+                break;
+            case ConsoleKey.D4:
+                DisplayTemplateData();
+                break;
             default:
                 DisplayCommandsHint();
                 break;
@@ -62,12 +68,17 @@ void DisplayCommandsMenu()
 
 void DisplayCommandsHint()
 {
-    Console.WriteLine("+-----------------------+");
-    Console.WriteLine("|Commands:              |");
-    Console.WriteLine("|(1) Create data groups |");
-    Console.WriteLine("|(2) Create document    |");
-    Console.WriteLine("|(Esc) to quit          |");
-    Console.WriteLine("+-----------------------+");
+    const int menuWidth = 40;
+    string line = new('-', menuWidth);
+
+    Console.WriteLine($"+{line}+");
+    Console.WriteLine($"|{"Commands:",-menuWidth}|");
+    Console.WriteLine($"|{"(1) Create data groups",-menuWidth}|");
+    Console.WriteLine($"|{"(2) Create document",-menuWidth}|");
+    Console.WriteLine($"|{"(3) Display User Data",-menuWidth}|");
+    Console.WriteLine($"|{"(4) Display Template Data",-menuWidth}|");
+    Console.WriteLine($"|{"(Esc) to quit",-menuWidth}|");
+    Console.WriteLine($"+{line}+");
 }
 
 void CreateDataGroups()
@@ -97,6 +108,163 @@ void CreateDocument()
     {
         Console.WriteLine(ex.Message);
     }
+}
+
+void DisplayUserData()
+{
+    DisplayDocuments();
+    DisplayDataGroups();
+    DisplayData();
+    DisplayCommandsHint();
+}
+
+void DisplayTemplateData()
+{
+    DisplayTemplates();
+    DisplayDataGroupTemplates();
+    DisplayDataTemplates();
+    DisplayDataTypes();
+    DisplayCommandsHint();
+}
+
+void DisplayTemplates()
+{
+    const int cellWidth = -20;
+    string line = new('-', 41);
+    Console.WriteLine($"+{line}+");
+    Console.WriteLine($"|{"TEMPLATES",-41}|");
+    Console.WriteLine($"+{line}+");
+    if (templates.Count > 0)
+    {
+        Console.WriteLine($"|{"Id",cellWidth}|{"Name",cellWidth}|");
+        Console.WriteLine($"+{line}+");
+        foreach (Template template in templates)
+        {
+            Console.WriteLine($"|{template.Id,cellWidth}|{template.Name,cellWidth}|");
+        }
+        Console.WriteLine($"+{line}+");
+    }
+    Console.WriteLine();
+}
+
+void DisplayDataGroupTemplates()
+{
+    const int cellWidth = -20;
+    string line = new('-', 62);
+    Console.WriteLine($"+{line}+");
+    Console.WriteLine($"|{"DATA GROUP TEMPLATES",-62}|");
+    Console.WriteLine($"+{line}+");
+    if (dataGroupTemplates.Count > 0)
+    {
+        Console.WriteLine($"|{"Id",cellWidth}|{"Name",cellWidth}|{"Type",cellWidth}|");
+        Console.WriteLine($"+{line}+");
+        foreach (DataGroupTemplate dataGroupTemplate in dataGroupTemplates)
+        {
+            Console.WriteLine($"|{dataGroupTemplate.Id,cellWidth}|{dataGroupTemplate.Name,cellWidth}|{dataGroupTemplate.Type,cellWidth}|");
+        }
+        Console.WriteLine($"+{line}+");
+    }
+    Console.WriteLine();
+}
+
+void DisplayDataTemplates()
+{
+    const int cellWidth = -20;
+    string line = new('-', 62);
+    Console.WriteLine($"+{line}+");
+    Console.WriteLine($"|{"DATA TEMPLATES",-62}|");
+    Console.WriteLine($"+{line}+");
+    if (dataTemplates.Count > 0)
+    {
+        Console.WriteLine($"|{"Id",cellWidth}|{"Placeholder",cellWidth}|{"Type",cellWidth}|");
+        Console.WriteLine($"+{line}+");
+        foreach (DataTemplate dataTemplate in dataTemplates)
+        {
+            Console.WriteLine($"|{dataTemplate.Id,cellWidth}|{dataTemplate.Placeholder,cellWidth}|{dataTemplate.Type,cellWidth}|");
+        }
+        Console.WriteLine($"+{line}+");
+    }
+    Console.WriteLine();
+}
+
+void DisplayDataTypes()
+{
+    const int cellWidth = -20;
+    string line = new('-', 41);
+    Console.WriteLine($"+{line}+");
+    Console.WriteLine($"|{"DATA TYPES",-41}|");
+    Console.WriteLine($"+{line}+");
+    if (dataTypes.Count > 0)
+    {
+        Console.WriteLine($"|{"Id",cellWidth}|{"Value",cellWidth}|");
+        Console.WriteLine($"+{line}+");
+        foreach (DataType dataType in dataTypes)
+        {
+            Console.WriteLine($"|{dataType.Id,cellWidth}|{dataType.Value,cellWidth}|");
+        }
+        Console.WriteLine($"+{line}+");
+    }
+    Console.WriteLine();
+}
+
+void DisplayDocuments()
+{
+    const int cellWidth = -20;
+    string line = new('-', 62);
+    Console.WriteLine($"+{line}+");
+    Console.WriteLine($"|{"DOCUMENTS",-62}|");
+    Console.WriteLine($"+{line}+");
+    if (documents.Count > 0)
+    {
+        Console.WriteLine($"|{"Id",cellWidth}|{"Name",cellWidth}|{"TemplateId",cellWidth}|");
+        Console.WriteLine($"+{line}+");
+        foreach (Document document in documents)
+        {
+            Console.WriteLine($"|{document.Id,cellWidth}|{document.Name,cellWidth}|{document.TemplateId,cellWidth}|");
+        }
+        Console.WriteLine($"+{line}+");
+    }
+    Console.WriteLine();
+}
+
+void DisplayDataGroups()
+{
+    const int cellWidth = -20;
+    string line = new('-', 62);
+    Console.WriteLine($"+{line}+");
+    Console.WriteLine($"|{"DATA GROUPS",-62}|");
+    Console.WriteLine($"+{line}+");
+    if (dataGroups.Count > 0)
+    {
+        Console.WriteLine($"|{"Id",cellWidth}|{"Name",cellWidth}|{"Type",cellWidth}|");
+        Console.WriteLine($"+{line}+");
+        foreach (DataGroup dataGroup in dataGroups)
+        {
+            Console.WriteLine($"|{dataGroup.Id,cellWidth}|{dataGroup.Name,cellWidth}|{dataGroup.Type,cellWidth}|");
+        }
+        Console.WriteLine($"+{line}+");
+    }
+    Console.WriteLine();
+}
+
+void DisplayData()
+{
+    const int cellWidth = -20;
+    string line = new('-', 83);
+    Console.WriteLine($"+{line}+");
+    Console.WriteLine($"|{"DATA",-83}|");
+    Console.WriteLine($"+{line}+");
+    if (dataList.Count > 0)
+    {
+        Console.WriteLine($"|{"Id",cellWidth}|{"Placeholder",cellWidth}|{"Value",cellWidth}|{"Type",cellWidth}|");
+        Console.WriteLine($"+{line}+");
+        foreach (Data data in dataList)
+        {
+            Console.WriteLine($"|{data.Id,cellWidth}|{data.Placeholder,cellWidth}|{data.Value,cellWidth}|{data.Type,cellWidth}|");
+        }
+        Console.WriteLine($"+{line}+");
+    }
+    Console.WriteLine();
 }
 
 void DisplayDocument(Document document)
