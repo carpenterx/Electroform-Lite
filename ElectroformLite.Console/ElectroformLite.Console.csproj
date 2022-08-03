@@ -8,8 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ElectroformLite.Application\ElectroformLite.Application.csproj" />
     <ProjectReference Include="..\ElectroformLite.ClassDiagram\ElectroformLite.ClassDiagram.csproj" />
     <ProjectReference Include="..\ElectroformLite.Domain\ElectroformLite.Domain.csproj" />
+    <ProjectReference Include="..\ElectroformLite.Infrastructure\ElectroformLite.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

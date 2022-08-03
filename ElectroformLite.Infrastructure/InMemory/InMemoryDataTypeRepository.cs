@@ -1,10 +1,11 @@
-﻿using ElectroformLite.Domain.Models;
+﻿using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Domain.Models;
 
-namespace ElectroformLite.Domain.Services;
+namespace ElectroformLite.Infrastructure.InMemory;
 
-public class DataTypeService
+public class InMemoryDataTypeRepository : IDataTypeRepository
 {
-    public static List<DataType> GetDataTypes()
+    public List<DataType> GetDataTypes()
     {
         List<DataType> dataTypes = new();
 
