@@ -13,6 +13,13 @@ internal class Program
             .AddMediatR(typeof(IDataRepository))
             .AddScoped<IDataRepository, InMemoryDataRepository>()
             .AddScoped<IDataTypeRepository, InMemoryDataTypeRepository>()
+            .AddScoped<IDataGroupRepository, InMemoryDataGroupRepository>()
+            .AddScoped<IDataGroupTemplateRepository, InMemoryDataGroupTemplateRepository>()
+            .AddScoped<IDataGroupTypeRepository, InMemoryDataGroupTypeRepository>()
+            .AddScoped<IDataTemplateRepository, InMemoryDataTemplateRepository>()
+            .AddScoped<IDocumentRepository, InMemoryDocumentRepository>()
+            .AddScoped<ITemplateRepository, InMemoryTemplateRepository>()
+            .AddScoped<IUserRepository, InMemoryUserRepository>()
             .BuildServiceProvider();
 
         var mediator = diContainer.GetRequiredService<IMediator>();

@@ -1,10 +1,11 @@
-﻿using ElectroformLite.Domain.Models;
+﻿using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Domain.Models;
 
-namespace ElectroformLite.Domain.Services;
+namespace ElectroformLite.Infrastructure.InMemory;
 
-public class DataGroupService
+public class InMemoryDataGroupRepository : IDataGroupRepository
 {
-    public static List<DataGroup> GetDataGroups()
+    public List<DataGroup> GetDataGroups()
     {
         List<DataGroup> dataGroups = new();
         DataGroup personDataGroup = new()

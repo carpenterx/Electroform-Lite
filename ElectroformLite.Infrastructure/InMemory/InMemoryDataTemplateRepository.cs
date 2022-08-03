@@ -1,10 +1,11 @@
-﻿using ElectroformLite.Domain.Models;
+﻿using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Domain.Models;
 
-namespace ElectroformLite.Domain.Services;
+namespace ElectroformLite.Infrastructure.InMemory;
 
-public class DataTemplateService
+public class InMemoryDataTemplateRepository : IDataTemplateRepository
 {
-    public static List<DataTemplate> GetDataTemplates()
+    public List<DataTemplate> GetDataTemplates()
     {
         List<DataTemplate> dataTemplates = new();
 

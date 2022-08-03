@@ -1,10 +1,11 @@
-﻿using ElectroformLite.Domain.Models;
+﻿using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Domain.Models;
 
-namespace ElectroformLite.Domain.Services;
+namespace ElectroformLite.Infrastructure.InMemory;
 
-public class DocumentService
+public class InMemoryDocumentRepository : IDocumentRepository
 {
-    public static List<Document> GetDocuments()
+    public List<Document> GetDocuments()
     {
         List<Document> documents = new();
 

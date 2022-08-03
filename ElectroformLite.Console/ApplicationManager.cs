@@ -1,5 +1,12 @@
-﻿using ElectroformLite.Application.DataTypes.Queries.GetDataTypesList;
+﻿using ElectroformLite.Application.DataGroups.Queries;
+using ElectroformLite.Application.DataGroupTemplates.Queries;
+using ElectroformLite.Application.DataGroupTypes.Queries;
+using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplatesList;
+using ElectroformLite.Application.DataTypes.Queries.GetDataTypesList;
+using ElectroformLite.Application.Documents.Queries.GetDocuments;
+using ElectroformLite.Application.Templates.Queries.GetTemplates;
 using ElectroformLite.Application.UserData.Queries.GetDataList;
+using ElectroformLite.Application.Users.Queries.GetUser;
 using ElectroformLite.Domain.Models;
 using ElectroformLite.Domain.Services;
 using MediatR;
@@ -11,23 +18,28 @@ public class ApplicationManager
 {
     //List<DataType> dataTypes = DataTypeService.GetDataTypes();
     List<DataType> dataTypes;
-    List<DataTemplate> dataTemplates = DataTemplateService.GetDataTemplates();
+    //List<DataTemplate> dataTemplates = DataTemplateService.GetDataTemplates();
+    List<DataTemplate> dataTemplates;
     //List<Data> dataList = DataService.GetData();
     //List<Data> dataList = new();
     List<Data> dataList;
 
-    List<DataGroupType> dataGroupTypes = DataGroupTypeService.GetDataGroupTypes();
-    List<DataGroupTemplate> dataGroupTemplates = DataGroupTemplateService.GetDataGroupTemplates();
+    //List<DataGroupType> dataGroupTypes = DataGroupTypeService.GetDataGroupTypes();
+    List<DataGroupType> dataGroupTypes;
+    //List<DataGroupTemplate> dataGroupTemplates = DataGroupTemplateService.GetDataGroupTemplates();
+    List<DataGroupTemplate> dataGroupTemplates;
     //List<DataGroup> dataGroups = DataGroupService.GetDataGroups();
     List<DataGroup> dataGroups = new();
 
-    List<Template> templates = TemplateService.GetTemplates();
+    //List<Template> templates = TemplateService.GetTemplates();
+    List<Template> templates;
     //List<Document> documents = DocumentService.GetDocuments();
     List<Document> documents = new();
 
     /*List<int> dataGroupIndices = new() { 0, 1 };
     List<int> documentIndices = new();
     User user = UserService.GetUser("John Doh", dataGroupIndices, documentIndices);*/
+    User user;
 
     //DisplayCommandsMenu();
 
@@ -50,10 +62,24 @@ public class ApplicationManager
 
     public async void StartApplication()
     {
+        user = await _mediator.Send(new GetUserQuery());
+
         dataList = await _mediator.Send(new GetDataListQuery());
-        DisplayData();
+        //DisplayData();
         dataTypes = await _mediator.Send(new GetDataTypesListQuery());
-        DisplayDataTypes();
+        //DisplayDataTypes();
+        dataGroups = await _mediator.Send(new GetDataGroupsListQuery());
+        //DisplayDataGroups();
+        dataGroupTemplates = await _mediator.Send(new GetDataGroupTemplatesListQuery());
+        //DisplayDataGroupTemplates();
+        dataGroupTypes = await _mediator.Send(new GetDataGroupTypesListQuery());
+        //DisplayDataGroupTypes();
+        dataTemplates = await _mediator.Send(new GetDataTemplatesListQuery());
+        //DisplayDataTemplates();
+        documents = await _mediator.Send(new GetDocumentsQuery());
+        //DisplayDocuments();
+        templates = await _mediator.Send(new GetTemplatesQuery());
+        DisplayTemplates();
     }
 
     void DisplayCommandsMenu()
@@ -182,6 +208,26 @@ public class ApplicationManager
             foreach (DataGroupTemplate dataGroupTemplate in dataGroupTemplates)
             {
                 Console.WriteLine($"|{dataGroupTemplate.Id,cellWidth}|{dataGroupTemplate.Name,cellWidth}|{dataGroupTemplate.Type,cellWidth}|");
+            }
+            Console.WriteLine($"+{line}+");
+        }
+        Console.WriteLine();
+    }
+
+    void DisplayDataGroupTypes()
+    {
+        const int cellWidth = -20;
+        string line = new('-', 41);
+        Console.WriteLine($"+{line}+");
+        Console.WriteLine($"|{"DATA GROUP TYPES",-41}|");
+        Console.WriteLine($"+{line}+");
+        if (dataGroupTypes.Count > 0)
+        {
+            Console.WriteLine($"|{"Id",cellWidth}|{"Value",cellWidth}|");
+            Console.WriteLine($"+{line}+");
+            foreach (DataGroupType dataGroupType in dataGroupTypes)
+            {
+                Console.WriteLine($"|{dataGroupType.Id,cellWidth}|{dataGroupType.Value,cellWidth}|");
             }
             Console.WriteLine($"+{line}+");
         }
