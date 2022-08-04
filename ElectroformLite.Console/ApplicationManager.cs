@@ -1,6 +1,6 @@
-﻿using ElectroformLite.Application.DataGroups.Queries;
-using ElectroformLite.Application.DataGroupTemplates.Queries;
-using ElectroformLite.Application.DataGroupTypes.Queries;
+﻿using ElectroformLite.Application.DataGroups.Queries.GetDataGroupsList;
+using ElectroformLite.Application.DataGroupTemplates.Queries.GetDataGroupTemplatesList;
+using ElectroformLite.Application.DataGroupTypes.Queries.GetDataGroupTypesList;
 using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplatesList;
 using ElectroformLite.Application.DataTypes.Queries.GetDataTypesList;
 using ElectroformLite.Application.Documents.Queries.GetDocuments;
@@ -8,7 +8,6 @@ using ElectroformLite.Application.Templates.Queries.GetTemplates;
 using ElectroformLite.Application.UserData.Queries.GetDataList;
 using ElectroformLite.Application.Users.Queries.GetUser;
 using ElectroformLite.Domain.Models;
-using ElectroformLite.Domain.Services;
 using MediatR;
 using System.Text.RegularExpressions;
 
@@ -79,7 +78,9 @@ public class ApplicationManager
         documents = await _mediator.Send(new GetDocumentsQuery());
         //DisplayDocuments();
         templates = await _mediator.Send(new GetTemplatesQuery());
-        DisplayTemplates();
+        //DisplayTemplates();
+
+        DisplayCommandsMenu();
     }
 
     void DisplayCommandsMenu()
@@ -169,6 +170,7 @@ public class ApplicationManager
     {
         DisplayTemplates();
         DisplayDataGroupTemplates();
+        DisplayDataGroupTypes();
         DisplayDataTemplates();
         DisplayDataTypes();
         DisplayCommandsHint();

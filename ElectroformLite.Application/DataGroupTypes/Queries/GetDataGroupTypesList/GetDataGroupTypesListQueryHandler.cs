@@ -2,7 +2,7 @@
 using ElectroformLite.Domain.Models;
 using MediatR;
 
-namespace ElectroformLite.Application.DataGroupTypes.Queries;
+namespace ElectroformLite.Application.DataGroupTypes.Queries.GetDataGroupTypesList;
 
 public class GetDataGroupTypesListQueryHandler : IRequestHandler<GetDataGroupTypesListQuery, List<DataGroupType>>
 {

@@ -3,7 +3,7 @@ using ElectroformLite.Application.Interfaces;
 using ElectroformLite.Domain.Models;
 using MediatR;
 
-namespace ElectroformLite.Application.DataGroups.Queries;
+namespace ElectroformLite.Application.DataGroups.Queries.GetDataGroupsList;
 
 public class GetDataGroupsListQueryHandler : IRequestHandler<GetDataGroupsListQuery, List<DataGroup>>
 {
