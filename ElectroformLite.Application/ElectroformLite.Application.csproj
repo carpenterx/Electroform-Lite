@@ -14,8 +14,4 @@
     <ProjectReference Include="..\ElectroformLite.Domain\ElectroformLite.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DataTemplates\Commands\" />
-  </ItemGroup>
-
 </Project>

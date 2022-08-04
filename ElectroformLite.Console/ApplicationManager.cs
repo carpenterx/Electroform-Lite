@@ -1,6 +1,7 @@
 ﻿using ElectroformLite.Application.DataGroups.Queries.GetDataGroupsList;
 using ElectroformLite.Application.DataGroupTemplates.Queries.GetDataGroupTemplatesList;
 using ElectroformLite.Application.DataGroupTypes.Queries.GetDataGroupTypesList;
+using ElectroformLite.Application.DataTemplates.Commands.CreateDataTemplate;
 using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplatesList;
 using ElectroformLite.Application.DataTypes.Queries.GetDataTypesList;
 using ElectroformLite.Application.Documents.Queries.GetDocuments;
@@ -80,7 +81,9 @@ public class ApplicationManager
         //DisplayDocuments();
         templates = await _mediator.Send(new GetTemplatesQuery());
         //DisplayTemplates();*/
-
+        await PopulateDataTemplates();
+        dataTemplates = await _mediator.Send(new GetDataTemplatesListQuery());
+        DisplayDataTemplates();
         await PopulateData();
         dataList = await _mediator.Send(new GetDataListQuery());
         DisplayData();
@@ -88,12 +91,25 @@ public class ApplicationManager
         DisplayCommandsMenu();
     }
 
+    async Task PopulateDataTemplates()
+    {
+        await _mediator.Send(new CreateDataTemplateCommand("FirstName", 0));
+        await _mediator.Send(new CreateDataTemplateCommand("LastName", 0));
+        await _mediator.Send(new CreateDataTemplateCommand("Email", 2));
+        await _mediator.Send(new CreateDataTemplateCommand("PhoneNumber", 1));
+    }
+
     async Task PopulateData()
     {
-        await _mediator.Send(new CreateDataCommand(new DataTemplate("FirstName", 0), "John"));
+        List<string> dataTemplateValues = new() { "John", "Doh", "john.doh@gmail.com", "1234567890" };
+        for (int i = 0; i < dataTemplates.Count; i++)
+        {
+            await _mediator.Send(new CreateDataCommand(dataTemplates[i], dataTemplateValues[i]));
+        }
+        /*await _mediator.Send(new CreateDataCommand(new DataTemplate("FirstName", 0), "John"));
         await _mediator.Send(new CreateDataCommand(new DataTemplate("LastName", 0), "Doh"));
         await _mediator.Send(new CreateDataCommand(new DataTemplate("Email", 2), "john.doh@gmail.com"));
-        await _mediator.Send(new CreateDataCommand(new DataTemplate("PhoneNumber", 1), "1234567890"));
+        await _mediator.Send(new CreateDataCommand(new DataTemplate("PhoneNumber", 1), "1234567890"));*/
     }
 
     void DisplayCommandsMenu()
