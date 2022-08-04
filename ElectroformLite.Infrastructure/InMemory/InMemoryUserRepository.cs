@@ -5,11 +5,12 @@ namespace ElectroformLite.Infrastructure.InMemory;
 
 public class InMemoryUserRepository : IUserRepository
 {
-    public User GetUser(string name)
+    public User GetUser(int id)
     {
         return new User()
         {
-            Name = name,
+            Id = id,
+            Name = "New User"
         };
     }
 }

@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <Folder Include="DataTemplates\Commands\" />
-    <Folder Include="UserData\Commands\" />
   </ItemGroup>
 
 </Project>

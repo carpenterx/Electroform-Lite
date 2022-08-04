@@ -5,6 +5,7 @@ using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplatesList;
 using ElectroformLite.Application.DataTypes.Queries.GetDataTypesList;
 using ElectroformLite.Application.Documents.Queries.GetDocuments;
 using ElectroformLite.Application.Templates.Queries.GetTemplates;
+using ElectroformLite.Application.UserData.Commands.CreateData;
 using ElectroformLite.Application.UserData.Queries.GetDataList;
 using ElectroformLite.Application.Users.Queries.GetUser;
 using ElectroformLite.Domain.Models;
@@ -16,29 +17,29 @@ namespace ElectroformLite.ConsolePresentation;
 public class ApplicationManager
 {
     //List<DataType> dataTypes = DataTypeService.GetDataTypes();
-    List<DataType> dataTypes;
+    List<DataType> dataTypes = new();
     //List<DataTemplate> dataTemplates = DataTemplateService.GetDataTemplates();
-    List<DataTemplate> dataTemplates;
+    List<DataTemplate> dataTemplates = new();
     //List<Data> dataList = DataService.GetData();
     //List<Data> dataList = new();
-    List<Data> dataList;
+    List<Data> dataList = new();
 
     //List<DataGroupType> dataGroupTypes = DataGroupTypeService.GetDataGroupTypes();
-    List<DataGroupType> dataGroupTypes;
+    List<DataGroupType> dataGroupTypes = new();
     //List<DataGroupTemplate> dataGroupTemplates = DataGroupTemplateService.GetDataGroupTemplates();
-    List<DataGroupTemplate> dataGroupTemplates;
+    List<DataGroupTemplate> dataGroupTemplates = new();
     //List<DataGroup> dataGroups = DataGroupService.GetDataGroups();
     List<DataGroup> dataGroups = new();
 
     //List<Template> templates = TemplateService.GetTemplates();
-    List<Template> templates;
+    List<Template> templates = new();
     //List<Document> documents = DocumentService.GetDocuments();
     List<Document> documents = new();
 
     /*List<int> dataGroupIndices = new() { 0, 1 };
     List<int> documentIndices = new();
     User user = UserService.GetUser("John Doh", dataGroupIndices, documentIndices);*/
-    User user;
+    User user = new();
 
     //DisplayCommandsMenu();
 
@@ -52,7 +53,7 @@ public class ApplicationManager
             .ToArray();
     }*/
 
-    IMediator _mediator;
+    readonly IMediator _mediator;
 
     public ApplicationManager(IMediator mediator)
     {
@@ -61,7 +62,7 @@ public class ApplicationManager
 
     public async void StartApplication()
     {
-        user = await _mediator.Send(new GetUserQuery());
+        /*user = await _mediator.Send(new GetUserQuery(0));
 
         dataList = await _mediator.Send(new GetDataListQuery());
         //DisplayData();
@@ -78,9 +79,21 @@ public class ApplicationManager
         documents = await _mediator.Send(new GetDocumentsQuery());
         //DisplayDocuments();
         templates = await _mediator.Send(new GetTemplatesQuery());
-        //DisplayTemplates();
+        //DisplayTemplates();*/
+
+        await PopulateData();
+        dataList = await _mediator.Send(new GetDataListQuery());
+        DisplayData();
 
         DisplayCommandsMenu();
+    }
+
+    async Task PopulateData()
+    {
+        await _mediator.Send(new CreateDataCommand(new DataTemplate("FirstName", 0), "John"));
+        await _mediator.Send(new CreateDataCommand(new DataTemplate("LastName", 0), "Doh"));
+        await _mediator.Send(new CreateDataCommand(new DataTemplate("Email", 2), "john.doh@gmail.com"));
+        await _mediator.Send(new CreateDataCommand(new DataTemplate("PhoneNumber", 1), "1234567890"));
     }
 
     void DisplayCommandsMenu()
@@ -352,7 +365,7 @@ public class ApplicationManager
         int index = dataList.Count;
         foreach (int dataTemplateId in dataGroupTemplates[dataGroupTemplateId].DataTemplates)
         {
-            Data data = new(dataTemplates[dataTemplateId]);
+            Data data = new(dataTemplates[dataTemplateId], "Bla");
             data.Id = index++;
             dataList.Add(data);
             dataGroup.Data.Add(data.Id);

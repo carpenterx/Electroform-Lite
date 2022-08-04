@@ -10,17 +10,17 @@ public class Data
 
     public int Type { get; set; }
 
-    public Data(int id, string placeholder, string value)
+    /*public Data(int id, string placeholder, string value)
     {
         Id = id;
         Placeholder = placeholder;
         Value = value;
-    }
+    }*/
 
-    public Data(DataTemplate dataTemplate)
+    public Data(DataTemplate dataTemplate, string value)
     {
         Placeholder = dataTemplate.Placeholder;
-        Value = "";
+        Value = value;
         Type = dataTemplate.Type;
     }
 }

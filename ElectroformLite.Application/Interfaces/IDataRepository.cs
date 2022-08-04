@@ -6,7 +6,7 @@ public interface IDataRepository
 {
     void Create(Data data);
     void Delete(int id);
-    void Update(int id);
-    int GetData(int id);
+    void Update(Data data);
+    Data GetData(int id);
     List<Data> GetAllData();
 }

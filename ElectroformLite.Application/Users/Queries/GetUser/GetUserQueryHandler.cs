@@ -15,7 +15,7 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, User>
 
     public Task<User> Handle(GetUserQuery request, CancellationToken cancellationToken)
     {
-        var result = _repository.GetUser("Sorin");
+        var result = _repository.GetUser(request.UserId);
 
         return Task.FromResult(result);
     }
