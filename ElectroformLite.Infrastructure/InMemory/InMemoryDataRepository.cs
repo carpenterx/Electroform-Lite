@@ -34,16 +34,6 @@ public class InMemoryDataRepository : IDataRepository
 
     public List<Data> GetAllData()
     {
-        /*Data firstName = new(0, "FirstName", "John");
-        Data lastName = new(1, "LastName", "Doh");
-        Data email = new(2, "Email", "john.doh@gmail.com");
-        Data phone = new(3, "PhoneNumber", "1234567890");
-
-        dataList.Add(firstName);
-        dataList.Add(lastName);
-        dataList.Add(email);
-        dataList.Add(phone);*/
-
         return dataList;
     }
 
