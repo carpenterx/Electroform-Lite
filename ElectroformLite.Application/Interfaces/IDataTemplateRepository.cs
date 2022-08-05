@@ -7,6 +7,6 @@ public interface IDataTemplateRepository
     void Create(DataTemplate dataTemplate);
     void Delete(int id);
     void Update(DataTemplate dataTemplate);
-    Data GetDataTemplate(int id);
+    DataTemplate GetDataTemplate(int id);
     List<DataTemplate> GetDataTemplates();
 }

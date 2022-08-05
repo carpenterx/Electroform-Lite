@@ -27,7 +27,7 @@ public class InMemoryDataGroupTemplateRepository : IDataGroupTemplateRepository
         throw new NotImplementedException();
     }
 
-    public Data GetDataGroupTemplate(int id)
+    public DataGroupTemplate GetDataGroupTemplate(int id)
     {
         throw new NotImplementedException();
     }

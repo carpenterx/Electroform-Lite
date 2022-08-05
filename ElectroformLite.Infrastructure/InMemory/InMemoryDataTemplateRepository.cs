@@ -27,7 +27,7 @@ public class InMemoryDataTemplateRepository : IDataTemplateRepository
         throw new NotImplementedException();
     }
 
-    public Data GetDataTemplate(int id)
+    public DataTemplate GetDataTemplate(int id)
     {
         throw new NotImplementedException();
     }

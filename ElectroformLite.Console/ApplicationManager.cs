@@ -94,7 +94,7 @@ public class ApplicationManager
         DisplayData();*/
 
         await PopulateTemplates();
-        dataTypes = await _mediator.Send(new GetDataTypesListQuery());
+        /*dataTypes = await _mediator.Send(new GetDataTypesListQuery());
         DisplayDataTypes();
         dataTemplates = await _mediator.Send(new GetDataTemplatesListQuery());
         DisplayDataTemplates();
@@ -103,7 +103,9 @@ public class ApplicationManager
         dataGroupTemplates = await _mediator.Send(new GetDataGroupTemplatesListQuery());
         DisplayDataGroupTemplates();
         templates = await _mediator.Send(new GetTemplatesQuery());
-        DisplayTemplates();
+        DisplayTemplates();*/
+
+        await GenerateDocument();
 
         DisplayCommandsMenu();
     }
@@ -125,8 +127,9 @@ public class ApplicationManager
         int personTypeId = await _mediator.Send(new CreateDataGroupTypeCommand("Person"));
         int contactTypeId = await _mediator.Send(new CreateDataGroupTypeCommand("Contact"));
 
-        await _mediator.Send(new CreateDataGroupTemplateCommand("Person", personTypeId, personDataTemplates));
-        await _mediator.Send(new CreateDataGroupTemplateCommand("Contact", contactTypeId, contactDataTemplates));
+        int personDataGroupTemplateId = await _mediator.Send(new CreateDataGroupTemplateCommand("Person", personTypeId, personDataTemplates));
+        int contactDataGroupTemplateId = await _mediator.Send(new CreateDataGroupTemplateCommand("Contact", contactTypeId, contactDataTemplates));
+        List<int> dataGroupTemplates = new() { personDataGroupTemplateId, contactDataGroupTemplateId };
 
         string templateName = "Template for Cerere Alocare Credentiale Pentru Plata Impozitelor Si Taxelor Locale Pentru Persoane Fizice";
         string templateContent = @"Subsemnatul/a [Person.FirstName] [Person.LastName], e-mail [Contact.Email], numar de
@@ -142,7 +145,24 @@ nu este comunicat la adresa de e-mail mai sus mentionata;
 
 Data {DateTime.Today}							Semnatura";
 
-        int cerereTemplateId = await _mediator.Send(new CreateTemplateCommand(templateName, templateContent));
+        int cerereTemplateId = await _mediator.Send(new CreateTemplateCommand(templateName, templateContent, dataGroupTemplates));
+    }
+
+    async Task GenerateDocument()
+    {
+        // get document template id
+        int templateId = 0;
+        // get template
+        Template template = await _mediator.Send(new GetTemplateQuery(templateId));
+        // get each data group template
+        foreach (int dataGroupTemplateId in template.DataGroupTemplates)
+        {
+            Console.WriteLine(dataGroupTemplateId);
+        }
+        // generate each data group
+        // get each data template
+        // generate each data
+        // generate document
     }
 
     void DisplayCommandsMenu()

@@ -27,7 +27,7 @@ public class InMemoryDataTypeRepository : IDataTypeRepository
         throw new NotImplementedException();
     }
 
-    public Data GetDataType(int id)
+    public DataType GetDataType(int id)
     {
         throw new NotImplementedException();
     }

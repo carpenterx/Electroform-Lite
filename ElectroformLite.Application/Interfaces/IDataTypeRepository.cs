@@ -7,6 +7,6 @@ public interface IDataTypeRepository
     void Create(DataType dataType);
     void Delete(int id);
     void Update(DataType dataType);
-    Data GetDataType(int id);
+    DataType GetDataType(int id);
     List<DataType> GetDataTypes();
 }

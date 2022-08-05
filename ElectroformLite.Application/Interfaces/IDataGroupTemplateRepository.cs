@@ -7,6 +7,6 @@ public interface IDataGroupTemplateRepository
     void Create(DataGroupTemplate dataGroupTemplate);
     void Delete(int id);
     void Update(DataGroupTemplate dataGroupTemplate);
-    Data GetDataGroupTemplate(int id);
+    DataGroupTemplate GetDataGroupTemplate(int id);
     List<DataGroupTemplate> GetDataGroupTemplates();
 }

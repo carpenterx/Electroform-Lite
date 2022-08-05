@@ -1,9 +1,9 @@
 ﻿using ElectroformLite.Domain.Models;
 using MediatR;
 
-namespace ElectroformLite.Application.UserData.Commands.CreateData;
+namespace ElectroformLite.Application.DataGroups.Commands.CreateDataGroup;
 
-public class CreateDataCommand : IRequest<int>
+public class CreateDataGroupCommand : IRequest<int>
 {
     /*public DataTemplate DataTemplate { get; set; }
 
@@ -15,10 +15,10 @@ public class CreateDataCommand : IRequest<int>
         DataValue = dataValue;
     }*/
 
-    public Data Data { get; set; }
+    public DataGroup DataGroup { get; set; }
 
-    public CreateDataCommand(Data data)
+    public CreateDataGroupCommand(DataGroup dataGroup)
     {
-        Data = data;
+        DataGroup = dataGroup;
     }
 }

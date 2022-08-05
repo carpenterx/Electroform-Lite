@@ -8,9 +8,12 @@ public class Template
 
     public string Content { get; set; }
 
-    public Template(string name, string content)
+    public List<int> DataGroupTemplates { get; set; }
+
+    public Template(string name, string content, List<int> dataGroupTemplates)
     {
         Name = name;
         Content = content;
+        DataGroupTemplates = dataGroupTemplates;
     }
 }

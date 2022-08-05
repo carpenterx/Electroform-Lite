@@ -7,6 +7,6 @@ public interface ITemplateRepository
     void Create(Template template);
     void Delete(int id);
     void Update(Template template);
-    Data GetTemplate(int id);
+    Template GetTemplate(int id);
     List<Template> GetTemplates();
 }

@@ -5,10 +5,36 @@ namespace ElectroformLite.Infrastructure.InMemory;
 
 public class InMemoryDataGroupRepository : IDataGroupRepository
 {
+    readonly List<DataGroup> dataGroups = new();
+
+    public void Create(DataGroup dataGroup)
+    {
+        int previousId;
+        if (dataGroups.Count > 0)
+        {
+            previousId = dataGroups[^1].Id;
+        }
+        else
+        {
+            previousId = -1;
+        }
+        dataGroup.Id = previousId + 1;
+        dataGroups.Add(dataGroup);
+    }
+
+    public void Delete(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public DataGroup GetDataGroup(int id)
+    {
+        throw new NotImplementedException();
+    }
+
     public List<DataGroup> GetDataGroups()
     {
-        List<DataGroup> dataGroups = new();
-        DataGroup personDataGroup = new()
+       /* DataGroup personDataGroup = new()
         {
             Id = 0,
             Name = "John Doh",
@@ -26,8 +52,13 @@ public class InMemoryDataGroupRepository : IDataGroupRepository
         };
         contactDataGroup.Data.Add(2);
         contactDataGroup.Data.Add(3);
-        dataGroups.Add(contactDataGroup);
+        dataGroups.Add(contactDataGroup);*/
 
         return dataGroups;
+    }
+
+    public void Update(DataGroup dataGroup)
+    {
+        throw new NotImplementedException();
     }
 }
