@@ -4,6 +4,7 @@ using ElectroformLite.Application.DataGroupTemplates.Queries.GetDataGroupTemplat
 using ElectroformLite.Application.DataGroupTypes.Queries.GetDataGroupTypesList;
 using ElectroformLite.Application.DataTemplates.Commands.CreateDataTemplate;
 using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplatesList;
+using ElectroformLite.Application.DataTypes.Commands.CreateDataType;
 using ElectroformLite.Application.DataTypes.Queries.GetDataTypesList;
 using ElectroformLite.Application.Documents.Queries.GetDocuments;
 using ElectroformLite.Application.Templates.Queries.GetTemplates;
@@ -91,6 +92,8 @@ public class ApplicationManager
         DisplayData();*/
 
         await PopulateTemplates();
+        dataTypes = await _mediator.Send(new GetDataTypesListQuery());
+        DisplayDataTypes();
         dataTemplates = await _mediator.Send(new GetDataTemplatesListQuery());
         DisplayDataTemplates();
         dataGroupTemplates = await _mediator.Send(new GetDataGroupTemplatesListQuery());
@@ -101,10 +104,14 @@ public class ApplicationManager
 
     async Task PopulateTemplates()
     {
-        int firstNameId = await _mediator.Send(new CreateDataTemplateCommand("FirstName", 0));
-        int lastNameId = await _mediator.Send(new CreateDataTemplateCommand("LastName", 0));
-        int emailId = await _mediator.Send(new CreateDataTemplateCommand("Email", 2));
-        int phoneId = await _mediator.Send(new CreateDataTemplateCommand("PhoneNumber", 1));
+        int textTypeId = await _mediator.Send(new CreateDataTypeCommand("Text"));
+        int phoneTypeId = await _mediator.Send(new CreateDataTypeCommand("Phone"));
+        int emailTypeId = await _mediator.Send(new CreateDataTypeCommand("Email"));
+
+        int firstNameId = await _mediator.Send(new CreateDataTemplateCommand("FirstName", textTypeId));
+        int lastNameId = await _mediator.Send(new CreateDataTemplateCommand("LastName", textTypeId));
+        int emailId = await _mediator.Send(new CreateDataTemplateCommand("Email", emailTypeId));
+        int phoneId = await _mediator.Send(new CreateDataTemplateCommand("PhoneNumber", phoneTypeId));
 
         List<int> personDataTemplates = new() { firstNameId, lastNameId };
         List<int> contactDataTemplates = new() { emailId, phoneId };
