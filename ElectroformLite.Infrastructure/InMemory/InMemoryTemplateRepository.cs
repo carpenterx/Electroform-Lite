@@ -5,11 +5,36 @@ namespace ElectroformLite.Infrastructure.InMemory;
 
 public class InMemoryTemplateRepository : ITemplateRepository
 {
+    readonly List<Template> templates = new();
+
+    public void Create(Template template)
+    {
+        int previousId;
+        if (templates.Count > 0)
+        {
+            previousId = templates[^1].Id;
+        }
+        else
+        {
+            previousId = -1;
+        }
+        template.Id = previousId + 1;
+        templates.Add(template);
+    }
+
+    public void Delete(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Data GetTemplate(int id)
+    {
+        throw new NotImplementedException();
+    }
+
     public List<Template> GetTemplates()
     {
-        List<Template> templates = new();
-
-        Template template = new()
+        /*Template template = new()
         {
             Id = 0,
             Name = "Template for Cerere Alocare Credentiale Pentru Plata Impozitelor Si Taxelor Locale Pentru Persoane Fizice",
@@ -27,8 +52,13 @@ nu este comunicat la adresa de e-mail mai sus mentionata;
 Data {DateTime.Today}							Semnatura"
         };
 
-        templates.Add(template);
+        templates.Add(template);*/
 
         return templates;
+    }
+
+    public void Update(Template template)
+    {
+        throw new NotImplementedException();
     }
 }

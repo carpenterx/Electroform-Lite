@@ -8,6 +8,7 @@ using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplatesList;
 using ElectroformLite.Application.DataTypes.Commands.CreateDataType;
 using ElectroformLite.Application.DataTypes.Queries.GetDataTypesList;
 using ElectroformLite.Application.Documents.Queries.GetDocuments;
+using ElectroformLite.Application.Templates.Commands.CreateTemplateCommand;
 using ElectroformLite.Application.Templates.Queries.GetTemplates;
 using ElectroformLite.Application.UserData.Commands.CreateData;
 using ElectroformLite.Application.UserData.Queries.GetDataList;
@@ -101,6 +102,8 @@ public class ApplicationManager
         DisplayDataGroupTypes();
         dataGroupTemplates = await _mediator.Send(new GetDataGroupTemplatesListQuery());
         DisplayDataGroupTemplates();
+        templates = await _mediator.Send(new GetTemplatesQuery());
+        DisplayTemplates();
 
         DisplayCommandsMenu();
     }
@@ -125,6 +128,21 @@ public class ApplicationManager
         await _mediator.Send(new CreateDataGroupTemplateCommand("Person", personTypeId, personDataTemplates));
         await _mediator.Send(new CreateDataGroupTemplateCommand("Contact", contactTypeId, contactDataTemplates));
 
+        string templateName = "Template for Cerere Alocare Credentiale Pentru Plata Impozitelor Si Taxelor Locale Pentru Persoane Fizice";
+        string templateContent = @"Subsemnatul/a [Person.FirstName] [Person.LastName], e-mail [Contact.Email], numar de
+telefon [Contact.PhoneNumber], solicit a-mi fi atribuit credential in
+vederea platii prin www.ghiseul.ro
+	- Sunt de acord ca orice corespondenta sa fie expediata doar pe adresa
+de e-mail mai sus mentionata sau telefonic;
+	- Ridicarea credentialului se va face personal sau prin mandatar, daca
+nu este comunicat la adresa de e-mail mai sus mentionata;
+	- Plata se va efectua doar prin intermediul unui card bancar;
+	- Atasez la prezenta cerere, copie a actului de identitate a numitului/ei
+[Person.FirstName] [Person.LastName]
+
+Data {DateTime.Today}							Semnatura";
+
+        int cerereTemplateId = await _mediator.Send(new CreateTemplateCommand(templateName, templateContent));
     }
 
     void DisplayCommandsMenu()
