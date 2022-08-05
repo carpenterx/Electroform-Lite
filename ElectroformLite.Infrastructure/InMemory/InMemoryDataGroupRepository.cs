@@ -29,7 +29,7 @@ public class InMemoryDataGroupRepository : IDataGroupRepository
 
     public DataGroup GetDataGroup(int id)
     {
-        throw new NotImplementedException();
+        return dataGroups.FirstOrDefault(d => d.Id == id);
     }
 
     public List<DataGroup> GetDataGroups()

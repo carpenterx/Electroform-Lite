@@ -157,7 +157,7 @@ Data {DateTime.Today}							Semnatura";
         // get each data group template
         foreach (int dataGroupTemplateId in template.DataGroupTemplates)
         {
-            Console.WriteLine(dataGroupTemplateId);
+            Console.WriteLine($"Data group template id: {dataGroupTemplateId}");
         }
         // generate each data group
         // get each data template
