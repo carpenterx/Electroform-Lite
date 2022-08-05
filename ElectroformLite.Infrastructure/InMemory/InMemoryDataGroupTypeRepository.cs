@@ -27,7 +27,7 @@ public class InMemoryDataGroupTypeRepository : IDataGroupTypeRepository
         throw new NotImplementedException();
     }
 
-    public Data GetData(int id)
+    public Data GetDataGroupType(int id)
     {
         throw new NotImplementedException();
     }
