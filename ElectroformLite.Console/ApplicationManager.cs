@@ -1,5 +1,7 @@
-﻿using ElectroformLite.Application.DataGroups.Queries.GetDataGroupsList;
+﻿using ElectroformLite.Application.DataGroups.Commands.CreateDataGroup;
+using ElectroformLite.Application.DataGroups.Queries.GetDataGroupsList;
 using ElectroformLite.Application.DataGroupTemplates.Commands.CreateDataGroupTemplate;
+using ElectroformLite.Application.DataGroupTemplates.Queries.GetDataGroupTemplate;
 using ElectroformLite.Application.DataGroupTemplates.Queries.GetDataGroupTemplatesList;
 using ElectroformLite.Application.DataGroupTypes.Commands.CreateDataGroupType;
 using ElectroformLite.Application.DataGroupTypes.Queries.GetDataGroupTypesList;
@@ -46,6 +48,7 @@ public class ApplicationManager
     User user = UserService.GetUser("John Doh", dataGroupIndices, documentIndices);*/
     User user = new();
 
+    int cerereTemplateId;
     //DisplayCommandsMenu();
 
     /*Type[] typelist = GetTypesInNamespace(typeof(Data).GetTypeInfo().Assembly, "ElectroformLite.Domain.Models");
@@ -105,7 +108,7 @@ public class ApplicationManager
         templates = await _mediator.Send(new GetTemplatesQuery());
         DisplayTemplates();*/
 
-        await GenerateDocument();
+        await GenerateDocument(cerereTemplateId);
 
         DisplayCommandsMenu();
     }
@@ -145,19 +148,26 @@ nu este comunicat la adresa de e-mail mai sus mentionata;
 
 Data {DateTime.Today}							Semnatura";
 
-        int cerereTemplateId = await _mediator.Send(new CreateTemplateCommand(templateName, templateContent, dataGroupTemplates));
+        cerereTemplateId = await _mediator.Send(new CreateTemplateCommand(templateName, templateContent, dataGroupTemplates));
     }
 
-    async Task GenerateDocument()
+    async Task GenerateDocument(int templateId)
     {
-        // get document template id
-        int templateId = 0;
         // get template
         Template template = await _mediator.Send(new GetTemplateQuery(templateId));
         // get each data group template
         foreach (int dataGroupTemplateId in template.DataGroupTemplates)
         {
             Console.WriteLine($"Data group template id: {dataGroupTemplateId}");
+            DataGroupTemplate dataGroupTemplate = await _mediator.Send(new GetDataGroupTemplateQuery(dataGroupTemplateId));
+            Console.WriteLine($"{dataGroupTemplate.Name} data group name:");
+            string dataGroupName = Console.ReadLine();
+            DataGroup dataGroup = new(dataGroupTemplate, dataGroupName);
+            foreach (int dataTemplateId in dataGroupTemplate.DataTemplates)
+            {
+                Console.WriteLine($"Data template id: {dataTemplateId}");
+            }
+            int dataGroupId = await _mediator.Send(new CreateDataGroupCommand(dataGroup));
         }
         // generate each data group
         // get each data template

@@ -5,7 +5,7 @@ namespace ElectroformLite.Infrastructure.InMemory;
 
 public class InMemoryDataGroupTemplateRepository : IDataGroupTemplateRepository
 {
-    List<DataGroupTemplate> dataGroupTemplates = new();
+    readonly List<DataGroupTemplate> dataGroupTemplates = new();
 
     public void Create(DataGroupTemplate dataGroupTemplate)
     {
@@ -29,7 +29,7 @@ public class InMemoryDataGroupTemplateRepository : IDataGroupTemplateRepository
 
     public DataGroupTemplate GetDataGroupTemplate(int id)
     {
-        throw new NotImplementedException();
+        return dataGroupTemplates.FirstOrDefault(d => d.Id == id);
     }
 
     public List<DataGroupTemplate> GetDataGroupTemplates()
