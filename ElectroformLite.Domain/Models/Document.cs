@@ -14,10 +14,11 @@ public class Document
 
     public List<int> DataGroups { get; set; } = new();
 
-    public Document(string name, string content, int templateId)
+    public Document(string name, string content, int templateId, List<int> dataGroups)
     {
         Name = name;
         Content = content;
         TemplateId = templateId;
+        DataGroups = dataGroups;
     }
 }

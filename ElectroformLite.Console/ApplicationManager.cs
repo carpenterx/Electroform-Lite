@@ -153,15 +153,18 @@ Data {DateTime.Today}							Semnatura";
         // get template
         Template template = await _mediator.Send(new GetTemplateQuery(templateId));
         string documentContent = template.Content;
+
+        List<int> dataGroupIds = new();
         // get each data group template
         foreach (int dataGroupTemplateId in template.DataGroupTemplates)
         {
-            // generate each data group
             DataGroupTemplate dataGroupTemplate = await _mediator.Send(new GetDataGroupTemplateQuery(dataGroupTemplateId));
             DataGroupType dataGroupType = await _mediator.Send(new GetDataGroupTypeQuery(dataGroupTemplate.Type));
+
             Console.WriteLine($"{dataGroupTemplate.Name} data group name:");
             string dataGroupName = Console.ReadLine();
-            DataGroup dataGroup = new(dataGroupTemplate, dataGroupName);
+
+            List<int> dataIds = new();
             // get each data template
             foreach (int dataTemplateId in dataGroupTemplate.DataTemplates)
             {
@@ -171,16 +174,21 @@ Data {DateTime.Today}							Semnatura";
                 string dataValue = Console.ReadLine();
                 Data data = new(dataTemplate, dataValue);
                 int dataId = await _mediator.Send(new CreateDataCommand(data));
+                dataIds.Add(dataId);
                 documentContent = documentContent.Replace($"[{dataGroupType.Value}.{data.Placeholder}]",data.Value);
             }
+            // generate each data group
+           
+            DataGroup dataGroup = new(dataGroupTemplate, dataGroupName, dataIds);
             int dataGroupId = await _mediator.Send(new CreateDataGroupCommand(dataGroup));
+            dataGroupIds.Add(dataGroupId);
         }
         Console.WriteLine(documentContent);
 
         // generate document
         Console.WriteLine("Document name:");
         string documentName = Console.ReadLine();
-        Document document = new(documentName, documentContent, templateId);
+        Document document = new(documentName, documentContent, templateId, dataGroupIds);
         await _mediator.Send(new CreateDocumentCommand(document));
     }
 
@@ -451,7 +459,7 @@ Data {DateTime.Today}							Semnatura";
 
     DataGroup CreateBasicDataGroup(int dataGroupTemplateId)
     {
-        DataGroup dataGroup = new(dataGroupTemplates[dataGroupTemplateId], $"{dataGroupTypes[dataGroupTemplates[dataGroupTemplateId].Type].Value} data group");
+        DataGroup dataGroup = new(dataGroupTemplates[dataGroupTemplateId], $"{dataGroupTypes[dataGroupTemplates[dataGroupTemplateId].Type].Value} data group", new());
 
         int index = dataList.Count;
         foreach (int dataTemplateId in dataGroupTemplates[dataGroupTemplateId].DataTemplates)
@@ -516,7 +524,7 @@ Data {DateTime.Today}							Semnatura";
             Created = DateTime.Now,
             DataGroups = new(usedDataGroupIds)
         };*/
-        Document document = new(template.Name.Replace("Template for", "Document:"), output, templateId);
+        Document document = new(template.Name.Replace("Template for", "Document:"), output, templateId, new());
 
         return document;
     }

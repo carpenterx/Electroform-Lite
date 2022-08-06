@@ -10,9 +10,10 @@ public class DataGroup
 
     public List<int> Data { get; set; } = new();
 
-    public DataGroup(DataGroupTemplate dataGroupTemplate, string name)
+    public DataGroup(DataGroupTemplate dataGroupTemplate, string name, List<int> data)
     {
         Name = name;
         Type = dataGroupTemplate.Type;
+        Data = data;
     }
 }
