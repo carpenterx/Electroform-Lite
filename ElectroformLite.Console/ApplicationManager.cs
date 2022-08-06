@@ -26,33 +26,20 @@ namespace ElectroformLite.ConsolePresentation;
 
 public class ApplicationManager
 {
-    //List<DataType> dataTypes = DataTypeService.GetDataTypes();
     List<DataType> dataTypes = new();
-    //List<DataTemplate> dataTemplates = DataTemplateService.GetDataTemplates();
     List<DataTemplate> dataTemplates = new();
-    //List<Data> dataList = DataService.GetData();
-    //List<Data> dataList = new();
     List<Data> dataList = new();
 
-    //List<DataGroupType> dataGroupTypes = DataGroupTypeService.GetDataGroupTypes();
     List<DataGroupType> dataGroupTypes = new();
-    //List<DataGroupTemplate> dataGroupTemplates = DataGroupTemplateService.GetDataGroupTemplates();
     List<DataGroupTemplate> dataGroupTemplates = new();
-    //List<DataGroup> dataGroups = DataGroupService.GetDataGroups();
     List<DataGroup> dataGroups = new();
 
-    //List<Template> templates = TemplateService.GetTemplates();
     List<Template> templates = new();
-    //List<Document> documents = DocumentService.GetDocuments();
     List<Document> documents = new();
 
-    /*List<int> dataGroupIndices = new() { 0, 1 };
-    List<int> documentIndices = new();
-    User user = UserService.GetUser("John Doh", dataGroupIndices, documentIndices);*/
     User user = new();
 
     int cerereTemplateId;
-    //DisplayCommandsMenu();
 
     /*Type[] typelist = GetTypesInNamespace(typeof(Data).GetTypeInfo().Assembly, "ElectroformLite.Domain.Models");
     Console.WriteLine(Mermaid.GenerateClassDiagram(typelist));
@@ -91,13 +78,6 @@ public class ApplicationManager
         //DisplayDocuments();
         templates = await _mediator.Send(new GetTemplatesQuery());
         //DisplayTemplates();*/
-
-        /*await PopulateDataTemplates();
-        dataTemplates = await _mediator.Send(new GetDataTemplatesListQuery());
-        DisplayDataTemplates();*/
-        /*await PopulateData();
-        dataList = await _mediator.Send(new GetDataListQuery());
-        DisplayData();*/
 
         await PopulateTemplates();
 
@@ -183,13 +163,12 @@ Data {DateTime.Today}							Semnatura";
             int dataGroupId = await _mediator.Send(new CreateDataGroupCommand(dataGroup));
             dataGroupIds.Add(dataGroupId);
         }
-        Console.WriteLine(documentContent);
-
         // generate document
         Console.WriteLine("Document name:");
         string documentName = Console.ReadLine();
         Document document = new(documentName, documentContent, templateId, dataGroupIds);
         await _mediator.Send(new CreateDocumentCommand(document));
+        DisplayDocument(document);
     }
 
     async Task DisplayCommandsMenu()
@@ -205,16 +184,16 @@ Data {DateTime.Today}							Semnatura";
             switch (consoleKeyInfo.Key)
             {
                 case ConsoleKey.D1:
-                    CreateDataGroups();
+                    //CreateDataGroups();
                     break;
                 case ConsoleKey.D2:
-                    CreateDocument();
+                    //CreateDocument();
                     break;
                 case ConsoleKey.D3:
                     await DisplayUserData();
                     break;
                 case ConsoleKey.D4:
-                    DisplayTemplateData();
+                    await DisplayTemplateData();
                     break;
                 default:
                     DisplayCommandsHint();
@@ -238,35 +217,6 @@ Data {DateTime.Today}							Semnatura";
         Console.WriteLine($"+{line}+");
     }
 
-    void CreateDataGroups()
-    {
-        Console.WriteLine("Create data groups");
-        DataGroup personDataGroup = CreateBasicDataGroup(0);
-        FillDataGroup(personDataGroup);
-
-        DataGroup contactDataGroup = CreateBasicDataGroup(1);
-        FillDataGroup(contactDataGroup);
-        DisplayCommandsHint();
-    }
-
-    void CreateDocument()
-    {
-        Console.WriteLine("Create document");
-        //Console.WriteLine("Select template id:");
-        try
-        {
-            //int templateId = int.Parse(Console.ReadLine());
-            int templateId = 0;
-            Document document = CreateBasicDocument(templateId);
-            DisplayDocument(document);
-            DisplayCommandsHint();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
-    }
-
     async Task DisplayUserData()
     {
         await DisplayDocuments();
@@ -275,18 +225,19 @@ Data {DateTime.Today}							Semnatura";
         DisplayCommandsHint();
     }
 
-    void DisplayTemplateData()
+    async Task DisplayTemplateData()
     {
-        DisplayTemplates();
-        DisplayDataGroupTemplates();
-        DisplayDataGroupTypes();
-        DisplayDataTemplates();
-        DisplayDataTypes();
+        await DisplayTemplates();
+        await DisplayDataGroupTemplates();
+        await DisplayDataGroupTypes();
+        await DisplayDataTemplates();
+        await DisplayDataTypes();
         DisplayCommandsHint();
     }
 
-    void DisplayTemplates()
+    async Task DisplayTemplates()
     {
+        templates = await _mediator.Send(new GetTemplatesQuery());
         const int cellWidth = -20;
         string line = new('-', 41);
         Console.WriteLine($"+{line}+");
@@ -305,8 +256,9 @@ Data {DateTime.Today}							Semnatura";
         Console.WriteLine();
     }
 
-    void DisplayDataGroupTemplates()
+    async Task DisplayDataGroupTemplates()
     {
+        dataGroupTemplates = await _mediator.Send(new GetDataGroupTemplatesListQuery());
         const int cellWidth = -20;
         string line = new('-', 62);
         Console.WriteLine($"+{line}+");
@@ -325,8 +277,9 @@ Data {DateTime.Today}							Semnatura";
         Console.WriteLine();
     }
 
-    void DisplayDataGroupTypes()
+    async Task DisplayDataGroupTypes()
     {
+        dataGroupTypes = await _mediator.Send(new GetDataGroupTypesListQuery());
         const int cellWidth = -20;
         string line = new('-', 41);
         Console.WriteLine($"+{line}+");
@@ -345,8 +298,9 @@ Data {DateTime.Today}							Semnatura";
         Console.WriteLine();
     }
 
-    void DisplayDataTemplates()
+    async Task DisplayDataTemplates()
     {
+        dataTemplates = await _mediator.Send(new GetDataTemplatesListQuery());
         const int cellWidth = -20;
         string line = new('-', 62);
         Console.WriteLine($"+{line}+");
@@ -365,8 +319,9 @@ Data {DateTime.Today}							Semnatura";
         Console.WriteLine();
     }
 
-    void DisplayDataTypes()
+    async Task DisplayDataTypes()
     {
+        dataTypes = await _mediator.Send(new GetDataTypesListQuery());
         const int cellWidth = -20;
         string line = new('-', 41);
         Console.WriteLine($"+{line}+");
@@ -455,98 +410,5 @@ Data {DateTime.Today}							Semnatura";
         Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++");
         Console.WriteLine(document.Content);
         Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++");
-    }
-
-    DataGroup CreateBasicDataGroup(int dataGroupTemplateId)
-    {
-        DataGroup dataGroup = new(dataGroupTemplates[dataGroupTemplateId], $"{dataGroupTypes[dataGroupTemplates[dataGroupTemplateId].Type].Value} data group", new());
-
-        int index = dataList.Count;
-        foreach (int dataTemplateId in dataGroupTemplates[dataGroupTemplateId].DataTemplates)
-        {
-            Data data = new(dataTemplates[dataTemplateId], "Bla");
-            data.Id = index++;
-            dataList.Add(data);
-            dataGroup.Data.Add(data.Id);
-        }
-
-        return dataGroup;
-    }
-
-    void FillDataGroup(DataGroup dataGroup)
-    {
-        Console.WriteLine($"{dataGroupTypes[dataGroup.Type].Value} data group:");
-        foreach (int dataIndex in dataGroup.Data)
-        {
-            Data data = dataList[dataIndex];
-            Console.WriteLine($"{data.Placeholder}: ");
-            data.Value = Console.ReadLine();
-        }
-        dataGroups.Add(dataGroup);
-    }
-
-    Document CreateBasicDocument(int templateId)
-    {
-        Template template = templates[templateId];
-
-        string output = template.Content;
-
-        List<string> dataGroupTypes = GetDataGroupTypesFromTemplate(template.Content);
-
-        List<int> usedDataGroupIds = new();
-
-        foreach (string dataGroupType in dataGroupTypes)
-        {
-            DataGroup? dataGroup = GetDataGroupByType(dataGroupType);
-            if (dataGroup is null)
-            {
-                dataGroup = CreateBasicDataGroup(GetDataGroupTemplateIdByType(dataGroupType));
-                FillDataGroup(dataGroup);
-                dataGroups.Add(dataGroup);
-            }
-            usedDataGroupIds.Add(dataGroup.Id);
-
-            foreach (int dataIndex in dataGroup.Data)
-            {
-                Data data = dataList[dataIndex];
-
-                string templatePlaceholder = $"[{dataGroupTypes[dataGroup.Type]}.{data.Placeholder}]";
-
-                output = output.Replace(templatePlaceholder, data.Value);
-            }
-        }
-
-        /*Document document = new()
-        {
-            Name = template.Name.Replace("Template for", "Document:"),
-            TemplateId = templateId,
-            Content = output,
-            Created = DateTime.Now,
-            DataGroups = new(usedDataGroupIds)
-        };*/
-        Document document = new(template.Name.Replace("Template for", "Document:"), output, templateId, new());
-
-        return document;
-    }
-
-    List<string> GetDataGroupTypesFromTemplate(string templateContent)
-    {
-        MatchCollection matches = Regex.Matches(templateContent, "\\[(.+?)\\.");
-
-        var matchvalues = matches.Select(m => m.Groups[1].Value);
-
-        return matchvalues.Distinct().ToList();
-    }
-
-    DataGroup? GetDataGroupByType(string dataGroupType)
-    {
-        int dataGroupTypeId = dataGroupTypes.First(t => t.Value == dataGroupType).Id;
-        return dataGroups.FirstOrDefault(g => g.Type == dataGroupTypeId);
-    }
-
-    int GetDataGroupTemplateIdByType(string dataGroupType)
-    {
-        int dataGroupTypeId = dataGroupTypes.First(t => t.Value == dataGroupType).Id;
-        return dataGroupTemplates.First(g => g.Type == dataGroupTypeId).Id;
     }
 }
