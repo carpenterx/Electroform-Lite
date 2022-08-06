@@ -6,6 +6,7 @@ using ElectroformLite.Application.DataGroupTemplates.Queries.GetDataGroupTemplat
 using ElectroformLite.Application.DataGroupTypes.Commands.CreateDataGroupType;
 using ElectroformLite.Application.DataGroupTypes.Queries.GetDataGroupTypesList;
 using ElectroformLite.Application.DataTemplates.Commands.CreateDataTemplate;
+using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplate;
 using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplatesList;
 using ElectroformLite.Application.DataTypes.Commands.CreateDataType;
 using ElectroformLite.Application.DataTypes.Queries.GetDataTypesList;
@@ -158,7 +159,7 @@ Data {DateTime.Today}							Semnatura";
         // get each data group template
         foreach (int dataGroupTemplateId in template.DataGroupTemplates)
         {
-            Console.WriteLine($"Data group template id: {dataGroupTemplateId}");
+            //Console.WriteLine($"Data group template id: {dataGroupTemplateId}");
             DataGroupTemplate dataGroupTemplate = await _mediator.Send(new GetDataGroupTemplateQuery(dataGroupTemplateId));
             Console.WriteLine($"{dataGroupTemplate.Name} data group name:");
             string dataGroupName = Console.ReadLine();
@@ -166,6 +167,7 @@ Data {DateTime.Today}							Semnatura";
             foreach (int dataTemplateId in dataGroupTemplate.DataTemplates)
             {
                 Console.WriteLine($"Data template id: {dataTemplateId}");
+                DataTemplate dataTemplate = await _mediator.Send(new GetDataTemplateQuery(dataTemplateId));
             }
             int dataGroupId = await _mediator.Send(new CreateDataGroupCommand(dataGroup));
         }

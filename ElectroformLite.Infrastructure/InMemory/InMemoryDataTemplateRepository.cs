@@ -29,7 +29,7 @@ public class InMemoryDataTemplateRepository : IDataTemplateRepository
 
     public DataTemplate GetDataTemplate(int id)
     {
-        throw new NotImplementedException();
+        return dataTemplates.FirstOrDefault(d => d.Id == id);
     }
 
     public void Update(DataTemplate dataTemplate)
