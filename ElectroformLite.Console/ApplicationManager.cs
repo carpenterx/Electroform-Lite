@@ -11,6 +11,7 @@ using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplate;
 using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplatesList;
 using ElectroformLite.Application.DataTypes.Commands.CreateDataType;
 using ElectroformLite.Application.DataTypes.Queries.GetDataTypesList;
+using ElectroformLite.Application.Documents.Commands.CreateDocument;
 using ElectroformLite.Application.Documents.Queries.GetDocuments;
 using ElectroformLite.Application.Templates.Commands.CreateTemplateCommand;
 using ElectroformLite.Application.Templates.Queries.GetTemplates;
@@ -99,20 +100,14 @@ public class ApplicationManager
         DisplayData();*/
 
         await PopulateTemplates();
-        /*dataTypes = await _mediator.Send(new GetDataTypesListQuery());
-        DisplayDataTypes();
-        dataTemplates = await _mediator.Send(new GetDataTemplatesListQuery());
-        DisplayDataTemplates();
-        dataGroupTypes = await _mediator.Send(new GetDataGroupTypesListQuery());
-        DisplayDataGroupTypes();
-        dataGroupTemplates = await _mediator.Send(new GetDataGroupTemplatesListQuery());
-        DisplayDataGroupTemplates();
-        templates = await _mediator.Send(new GetTemplatesQuery());
-        DisplayTemplates();*/
 
         await GenerateDocument(cerereTemplateId);
 
-        DisplayCommandsMenu();
+        await DisplayData();
+        await DisplayDataGroups();
+        await DisplayDocuments();
+
+        await DisplayCommandsMenu();
     }
 
     async Task PopulateTemplates()
@@ -181,11 +176,15 @@ Data {DateTime.Today}							Semnatura";
             int dataGroupId = await _mediator.Send(new CreateDataGroupCommand(dataGroup));
         }
         Console.WriteLine(documentContent);
-        
+
         // generate document
+        Console.WriteLine("Document name:");
+        string documentName = Console.ReadLine();
+        Document document = new(documentName, documentContent, templateId);
+        await _mediator.Send(new CreateDocumentCommand(document));
     }
 
-    void DisplayCommandsMenu()
+    async Task DisplayCommandsMenu()
     {
         DisplayCommandsHint();
 
@@ -204,7 +203,7 @@ Data {DateTime.Today}							Semnatura";
                     CreateDocument();
                     break;
                 case ConsoleKey.D3:
-                    DisplayUserData();
+                    await DisplayUserData();
                     break;
                 case ConsoleKey.D4:
                     DisplayTemplateData();
@@ -260,11 +259,11 @@ Data {DateTime.Today}							Semnatura";
         }
     }
 
-    void DisplayUserData()
+    async Task DisplayUserData()
     {
-        DisplayDocuments();
-        DisplayDataGroups();
-        DisplayData();
+        await DisplayDocuments();
+        await DisplayDataGroups();
+        await DisplayData();
         DisplayCommandsHint();
     }
 
@@ -378,8 +377,9 @@ Data {DateTime.Today}							Semnatura";
         Console.WriteLine();
     }
 
-    void DisplayDocuments()
+    async Task DisplayDocuments()
     {
+        documents = await _mediator.Send(new GetDocumentsQuery());
         const int cellWidth = -20;
         string line = new('-', 62);
         Console.WriteLine($"+{line}+");
@@ -398,8 +398,9 @@ Data {DateTime.Today}							Semnatura";
         Console.WriteLine();
     }
 
-    void DisplayDataGroups()
+    async Task DisplayDataGroups()
     {
+        dataGroups = await _mediator.Send(new GetDataGroupsListQuery());
         const int cellWidth = -20;
         string line = new('-', 62);
         Console.WriteLine($"+{line}+");
@@ -418,14 +419,15 @@ Data {DateTime.Today}							Semnatura";
         Console.WriteLine();
     }
 
-    void DisplayData()
+    async Task DisplayData()
     {
+        dataList = await _mediator.Send(new GetDataListQuery());
         const int cellWidth = -20;
         string line = new('-', 83);
         Console.WriteLine($"+{line}+");
         Console.WriteLine($"|{"DATA",-83}|");
         Console.WriteLine($"+{line}+");
-        if (dataList.Count() > 0)
+        if (dataList.Count > 0)
         {
             Console.WriteLine($"|{"Id",cellWidth}|{"Placeholder",cellWidth}|{"Value",cellWidth}|{"Type",cellWidth}|");
             Console.WriteLine($"+{line}+");
@@ -506,14 +508,15 @@ Data {DateTime.Today}							Semnatura";
             }
         }
 
-        Document document = new()
+        /*Document document = new()
         {
             Name = template.Name.Replace("Template for", "Document:"),
             TemplateId = templateId,
             Content = output,
             Created = DateTime.Now,
             DataGroups = new(usedDataGroupIds)
-        };
+        };*/
+        Document document = new(template.Name.Replace("Template for", "Document:"), output, templateId);
 
         return document;
     }
