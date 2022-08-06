@@ -18,8 +18,10 @@ using ElectroformLite.Application.Templates.Queries.GetTemplates;
 using ElectroformLite.Application.UserData.Commands.CreateData;
 using ElectroformLite.Application.UserData.Queries.GetDataList;
 using ElectroformLite.Application.Users.Queries.GetUser;
+using ElectroformLite.ClassDiagram;
 using ElectroformLite.Domain.Models;
 using MediatR;
+using System.Reflection;
 
 namespace ElectroformLite.ConsolePresentation;
 
@@ -39,16 +41,6 @@ public class ApplicationManager
     User user = new();
 
     int cerereTemplateId;
-
-    /*Type[] typelist = GetTypesInNamespace(typeof(Data).GetTypeInfo().Assembly, "ElectroformLite.Domain.Models");
-    Console.WriteLine(Mermaid.GenerateClassDiagram(typelist));
-
-    Type[] GetTypesInNamespace(Assembly assembly, string nameSpace)
-    {
-        return assembly.GetTypes()
-            .Where(t => String.Equals(t.Namespace, nameSpace, StringComparison.Ordinal))
-            .ToArray();
-    }*/
 
     readonly IMediator _mediator;
 
@@ -152,29 +144,27 @@ Data {DateTime.Today}							Semnatura";
 
         ConsoleKeyInfo consoleKeyInfo;
 
-        do
+        consoleKeyInfo = Console.ReadKey(true);
+        Console.Clear();
+        switch (consoleKeyInfo.Key)
         {
-            consoleKeyInfo = Console.ReadKey(true);
-            Console.Clear();
-            switch (consoleKeyInfo.Key)
-            {
-                case ConsoleKey.D1:
-                    //CreateDataGroups();
-                    break;
-                case ConsoleKey.D2:
-                    await CreateDocument();
-                    break;
-                case ConsoleKey.D3:
-                    await DisplayUserData();
-                    break;
-                case ConsoleKey.D4:
-                    await DisplayTemplateData();
-                    break;
-                default:
-                    DisplayCommandsHint();
-                    break;
-            }
-        } while (consoleKeyInfo.Key != ConsoleKey.Escape);
+            case ConsoleKey.D1:
+                //CreateDataGroups();
+                await DisplayCommandsMenu();
+                break;
+            case ConsoleKey.D2:
+                await CreateDocument();
+                break;
+            case ConsoleKey.D3:
+                await DisplayUserData();
+                break;
+            case ConsoleKey.D4:
+                await DisplayTemplateData();
+                break;
+            default:
+                await DisplayCommandsMenu();
+                break;
+        }
     }
 
     static void DisplayCommandsHint()
@@ -184,11 +174,11 @@ Data {DateTime.Today}							Semnatura";
 
         Console.WriteLine($"+{line}+");
         Console.WriteLine($"|{"Commands:",-menuWidth}|");
+        Console.WriteLine($"+{line}+");
         Console.WriteLine($"|{"(1) Create data groups",-menuWidth}|");
         Console.WriteLine($"|{"(2) Create document",-menuWidth}|");
         Console.WriteLine($"|{"(3) Display User Data",-menuWidth}|");
         Console.WriteLine($"|{"(4) Display Template Data",-menuWidth}|");
-        Console.WriteLine($"|{"(Esc) to quit",-menuWidth}|");
         Console.WriteLine($"+{line}+");
     }
 
@@ -199,7 +189,7 @@ Data {DateTime.Today}							Semnatura";
         await DisplayData();
         await DisplayDataGroups();
         await DisplayDocuments();
-        DisplayCommandsHint();
+        await DisplayCommandsMenu();
     }
 
     async Task DisplayUserData()
@@ -207,7 +197,7 @@ Data {DateTime.Today}							Semnatura";
         await DisplayDocuments();
         await DisplayDataGroups();
         await DisplayData();
-        DisplayCommandsHint();
+        await DisplayCommandsMenu();
     }
 
     async Task DisplayTemplateData()
@@ -217,7 +207,7 @@ Data {DateTime.Today}							Semnatura";
         await DisplayDataGroupTypes();
         await DisplayDataTemplates();
         await DisplayDataTypes();
-        DisplayCommandsHint();
+        await DisplayCommandsMenu();
     }
 
     async Task DisplayTemplates()
@@ -388,7 +378,7 @@ Data {DateTime.Today}							Semnatura";
         Console.WriteLine();
     }
 
-    void DisplayDocument(Document document)
+    static void DisplayDocument(Document document)
     {
         Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++");
         Console.WriteLine(document.Name);
@@ -396,4 +386,17 @@ Data {DateTime.Today}							Semnatura";
         Console.WriteLine(document.Content);
         Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++");
     }
+
+    /*static void DisplayClassDiagram()
+    {
+        Type[] typelist = GetTypesInNamespace(typeof(Data).GetTypeInfo().Assembly, "ElectroformLite.Domain.Models");
+        Console.WriteLine(Mermaid.GenerateClassDiagram(typelist));
+    }
+
+    static Type[] GetTypesInNamespace(Assembly assembly, string nameSpace)
+    {
+        return assembly.GetTypes()
+            .Where(t => String.Equals(t.Namespace, nameSpace, StringComparison.Ordinal))
+            .ToArray();
+    }*/
 }
