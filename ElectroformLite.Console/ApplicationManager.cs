@@ -20,7 +20,6 @@ using ElectroformLite.Application.UserData.Queries.GetDataList;
 using ElectroformLite.Application.Users.Queries.GetUser;
 using ElectroformLite.Domain.Models;
 using MediatR;
-using System.Text.RegularExpressions;
 
 namespace ElectroformLite.ConsolePresentation;
 
@@ -60,32 +59,9 @@ public class ApplicationManager
 
     public async void StartApplication()
     {
-        /*user = await _mediator.Send(new GetUserQuery(0));
-
-        dataList = await _mediator.Send(new GetDataListQuery());
-        //DisplayData();
-        dataTypes = await _mediator.Send(new GetDataTypesListQuery());
-        //DisplayDataTypes();
-        dataGroups = await _mediator.Send(new GetDataGroupsListQuery());
-        //DisplayDataGroups();
-        dataGroupTemplates = await _mediator.Send(new GetDataGroupTemplatesListQuery());
-        //DisplayDataGroupTemplates();
-        dataGroupTypes = await _mediator.Send(new GetDataGroupTypesListQuery());
-        //DisplayDataGroupTypes();
-        dataTemplates = await _mediator.Send(new GetDataTemplatesListQuery());
-        //DisplayDataTemplates();
-        documents = await _mediator.Send(new GetDocumentsQuery());
-        //DisplayDocuments();
-        templates = await _mediator.Send(new GetTemplatesQuery());
-        //DisplayTemplates();*/
+        /*user = await _mediator.Send(new GetUserQuery(0));*/
 
         await PopulateTemplates();
-
-        await GenerateDocument(cerereTemplateId);
-
-        await DisplayData();
-        await DisplayDataGroups();
-        await DisplayDocuments();
 
         await DisplayCommandsMenu();
     }
@@ -158,7 +134,6 @@ Data {DateTime.Today}							Semnatura";
                 documentContent = documentContent.Replace($"[{dataGroupType.Value}.{data.Placeholder}]",data.Value);
             }
             // generate each data group
-           
             DataGroup dataGroup = new(dataGroupTemplate, dataGroupName, dataIds);
             int dataGroupId = await _mediator.Send(new CreateDataGroupCommand(dataGroup));
             dataGroupIds.Add(dataGroupId);
@@ -187,7 +162,7 @@ Data {DateTime.Today}							Semnatura";
                     //CreateDataGroups();
                     break;
                 case ConsoleKey.D2:
-                    //CreateDocument();
+                    await CreateDocument();
                     break;
                 case ConsoleKey.D3:
                     await DisplayUserData();
@@ -202,7 +177,7 @@ Data {DateTime.Today}							Semnatura";
         } while (consoleKeyInfo.Key != ConsoleKey.Escape);
     }
 
-    void DisplayCommandsHint()
+    static void DisplayCommandsHint()
     {
         const int menuWidth = 40;
         string line = new('-', menuWidth);
@@ -215,6 +190,16 @@ Data {DateTime.Today}							Semnatura";
         Console.WriteLine($"|{"(4) Display Template Data",-menuWidth}|");
         Console.WriteLine($"|{"(Esc) to quit",-menuWidth}|");
         Console.WriteLine($"+{line}+");
+    }
+
+    async Task CreateDocument()
+    {
+        await GenerateDocument(cerereTemplateId);
+
+        await DisplayData();
+        await DisplayDataGroups();
+        await DisplayDocuments();
+        DisplayCommandsHint();
     }
 
     async Task DisplayUserData()
