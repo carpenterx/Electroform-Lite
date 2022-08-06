@@ -8,5 +8,6 @@ public interface IDataGroupRepository
     void Delete(int id);
     void Update(DataGroup dataGroup);
     DataGroup GetDataGroup(int id);
+    List<DataGroup> GetDataGroupsByType(int id);
     List<DataGroup> GetDataGroups();
 }

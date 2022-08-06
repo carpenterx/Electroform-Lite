@@ -57,6 +57,11 @@ public class InMemoryDataGroupRepository : IDataGroupRepository
         return dataGroups;
     }
 
+    public List<DataGroup> GetDataGroupsByType(int id)
+    {
+        return dataGroups.FindAll(d => d.Type == id);
+    }
+
     public void Update(DataGroup dataGroup)
     {
         throw new NotImplementedException();

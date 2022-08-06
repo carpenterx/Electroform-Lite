@@ -1,4 +1,5 @@
 ﻿using ElectroformLite.Application.DataGroups.Commands.CreateDataGroup;
+using ElectroformLite.Application.DataGroups.Queries.GetDataGroupsByType;
 using ElectroformLite.Application.DataGroups.Queries.GetDataGroupsList;
 using ElectroformLite.Application.DataGroupTemplates.Commands.CreateDataGroupTemplate;
 using ElectroformLite.Application.DataGroupTemplates.Queries.GetDataGroupTemplate;
@@ -107,6 +108,11 @@ Data {DateTime.Today}							Semnatura";
         foreach (int dataGroupTemplateId in template.DataGroupTemplates)
         {
             DataGroupTemplate dataGroupTemplate = await _mediator.Send(new GetDataGroupTemplateQuery(dataGroupTemplateId));
+            List<DataGroup> sameTypeDataGroups = await _mediator.Send(new GetDataGroupsByTypeQuery(dataGroupTemplate.Type));
+            foreach (DataGroup sameDataGroup in sameTypeDataGroups)
+            {
+                Console.WriteLine($"{sameDataGroup.Id} {sameDataGroup.Name}");
+            }
             DataGroupType dataGroupType = await _mediator.Send(new GetDataGroupTypeQuery(dataGroupTemplate.Type));
 
             Console.WriteLine($"{dataGroupTemplate.Name} data group name:");
@@ -142,9 +148,8 @@ Data {DateTime.Today}							Semnatura";
     {
         DisplayCommandsHint();
 
-        ConsoleKeyInfo consoleKeyInfo;
+        ConsoleKeyInfo consoleKeyInfo = Console.ReadKey(true);
 
-        consoleKeyInfo = Console.ReadKey(true);
         Console.Clear();
         switch (consoleKeyInfo.Key)
         {
