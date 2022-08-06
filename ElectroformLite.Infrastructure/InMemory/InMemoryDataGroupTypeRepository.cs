@@ -29,7 +29,7 @@ public class InMemoryDataGroupTypeRepository : IDataGroupTypeRepository
 
     public DataGroupType GetDataGroupType(int id)
     {
-        throw new NotImplementedException();
+        return dataGroupTypes.FirstOrDefault(t => t.Id == id);
     }
 
     public List<DataGroupType> GetDataGroupTypes()

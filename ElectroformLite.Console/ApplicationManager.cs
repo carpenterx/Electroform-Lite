@@ -4,6 +4,7 @@ using ElectroformLite.Application.DataGroupTemplates.Commands.CreateDataGroupTem
 using ElectroformLite.Application.DataGroupTemplates.Queries.GetDataGroupTemplate;
 using ElectroformLite.Application.DataGroupTemplates.Queries.GetDataGroupTemplatesList;
 using ElectroformLite.Application.DataGroupTypes.Commands.CreateDataGroupType;
+using ElectroformLite.Application.DataGroupTypes.Queries.GetDataGroupType;
 using ElectroformLite.Application.DataGroupTypes.Queries.GetDataGroupTypesList;
 using ElectroformLite.Application.DataTemplates.Commands.CreateDataTemplate;
 using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplate;
@@ -156,24 +157,31 @@ Data {DateTime.Today}							Semnatura";
     {
         // get template
         Template template = await _mediator.Send(new GetTemplateQuery(templateId));
+        string documentContent = template.Content;
         // get each data group template
         foreach (int dataGroupTemplateId in template.DataGroupTemplates)
         {
-            //Console.WriteLine($"Data group template id: {dataGroupTemplateId}");
+            // generate each data group
             DataGroupTemplate dataGroupTemplate = await _mediator.Send(new GetDataGroupTemplateQuery(dataGroupTemplateId));
+            DataGroupType dataGroupType = await _mediator.Send(new GetDataGroupTypeQuery(dataGroupTemplate.Type));
             Console.WriteLine($"{dataGroupTemplate.Name} data group name:");
             string dataGroupName = Console.ReadLine();
             DataGroup dataGroup = new(dataGroupTemplate, dataGroupName);
+            // get each data template
             foreach (int dataTemplateId in dataGroupTemplate.DataTemplates)
             {
-                Console.WriteLine($"Data template id: {dataTemplateId}");
+                // generate each data
                 DataTemplate dataTemplate = await _mediator.Send(new GetDataTemplateQuery(dataTemplateId));
+                Console.WriteLine($"{dataTemplate.Placeholder}:");
+                string dataValue = Console.ReadLine();
+                Data data = new(dataTemplate, dataValue);
+                int dataId = await _mediator.Send(new CreateDataCommand(data));
+                documentContent = documentContent.Replace($"[{dataGroupType.Value}.{data.Placeholder}]",data.Value);
             }
             int dataGroupId = await _mediator.Send(new CreateDataGroupCommand(dataGroup));
         }
-        // generate each data group
-        // get each data template
-        // generate each data
+        Console.WriteLine(documentContent);
+        
         // generate document
     }
 
