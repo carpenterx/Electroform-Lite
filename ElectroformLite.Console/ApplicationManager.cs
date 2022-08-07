@@ -1,4 +1,5 @@
 ﻿using ElectroformLite.Application.DataGroups.Commands.CreateDataGroup;
+using ElectroformLite.Application.DataGroups.Queries.GetDataGroup;
 using ElectroformLite.Application.DataGroups.Queries.GetDataGroupsByType;
 using ElectroformLite.Application.DataGroups.Queries.GetDataGroupsList;
 using ElectroformLite.Application.DataGroupTemplates.Commands.CreateDataGroupTemplate;
@@ -17,6 +18,7 @@ using ElectroformLite.Application.Documents.Queries.GetDocuments;
 using ElectroformLite.Application.Templates.Commands.CreateTemplateCommand;
 using ElectroformLite.Application.Templates.Queries.GetTemplates;
 using ElectroformLite.Application.UserData.Commands.CreateData;
+using ElectroformLite.Application.UserData.Queries.GetData;
 using ElectroformLite.Application.UserData.Queries.GetDataList;
 using ElectroformLite.Application.Users.Queries.GetUser;
 using ElectroformLite.ClassDiagram;
@@ -108,33 +110,41 @@ Data {DateTime.Today}							Semnatura";
         foreach (int dataGroupTemplateId in template.DataGroupTemplates)
         {
             DataGroupTemplate dataGroupTemplate = await _mediator.Send(new GetDataGroupTemplateQuery(dataGroupTemplateId));
-            List<DataGroup> sameTypeDataGroups = await _mediator.Send(new GetDataGroupsByTypeQuery(dataGroupTemplate.Type));
-            foreach (DataGroup sameDataGroup in sameTypeDataGroups)
-            {
-                Console.WriteLine($"{sameDataGroup.Id} {sameDataGroup.Name}");
-            }
             DataGroupType dataGroupType = await _mediator.Send(new GetDataGroupTypeQuery(dataGroupTemplate.Type));
-
-            Console.WriteLine($"{dataGroupTemplate.Name} data group name:");
-            string dataGroupName = Console.ReadLine();
-
-            List<int> dataIds = new();
-            // get each data template
-            foreach (int dataTemplateId in dataGroupTemplate.DataTemplates)
+            List<DataGroup> sameTypeDataGroups = await _mediator.Send(new GetDataGroupsByTypeQuery(dataGroupTemplate.Type));
+            int chosenDataGroupId = ChooseDataGroupId(sameTypeDataGroups);
+            if (chosenDataGroupId != -1)
             {
-                // generate each data
-                DataTemplate dataTemplate = await _mediator.Send(new GetDataTemplateQuery(dataTemplateId));
-                Console.WriteLine($"{dataTemplate.Placeholder}:");
-                string dataValue = Console.ReadLine();
-                Data data = new(dataTemplate, dataValue);
-                int dataId = await _mediator.Send(new CreateDataCommand(data));
-                dataIds.Add(dataId);
-                documentContent = documentContent.Replace($"[{dataGroupType.Value}.{data.Placeholder}]",data.Value);
+                DataGroup dataGroup = await _mediator.Send(new GetDataGroupQuery(chosenDataGroupId));
+                foreach (int dataId in dataGroup.Data)
+                {
+                    Data data = await _mediator.Send(new GetDataQuery(dataId));
+                    documentContent = documentContent.Replace($"[{dataGroupType.Value}.{data.Placeholder}]", data.Value);
+                }
             }
-            // generate each data group
-            DataGroup dataGroup = new(dataGroupTemplate, dataGroupName, dataIds);
-            int dataGroupId = await _mediator.Send(new CreateDataGroupCommand(dataGroup));
-            dataGroupIds.Add(dataGroupId);
+            else
+            {
+                Console.WriteLine($"{dataGroupTemplate.Name} data group name:");
+                string dataGroupName = Console.ReadLine();
+
+                List<int> dataIds = new();
+                // get each data template
+                foreach (int dataTemplateId in dataGroupTemplate.DataTemplates)
+                {
+                    // generate each data
+                    DataTemplate dataTemplate = await _mediator.Send(new GetDataTemplateQuery(dataTemplateId));
+                    Console.WriteLine($"{dataTemplate.Placeholder}:");
+                    string dataValue = Console.ReadLine();
+                    Data data = new(dataTemplate, dataValue);
+                    int dataId = await _mediator.Send(new CreateDataCommand(data));
+                    dataIds.Add(dataId);
+                    documentContent = documentContent.Replace($"[{dataGroupType.Value}.{data.Placeholder}]", data.Value);
+                }
+                // generate each data group
+                DataGroup dataGroup = new(dataGroupTemplate, dataGroupName, dataIds);
+                int dataGroupId = await _mediator.Send(new CreateDataGroupCommand(dataGroup));
+                dataGroupIds.Add(dataGroupId);
+            }
         }
         // generate document
         Console.WriteLine("Document name:");
@@ -142,6 +152,87 @@ Data {DateTime.Today}							Semnatura";
         Document document = new(documentName, documentContent, templateId, dataGroupIds);
         await _mediator.Send(new CreateDocumentCommand(document));
         DisplayDocument(document);
+    }
+
+    int ChooseDataGroupId(List<DataGroup> sameTypeDataGroups)
+    {
+        if (sameTypeDataGroups.Count == 0)
+        {
+            return -1;
+        }
+        else
+        {
+            return ShowChoiceMenu(sameTypeDataGroups);
+        }
+    }
+
+    int ShowChoiceMenu(List<DataGroup> sameTypeDataGroups)
+    {
+        ConsoleKeyInfo consoleKeyInfo;
+
+        int chosenId = 0;
+        bool loop = true;
+        DisplayChoiceHint();
+        foreach (DataGroup dataGroup in sameTypeDataGroups)
+        {
+            Console.WriteLine($"{dataGroup.Id} {dataGroup.Name}");
+        }
+        do
+        {
+            consoleKeyInfo = Console.ReadKey(true);
+            switch (consoleKeyInfo.Key)
+            {
+                case ConsoleKey.Escape:
+                    chosenId = -1;
+                    loop = false;
+                    break;
+                case ConsoleKey.D0:
+                    chosenId = 0;
+                    loop = false;
+                    break;
+                case ConsoleKey.D1:
+                    chosenId = 1;
+                    loop = false;
+                    break;
+                case ConsoleKey.D2:
+                    chosenId = 2;
+                    loop = false;
+                    break;
+                case ConsoleKey.D3:
+                    chosenId = 3;
+                    loop = false;
+                    break;
+                case ConsoleKey.D4:
+                    chosenId = 4;
+                    loop = false;
+                    break;
+                case ConsoleKey.D5:
+                    chosenId = 5;
+                    loop = false;
+                    break;
+                default:
+                    break;
+            }
+        } while (loop == true);
+        return chosenId;
+    }
+
+    static void DisplayChoiceHint()
+    {
+        const int menuWidth = 40;
+        string line = new('-', menuWidth);
+
+        Console.WriteLine($"+{line}+");
+        Console.WriteLine($"|{"Choose an id:",-menuWidth}|");
+        Console.WriteLine($"+{line}+");
+        Console.WriteLine($"|{"(0) Id 0",-menuWidth}|");
+        Console.WriteLine($"|{"(1) Id 1",-menuWidth}|");
+        Console.WriteLine($"|{"(2) Id 2",-menuWidth}|");
+        Console.WriteLine($"|{"(3) Id 3",-menuWidth}|");
+        Console.WriteLine($"|{"(4) Id 4",-menuWidth}|");
+        Console.WriteLine($"|{"(5) Id 5",-menuWidth}|");
+        Console.WriteLine($"|{"(Esc) Create new",-menuWidth}|");
+        Console.WriteLine($"+{line}+");
     }
 
     async Task DisplayCommandsMenu()
