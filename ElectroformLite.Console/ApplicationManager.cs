@@ -118,6 +118,7 @@ Data {DateTime.Today}							Semnatura";
     {
         // get template
         Template template = await _mediator.Send(new GetTemplateQuery(templateId));
+        string documentTitle = template.Name;
         string documentContent = template.Content;
 
         List<int> dataGroupIds = new();
@@ -134,6 +135,7 @@ Data {DateTime.Today}							Semnatura";
                 foreach (int dataId in dataGroup.Data)
                 {
                     Data data = await _mediator.Send(new GetDataQuery(dataId));
+                    documentTitle = documentTitle.Replace($"[{dataGroupType.Value}.{data.Placeholder}]", data.Value);
                     documentContent = documentContent.Replace($"[{dataGroupType.Value}.{data.Placeholder}]", data.Value);
                 }
             }
@@ -153,6 +155,7 @@ Data {DateTime.Today}							Semnatura";
                     Data data = new(dataTemplate, dataValue);
                     int dataId = await _mediator.Send(new CreateDataCommand(data));
                     dataIds.Add(dataId);
+                    documentTitle = documentTitle.Replace($"[{dataGroupType.Value}.{data.Placeholder}]", data.Value);
                     documentContent = documentContent.Replace($"[{dataGroupType.Value}.{data.Placeholder}]", data.Value);
                 }
                 // generate each data group
@@ -162,7 +165,7 @@ Data {DateTime.Today}							Semnatura";
             }
         }
         // generate document
-        Console.WriteLine("Document name:");
+        Console.WriteLine($"Document name: {documentTitle}");
         string documentName = Console.ReadLine();
         Document document = new(documentName, documentContent, templateId, dataGroupIds);
         await _mediator.Send(new CreateDocumentCommand(document));
