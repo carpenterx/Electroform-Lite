@@ -154,7 +154,7 @@ Data {DateTime.Today}							Semnatura";
         DisplayDocument(document);
     }
 
-    int ChooseDataGroupId(List<DataGroup> sameTypeDataGroups)
+    static int ChooseDataGroupId(List<DataGroup> sameTypeDataGroups)
     {
         if (sameTypeDataGroups.Count == 0)
         {
@@ -166,13 +166,10 @@ Data {DateTime.Today}							Semnatura";
         }
     }
 
-    int ShowChoiceMenu(List<DataGroup> sameTypeDataGroups)
+    static int ShowChoiceMenu(List<DataGroup> sameTypeDataGroups)
     {
-        ConsoleKeyInfo consoleKeyInfo;
-
-        int chosenId = 0;
-        bool loop = true;
-        const int menuWidth = 40;
+        int chosenId;
+        const int menuWidth = 80;
         string line = new('-', menuWidth);
         int[] ids = { -1, -1, -1, -1, -1, -1 };
 
@@ -183,45 +180,36 @@ Data {DateTime.Today}							Semnatura";
         for (int i = 0; i < size; i++)
         {
             ids[i] = sameTypeDataGroups[i].Id;
-            Console.WriteLine($" ({i}) DataGroup with id {sameTypeDataGroups[i].Id}: {sameTypeDataGroups[i].Name}");
+            string dataGroupText = $"({i}) DataGroup with id {sameTypeDataGroups[i].Id}: {sameTypeDataGroups[i].Name}";
+            Console.WriteLine($"|{dataGroupText,-menuWidth}|");
         }
         Console.WriteLine($"|{"(Other) Create new",-menuWidth}|");
         Console.WriteLine($"+{line}+");
-        do
+        ConsoleKeyInfo consoleKeyInfo = Console.ReadKey(true);
+        switch (consoleKeyInfo.Key)
         {
-            consoleKeyInfo = Console.ReadKey(true);
-            switch (consoleKeyInfo.Key)
-            {
-                case ConsoleKey.D0:
-                    chosenId = ids[0];
-                    loop = false;
-                    break;
-                case ConsoleKey.D1:
-                    chosenId = ids[1];
-                    loop = false;
-                    break;
-                case ConsoleKey.D2:
-                    chosenId = ids[2];
-                    loop = false;
-                    break;
-                case ConsoleKey.D3:
-                    chosenId = ids[3];
-                    loop = false;
-                    break;
-                case ConsoleKey.D4:
-                    chosenId = ids[4];
-                    loop = false;
-                    break;
-                case ConsoleKey.D5:
-                    chosenId = ids[5];
-                    loop = false;
-                    break;
-                default:
-                    chosenId = -1;
-                    loop = false;
-                    break;
-            }
-        } while (loop == true);
+            case ConsoleKey.D0:
+                chosenId = ids[0];
+                break;
+            case ConsoleKey.D1:
+                chosenId = ids[1];
+                break;
+            case ConsoleKey.D2:
+                chosenId = ids[2];
+                break;
+            case ConsoleKey.D3:
+                chosenId = ids[3];
+                break;
+            case ConsoleKey.D4:
+                chosenId = ids[4];
+                break;
+            case ConsoleKey.D5:
+                chosenId = ids[5];
+                break;
+            default:
+                chosenId = -1;
+                break;
+        }
         return chosenId;
     }
 
