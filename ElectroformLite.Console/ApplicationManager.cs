@@ -172,67 +172,57 @@ Data {DateTime.Today}							Semnatura";
 
         int chosenId = 0;
         bool loop = true;
-        DisplayChoiceHint();
-        foreach (DataGroup dataGroup in sameTypeDataGroups)
+        const int menuWidth = 40;
+        string line = new('-', menuWidth);
+        int[] ids = { -1, -1, -1, -1, -1, -1 };
+
+        Console.WriteLine($"+{line}+");
+        Console.WriteLine($"|{"Choose an option:",-menuWidth}|");
+        Console.WriteLine($"+{line}+");
+        int size = Math.Min(sameTypeDataGroups.Count, ids.Length);
+        for (int i = 0; i < size; i++)
         {
-            Console.WriteLine($"{dataGroup.Id} {dataGroup.Name}");
+            ids[i] = sameTypeDataGroups[i].Id;
+            Console.WriteLine($" ({i}) DataGroup with id {sameTypeDataGroups[i].Id}: {sameTypeDataGroups[i].Name}");
         }
+        Console.WriteLine($"|{"(Other) Create new",-menuWidth}|");
+        Console.WriteLine($"+{line}+");
         do
         {
             consoleKeyInfo = Console.ReadKey(true);
             switch (consoleKeyInfo.Key)
             {
-                case ConsoleKey.Escape:
-                    chosenId = -1;
-                    loop = false;
-                    break;
                 case ConsoleKey.D0:
-                    chosenId = 0;
+                    chosenId = ids[0];
                     loop = false;
                     break;
                 case ConsoleKey.D1:
-                    chosenId = 1;
+                    chosenId = ids[1];
                     loop = false;
                     break;
                 case ConsoleKey.D2:
-                    chosenId = 2;
+                    chosenId = ids[2];
                     loop = false;
                     break;
                 case ConsoleKey.D3:
-                    chosenId = 3;
+                    chosenId = ids[3];
                     loop = false;
                     break;
                 case ConsoleKey.D4:
-                    chosenId = 4;
+                    chosenId = ids[4];
                     loop = false;
                     break;
                 case ConsoleKey.D5:
-                    chosenId = 5;
+                    chosenId = ids[5];
                     loop = false;
                     break;
                 default:
+                    chosenId = -1;
+                    loop = false;
                     break;
             }
         } while (loop == true);
         return chosenId;
-    }
-
-    static void DisplayChoiceHint()
-    {
-        const int menuWidth = 40;
-        string line = new('-', menuWidth);
-
-        Console.WriteLine($"+{line}+");
-        Console.WriteLine($"|{"Choose an id:",-menuWidth}|");
-        Console.WriteLine($"+{line}+");
-        Console.WriteLine($"|{"(0) Id 0",-menuWidth}|");
-        Console.WriteLine($"|{"(1) Id 1",-menuWidth}|");
-        Console.WriteLine($"|{"(2) Id 2",-menuWidth}|");
-        Console.WriteLine($"|{"(3) Id 3",-menuWidth}|");
-        Console.WriteLine($"|{"(4) Id 4",-menuWidth}|");
-        Console.WriteLine($"|{"(5) Id 5",-menuWidth}|");
-        Console.WriteLine($"|{"(Esc) Create new",-menuWidth}|");
-        Console.WriteLine($"+{line}+");
     }
 
     async Task DisplayCommandsMenu()
@@ -245,16 +235,12 @@ Data {DateTime.Today}							Semnatura";
         switch (consoleKeyInfo.Key)
         {
             case ConsoleKey.D1:
-                //CreateDataGroups();
-                await DisplayCommandsMenu();
-                break;
-            case ConsoleKey.D2:
                 await CreateDocument();
                 break;
-            case ConsoleKey.D3:
+            case ConsoleKey.D2:
                 await DisplayUserData();
                 break;
-            case ConsoleKey.D4:
+            case ConsoleKey.D3:
                 await DisplayTemplateData();
                 break;
             default:
@@ -271,10 +257,9 @@ Data {DateTime.Today}							Semnatura";
         Console.WriteLine($"+{line}+");
         Console.WriteLine($"|{"Commands:",-menuWidth}|");
         Console.WriteLine($"+{line}+");
-        Console.WriteLine($"|{"(1) Create data groups",-menuWidth}|");
-        Console.WriteLine($"|{"(2) Create document",-menuWidth}|");
-        Console.WriteLine($"|{"(3) Display User Data",-menuWidth}|");
-        Console.WriteLine($"|{"(4) Display Template Data",-menuWidth}|");
+        Console.WriteLine($"|{"(1) Create document",-menuWidth}|");
+        Console.WriteLine($"|{"(2) Display User Data",-menuWidth}|");
+        Console.WriteLine($"|{"(3) Display Template Data",-menuWidth}|");
         Console.WriteLine($"+{line}+");
     }
 
