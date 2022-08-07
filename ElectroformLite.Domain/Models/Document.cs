@@ -10,7 +10,15 @@ public class Document
 
     public DateTime Created { get; set; }
 
+    public int TemplateId { get; set; }
+
     public List<int> DataGroups { get; set; } = new();
 
-    public int TemplateId { get; set; }
+    public Document(string name, string content, int templateId, List<int> dataGroups)
+    {
+        Name = name;
+        Content = content;
+        TemplateId = templateId;
+        DataGroups = dataGroups;
+    }
 }

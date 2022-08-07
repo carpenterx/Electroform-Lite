@@ -7,4 +7,10 @@ public class DataTemplate
     public string Placeholder { get; set; }
 
     public int Type { get; set; }
+
+    public DataTemplate(string placeholder, int type)
+    {
+        Placeholder = placeholder;
+        Type = type;
+    }
 }
