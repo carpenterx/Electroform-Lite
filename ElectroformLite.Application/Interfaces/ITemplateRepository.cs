@@ -8,5 +8,6 @@ public interface ITemplateRepository
     void Delete(int id);
     void Update(Template template);
     Template GetTemplate(int id);
+    List<Template> FindTemplates(string searchTerm);
     List<Template> GetTemplates();
 }

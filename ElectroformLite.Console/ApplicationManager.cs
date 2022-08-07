@@ -16,6 +16,7 @@ using ElectroformLite.Application.DataTypes.Queries.GetDataTypesList;
 using ElectroformLite.Application.Documents.Commands.CreateDocument;
 using ElectroformLite.Application.Documents.Queries.GetDocuments;
 using ElectroformLite.Application.Templates.Commands.CreateTemplateCommand;
+using ElectroformLite.Application.Templates.Queries.FindTemplates;
 using ElectroformLite.Application.Templates.Queries.GetTemplates;
 using ElectroformLite.Application.UserData.Commands.CreateData;
 using ElectroformLite.Application.UserData.Queries.GetData;
@@ -82,8 +83,10 @@ public class ApplicationManager
         int contactDataGroupTemplateId = await _mediator.Send(new CreateDataGroupTemplateCommand("Contact", contactTypeId, contactDataTemplates));
         List<int> dataGroupTemplates = new() { personDataGroupTemplateId, contactDataGroupTemplateId };
 
-        string templateName = "Template for Cerere Alocare Credentiale Pentru Plata Impozitelor Si Taxelor Locale Pentru Persoane Fizice";
-        string templateContent = @"Subsemnatul/a [Person.FirstName] [Person.LastName], e-mail [Contact.Email], numar de
+        string templateName = "Cerere plata online for [Person.FirstName] [Person.LastName]";
+        string templateContent = @"Cerere Alocare Credentiale Pentru Plata Impozitelor Si Taxelor Locale Pentru Persoane Fizice
+
+Subsemnatul/a [Person.FirstName] [Person.LastName], e-mail [Contact.Email], numar de
 telefon [Contact.PhoneNumber], solicit a-mi fi atribuit credential in
 vederea platii prin www.ghiseul.ro
 	- Sunt de acord ca orice corespondenta sa fie expediata doar pe adresa
@@ -97,6 +100,18 @@ nu este comunicat la adresa de e-mail mai sus mentionata;
 Data {DateTime.Today}							Semnatura";
 
         cerereTemplateId = await _mediator.Send(new CreateTemplateCommand(templateName, templateContent, dataGroupTemplates));
+    }
+
+    async Task FindTemplate()
+    {
+        Console.WriteLine("Find template:");
+        string searchTerm = Console.ReadLine();
+        List<Template> foundTemplates = await _mediator.Send(new FindTemplatesQuery(searchTerm));
+        if (foundTemplates.Count > 0)
+        {
+            Console.WriteLine($"Using template: {foundTemplates[0].Name}");
+            await GenerateDocument(foundTemplates[0].Id);
+        }
     }
 
     async Task GenerateDocument(int templateId)
@@ -253,7 +268,8 @@ Data {DateTime.Today}							Semnatura";
 
     async Task CreateDocument()
     {
-        await GenerateDocument(cerereTemplateId);
+        await FindTemplate();
+        //await GenerateDocument(cerereTemplateId);
 
         await DisplayData();
         await DisplayDataGroups();
