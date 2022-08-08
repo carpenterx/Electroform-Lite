@@ -274,7 +274,7 @@ Data {DateTime.Today}							Semnatura";
                 await ExportDocument();
                 break;
             case ConsoleKey.D2:
-                //await LoadDocument();
+                await LoadDocument();
                 break;
             case ConsoleKey.D3:
                 await DeleteDocument();
@@ -301,6 +301,31 @@ Data {DateTime.Today}							Semnatura";
             string json = JsonSerializer.Serialize(document, jsonSerializerOptions);
             sw.Write(json);
         }
+        await DisplayCommandsMenu();
+    }
+
+    async Task LoadDocument()
+    {
+        var newFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "output.json");
+        using var sr = new StreamReader(newFilePath);
+        string documentJson = sr.ReadToEnd();
+        sr.Close();
+        Console.WriteLine(documentJson);
+        try
+        {
+            Document? document = JsonSerializer.Deserialize<Document>(documentJson);
+            if (document is not null)
+            {
+                await _mediator.Send(new CreateDocumentCommand(document));
+                await DisplayDocuments();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        
+        await DisplayCommandsMenu();
     }
 
     async Task DeleteDocument()
