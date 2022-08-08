@@ -14,6 +14,7 @@ using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplatesList;
 using ElectroformLite.Application.DataTypes.Commands.CreateDataType;
 using ElectroformLite.Application.DataTypes.Queries.GetDataTypesList;
 using ElectroformLite.Application.Documents.Commands.CreateDocument;
+using ElectroformLite.Application.Documents.Commands.DeleteDocument;
 using ElectroformLite.Application.Documents.Queries.GetDocuments;
 using ElectroformLite.Application.Templates.Commands.CreateTemplateCommand;
 using ElectroformLite.Application.Templates.Queries.FindTemplates;
@@ -244,15 +245,66 @@ Data {DateTime.Today}							Semnatura";
                 await CreateDocument();
                 break;
             case ConsoleKey.D2:
-                await DisplayUserData();
+                await ManageDocuments();
                 break;
             case ConsoleKey.D3:
+                await DisplayUserData();
+                break;
+            case ConsoleKey.D4:
                 await DisplayTemplateData();
                 break;
             default:
                 await DisplayCommandsMenu();
                 break;
         }
+    }
+
+    async Task ManageDocuments()
+    {
+        DisplayDocumentManagementOptions();
+
+        ConsoleKeyInfo consoleKeyInfo = Console.ReadKey(true);
+
+        Console.Clear();
+        switch (consoleKeyInfo.Key)
+        {
+            case ConsoleKey.D1:
+                //await ExportDocument();
+                break;
+            case ConsoleKey.D2:
+                //await LoadDocument();
+                break;
+            case ConsoleKey.D3:
+                await DeleteDocument();
+                break;
+            case ConsoleKey.D4:
+                //await EditDocument();
+                break;
+            default:
+                await DisplayCommandsMenu();
+                break;
+        }
+    }
+
+    async Task DeleteDocument()
+    {
+        await _mediator.Send(new DeleteDocumentCommand(0));
+        await DisplayCommandsMenu();
+    }
+
+    static void DisplayDocumentManagementOptions()
+    {
+        const int menuWidth = 40;
+        string line = new('-', menuWidth);
+
+        Console.WriteLine($"+{line}+");
+        Console.WriteLine($"|{"Manage document:",-menuWidth}|");
+        Console.WriteLine($"+{line}+");
+        Console.WriteLine($"|{"(1) Export document",-menuWidth}|");
+        Console.WriteLine($"|{"(2) Load document",-menuWidth}|");
+        Console.WriteLine($"|{"(3) Delete document",-menuWidth}|");
+        Console.WriteLine($"|{"(4) Edit document",-menuWidth}|");
+        Console.WriteLine($"+{line}+");
     }
 
     static void DisplayCommandsHint()
@@ -264,8 +316,9 @@ Data {DateTime.Today}							Semnatura";
         Console.WriteLine($"|{"Commands:",-menuWidth}|");
         Console.WriteLine($"+{line}+");
         Console.WriteLine($"|{"(1) Create document",-menuWidth}|");
-        Console.WriteLine($"|{"(2) Display User Data",-menuWidth}|");
-        Console.WriteLine($"|{"(3) Display Template Data",-menuWidth}|");
+        Console.WriteLine($"|{"(2) Manage documents",-menuWidth}|");
+        Console.WriteLine($"|{"(3) Display User Data",-menuWidth}|");
+        Console.WriteLine($"|{"(4) Display Template Data",-menuWidth}|");
         Console.WriteLine($"+{line}+");
     }
 

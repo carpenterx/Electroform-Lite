@@ -24,7 +24,8 @@ public class InMemoryDocumentRepository : IDocumentRepository
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        Document document = documents.FirstOrDefault(d => d.Id == id);
+        documents.Remove(document);
     }
 
     public Document GetDocument(int id)
