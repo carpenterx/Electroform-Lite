@@ -34,15 +34,6 @@ public class InMemoryDocumentRepository : IDocumentRepository
 
     public List<Document> GetDocuments()
     {
-        /*Document document = new()
-        {
-            Id = 0,
-            Name = "Document: Cerere Alocare Credentiale Pentru Plata Impozitelor Si Taxelor Locale Pentru Persoane Fizice",
-            TemplateId = 0
-        };
-
-        documents.Add(document);*/
-
         return documents;
     }
 
