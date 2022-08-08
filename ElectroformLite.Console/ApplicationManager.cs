@@ -15,6 +15,7 @@ using ElectroformLite.Application.DataTypes.Commands.CreateDataType;
 using ElectroformLite.Application.DataTypes.Queries.GetDataTypesList;
 using ElectroformLite.Application.Documents.Commands.CreateDocument;
 using ElectroformLite.Application.Documents.Commands.DeleteDocument;
+using ElectroformLite.Application.Documents.Queries.GetDocument;
 using ElectroformLite.Application.Documents.Queries.GetDocuments;
 using ElectroformLite.Application.Templates.Commands.CreateTemplateCommand;
 using ElectroformLite.Application.Templates.Queries.FindTemplates;
@@ -27,6 +28,7 @@ using ElectroformLite.ClassDiagram;
 using ElectroformLite.Domain.Models;
 using MediatR;
 using System.Reflection;
+using System.Text.Json;
 
 namespace ElectroformLite.ConsolePresentation;
 
@@ -269,7 +271,7 @@ Data {DateTime.Today}							Semnatura";
         switch (consoleKeyInfo.Key)
         {
             case ConsoleKey.D1:
-                //await ExportDocument();
+                await ExportDocument();
                 break;
             case ConsoleKey.D2:
                 //await LoadDocument();
@@ -283,6 +285,21 @@ Data {DateTime.Today}							Semnatura";
             default:
                 await DisplayCommandsMenu();
                 break;
+        }
+    }
+
+    async Task ExportDocument()
+    {
+        Document document = await _mediator.Send(new GetDocumentQuery(0));
+        var newFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "output.json");
+
+        var fileStream = File.Create(newFilePath);
+
+        using (StreamWriter sw = new(fileStream))
+        {
+            JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
+            string json = JsonSerializer.Serialize(document, jsonSerializerOptions);
+            sw.Write(json);
         }
     }
 

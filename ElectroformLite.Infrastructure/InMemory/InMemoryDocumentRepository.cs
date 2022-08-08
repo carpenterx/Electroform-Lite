@@ -30,7 +30,7 @@ public class InMemoryDocumentRepository : IDocumentRepository
 
     public Document GetDocument(int id)
     {
-        throw new NotImplementedException();
+        return documents.FirstOrDefault(d => d.Id == id);
     }
 
     public List<Document> GetDocuments()
