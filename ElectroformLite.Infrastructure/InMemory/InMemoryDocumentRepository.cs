@@ -40,6 +40,11 @@ public class InMemoryDocumentRepository : IDocumentRepository
 
     public void Update(Document document)
     {
-        throw new NotImplementedException();
+        Document? documentToEdit = documents.FirstOrDefault(d => d.Id == document.Id);
+        if (documentToEdit is not null)
+        {
+            documentToEdit.Name = document.Name;
+            //documentToEdit.Content = document.Content;
+        }
     }
 }

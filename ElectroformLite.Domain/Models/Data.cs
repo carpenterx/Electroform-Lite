@@ -10,12 +10,9 @@ public class Data
 
     public int Type { get; set; }
 
-    /*public Data(int id, string placeholder, string value)
-    {
-        Id = id;
-        Placeholder = placeholder;
-        Value = value;
-    }*/
+    //public DateTime Created { get; set; }
+
+    //public DateTime LastModified { get; set; }
 
     public Data(DataTemplate dataTemplate, string value)
     {

@@ -15,6 +15,7 @@ using ElectroformLite.Application.DataTypes.Commands.CreateDataType;
 using ElectroformLite.Application.DataTypes.Queries.GetDataTypesList;
 using ElectroformLite.Application.Documents.Commands.CreateDocument;
 using ElectroformLite.Application.Documents.Commands.DeleteDocument;
+using ElectroformLite.Application.Documents.Commands.EditDocument;
 using ElectroformLite.Application.Documents.Queries.GetDocument;
 using ElectroformLite.Application.Documents.Queries.GetDocuments;
 using ElectroformLite.Application.Templates.Commands.CreateTemplateCommand;
@@ -280,7 +281,7 @@ Data {DateTime.Today}							Semnatura";
                 await DeleteDocument();
                 break;
             case ConsoleKey.D4:
-                //await EditDocument();
+                await EditDocument();
                 break;
             default:
                 await DisplayCommandsMenu();
@@ -331,6 +332,15 @@ Data {DateTime.Today}							Semnatura";
     async Task DeleteDocument()
     {
         await _mediator.Send(new DeleteDocumentCommand(0));
+        await DisplayCommandsMenu();
+    }
+
+    async Task EditDocument()
+    {
+        Document document = await _mediator.Send(new GetDocumentQuery(0));
+        Console.WriteLine("New document name:");
+        document.Name = Console.ReadLine();
+        await _mediator.Send(new EditDocumentCommand(document));
         await DisplayCommandsMenu();
     }
 
