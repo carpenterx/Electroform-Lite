@@ -2,7 +2,7 @@
 using ElectroformLite.Domain.Models;
 using MediatR;
 
-namespace ElectroformLite.Application.Templates.Commands.CreateTemplateCommand;
+namespace ElectroformLite.Application.Templates.Commands.CreateTemplate;
 
 public class CreateTemplateCommandHandler : IRequestHandler<CreateTemplateCommand, int>
 {

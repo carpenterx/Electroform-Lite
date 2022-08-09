@@ -18,7 +18,7 @@ using ElectroformLite.Application.Documents.Commands.DeleteDocument;
 using ElectroformLite.Application.Documents.Commands.EditDocument;
 using ElectroformLite.Application.Documents.Queries.GetDocument;
 using ElectroformLite.Application.Documents.Queries.GetDocuments;
-using ElectroformLite.Application.Templates.Commands.CreateTemplateCommand;
+using ElectroformLite.Application.Templates.Commands.CreateTemplate;
 using ElectroformLite.Application.Templates.Queries.FindTemplates;
 using ElectroformLite.Application.Templates.Queries.GetTemplates;
 using ElectroformLite.Application.UserData.Commands.CreateData;

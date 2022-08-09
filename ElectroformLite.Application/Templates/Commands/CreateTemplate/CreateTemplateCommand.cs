@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace ElectroformLite.Application.Templates.Commands.CreateTemplateCommand;
+namespace ElectroformLite.Application.Templates.Commands.CreateTemplate;
 
 public class CreateTemplateCommand : IRequest<int>
 {
