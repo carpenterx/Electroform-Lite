@@ -8,7 +8,9 @@ public class Document
 
     public string Content { get; set; }
 
-    public DateTime Created { get; set; }
+    //public DateTime Created { get; set; }
+
+    //public DateTime LastModified { get; set; }
 
     public int TemplateId { get; set; }
 

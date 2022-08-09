@@ -34,12 +34,6 @@ public class InMemoryDataGroupTypeRepository : IDataGroupTypeRepository
 
     public List<DataGroupType> GetDataGroupTypes()
     {
-        /*DataGroupType personType = new() { Id = 0, Value = "Person" };
-        dataGroupTypes.Add(personType);
-
-        DataGroupType contactType = new() { Id = 1, Value = "Contact" };
-        dataGroupTypes.Add(contactType);*/
-
         return dataGroupTypes;
     }
 

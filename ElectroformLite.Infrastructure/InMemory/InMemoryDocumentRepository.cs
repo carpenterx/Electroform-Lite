@@ -24,30 +24,27 @@ public class InMemoryDocumentRepository : IDocumentRepository
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        Document document = documents.FirstOrDefault(d => d.Id == id);
+        documents.Remove(document);
     }
 
     public Document GetDocument(int id)
     {
-        throw new NotImplementedException();
+        return documents.FirstOrDefault(d => d.Id == id);
     }
 
     public List<Document> GetDocuments()
     {
-        /*Document document = new()
-        {
-            Id = 0,
-            Name = "Document: Cerere Alocare Credentiale Pentru Plata Impozitelor Si Taxelor Locale Pentru Persoane Fizice",
-            TemplateId = 0
-        };
-
-        documents.Add(document);*/
-
         return documents;
     }
 
     public void Update(Document document)
     {
-        throw new NotImplementedException();
+        Document? documentToEdit = documents.FirstOrDefault(d => d.Id == document.Id);
+        if (documentToEdit is not null)
+        {
+            documentToEdit.Name = document.Name;
+            //documentToEdit.Content = document.Content;
+        }
     }
 }
