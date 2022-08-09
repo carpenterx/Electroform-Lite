@@ -1,18 +1,18 @@
 ﻿using ElectroformLite.Application.DataGroups.Commands.CreateDataGroup;
 using ElectroformLite.Application.DataGroups.Queries.GetDataGroup;
 using ElectroformLite.Application.DataGroups.Queries.GetDataGroupsByType;
-using ElectroformLite.Application.DataGroups.Queries.GetDataGroupsList;
+using ElectroformLite.Application.DataGroups.Queries.GetDataGroups;
 using ElectroformLite.Application.DataGroupTemplates.Commands.CreateDataGroupTemplate;
 using ElectroformLite.Application.DataGroupTemplates.Queries.GetDataGroupTemplate;
-using ElectroformLite.Application.DataGroupTemplates.Queries.GetDataGroupTemplatesList;
+using ElectroformLite.Application.DataGroupTemplates.Queries.GetDataGroupTemplates;
 using ElectroformLite.Application.DataGroupTypes.Commands.CreateDataGroupType;
 using ElectroformLite.Application.DataGroupTypes.Queries.GetDataGroupType;
-using ElectroformLite.Application.DataGroupTypes.Queries.GetDataGroupTypesList;
+using ElectroformLite.Application.DataGroupTypes.Queries.GetDataGroupTypes;
 using ElectroformLite.Application.DataTemplates.Commands.CreateDataTemplate;
 using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplate;
-using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplatesList;
+using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplates;
 using ElectroformLite.Application.DataTypes.Commands.CreateDataType;
-using ElectroformLite.Application.DataTypes.Queries.GetDataTypesList;
+using ElectroformLite.Application.DataTypes.Queries.GetDataTypes;
 using ElectroformLite.Application.Documents.Commands.CreateDocument;
 using ElectroformLite.Application.Documents.Commands.DeleteDocument;
 using ElectroformLite.Application.Documents.Commands.EditDocument;
@@ -30,6 +30,7 @@ using ElectroformLite.Domain.Models;
 using MediatR;
 using System.Reflection;
 using System.Text.Json;
+using ElectroformLite.Application.Templates.Queries.GetTemplate;
 
 namespace ElectroformLite.ConsolePresentation;
 
@@ -426,7 +427,7 @@ Data {DateTime.Today}							Semnatura";
 
     async Task DisplayDataGroupTemplates()
     {
-        dataGroupTemplates = await _mediator.Send(new GetDataGroupTemplatesListQuery());
+        dataGroupTemplates = await _mediator.Send(new GetDataGroupTemplatesQuery());
         const int cellWidth = -20;
         string line = new('-', 62);
         Console.WriteLine($"+{line}+");
@@ -447,7 +448,7 @@ Data {DateTime.Today}							Semnatura";
 
     async Task DisplayDataGroupTypes()
     {
-        dataGroupTypes = await _mediator.Send(new GetDataGroupTypesListQuery());
+        dataGroupTypes = await _mediator.Send(new GetDataGroupTypesQuery());
         const int cellWidth = -20;
         string line = new('-', 41);
         Console.WriteLine($"+{line}+");
@@ -468,7 +469,7 @@ Data {DateTime.Today}							Semnatura";
 
     async Task DisplayDataTemplates()
     {
-        dataTemplates = await _mediator.Send(new GetDataTemplatesListQuery());
+        dataTemplates = await _mediator.Send(new GetDataTemplatesQuery());
         const int cellWidth = -20;
         string line = new('-', 62);
         Console.WriteLine($"+{line}+");
@@ -489,7 +490,7 @@ Data {DateTime.Today}							Semnatura";
 
     async Task DisplayDataTypes()
     {
-        dataTypes = await _mediator.Send(new GetDataTypesListQuery());
+        dataTypes = await _mediator.Send(new GetDataTypesQuery());
         const int cellWidth = -20;
         string line = new('-', 41);
         Console.WriteLine($"+{line}+");
@@ -531,7 +532,7 @@ Data {DateTime.Today}							Semnatura";
 
     async Task DisplayDataGroups()
     {
-        dataGroups = await _mediator.Send(new GetDataGroupsListQuery());
+        dataGroups = await _mediator.Send(new GetDataGroupsQuery());
         const int cellWidth = -20;
         string line = new('-', 62);
         Console.WriteLine($"+{line}+");

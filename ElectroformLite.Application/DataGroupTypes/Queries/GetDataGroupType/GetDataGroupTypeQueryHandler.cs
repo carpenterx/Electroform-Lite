@@ -1,5 +1,4 @@
-﻿using ElectroformLite.Application.DataGroupTypes.Queries.GetDataGroupTypesList;
-using ElectroformLite.Application.Interfaces;
+﻿using ElectroformLite.Application.Interfaces;
 using ElectroformLite.Domain.Models;
 using MediatR;
 

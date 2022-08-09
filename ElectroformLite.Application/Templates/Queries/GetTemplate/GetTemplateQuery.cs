@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using ElectroformLite.Domain.Models;
 
-namespace ElectroformLite.Application.Templates.Queries.GetTemplates;
+namespace ElectroformLite.Application.Templates.Queries.GetTemplate;
 
 public class GetTemplateQuery : IRequest<Template>
 {
