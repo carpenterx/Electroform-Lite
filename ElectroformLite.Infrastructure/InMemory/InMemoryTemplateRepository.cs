@@ -35,7 +35,7 @@ public class InMemoryTemplateRepository : ITemplateRepository
 
     public Template GetTemplate(int id)
     {
-        return templates.FirstOrDefault(o => o.Id == id);
+        return templates.FirstOrDefault(t => t.Id == id);
     }
 
     public List<Template> GetTemplates()
