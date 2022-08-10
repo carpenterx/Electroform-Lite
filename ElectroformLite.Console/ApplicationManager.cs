@@ -1,24 +1,24 @@
 ﻿using ElectroformLite.Application.DataGroups.Commands.CreateDataGroup;
 using ElectroformLite.Application.DataGroups.Queries.GetDataGroup;
 using ElectroformLite.Application.DataGroups.Queries.GetDataGroupsByType;
-using ElectroformLite.Application.DataGroups.Queries.GetDataGroupsList;
+using ElectroformLite.Application.DataGroups.Queries.GetDataGroups;
 using ElectroformLite.Application.DataGroupTemplates.Commands.CreateDataGroupTemplate;
 using ElectroformLite.Application.DataGroupTemplates.Queries.GetDataGroupTemplate;
-using ElectroformLite.Application.DataGroupTemplates.Queries.GetDataGroupTemplatesList;
+using ElectroformLite.Application.DataGroupTemplates.Queries.GetDataGroupTemplates;
 using ElectroformLite.Application.DataGroupTypes.Commands.CreateDataGroupType;
 using ElectroformLite.Application.DataGroupTypes.Queries.GetDataGroupType;
-using ElectroformLite.Application.DataGroupTypes.Queries.GetDataGroupTypesList;
+using ElectroformLite.Application.DataGroupTypes.Queries.GetDataGroupTypes;
 using ElectroformLite.Application.DataTemplates.Commands.CreateDataTemplate;
 using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplate;
-using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplatesList;
+using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplates;
 using ElectroformLite.Application.DataTypes.Commands.CreateDataType;
-using ElectroformLite.Application.DataTypes.Queries.GetDataTypesList;
+using ElectroformLite.Application.DataTypes.Queries.GetDataTypes;
 using ElectroformLite.Application.Documents.Commands.CreateDocument;
 using ElectroformLite.Application.Documents.Commands.DeleteDocument;
 using ElectroformLite.Application.Documents.Commands.EditDocument;
 using ElectroformLite.Application.Documents.Queries.GetDocument;
 using ElectroformLite.Application.Documents.Queries.GetDocuments;
-using ElectroformLite.Application.Templates.Commands.CreateTemplateCommand;
+using ElectroformLite.Application.Templates.Commands.CreateTemplate;
 using ElectroformLite.Application.Templates.Queries.FindTemplates;
 using ElectroformLite.Application.Templates.Queries.GetTemplates;
 using ElectroformLite.Application.UserData.Commands.CreateData;
@@ -30,6 +30,9 @@ using ElectroformLite.Domain.Models;
 using MediatR;
 using System.Reflection;
 using System.Text.Json;
+using ElectroformLite.Application.Templates.Queries.GetTemplate;
+using ElectroformLite.Application.DataGroups.Commands.EditDataGroup;
+using ElectroformLite.Application.DataGroups.Commands.DeleteDataGroup;
 
 namespace ElectroformLite.ConsolePresentation;
 
@@ -245,10 +248,10 @@ Data {DateTime.Today}							Semnatura";
         switch (consoleKeyInfo.Key)
         {
             case ConsoleKey.D1:
-                await CreateDocument();
+                await ManageDocuments();
                 break;
             case ConsoleKey.D2:
-                await ManageDocuments();
+                await ManageDataGroups();
                 break;
             case ConsoleKey.D3:
                 await DisplayUserData();
@@ -262,6 +265,21 @@ Data {DateTime.Today}							Semnatura";
         }
     }
 
+    static void DisplayCommandsHint()
+    {
+        const int menuWidth = 40;
+        string line = new('-', menuWidth);
+
+        Console.WriteLine($"+{line}+");
+        Console.WriteLine($"|{"Commands:",-menuWidth}|");
+        Console.WriteLine($"+{line}+");
+        Console.WriteLine($"|{"(1) Manage Documents",-menuWidth}|");
+        Console.WriteLine($"|{"(2) Manage Data Groups",-menuWidth}|");
+        Console.WriteLine($"|{"(3) Display User Data",-menuWidth}|");
+        Console.WriteLine($"|{"(4) Display Template Data",-menuWidth}|");
+        Console.WriteLine($"+{line}+");
+    }
+
     async Task ManageDocuments()
     {
         DisplayDocumentManagementOptions();
@@ -272,21 +290,40 @@ Data {DateTime.Today}							Semnatura";
         switch (consoleKeyInfo.Key)
         {
             case ConsoleKey.D1:
-                await ExportDocument();
+                await CreateDocument();
                 break;
             case ConsoleKey.D2:
-                await LoadDocument();
+                await EditDocument();
                 break;
             case ConsoleKey.D3:
                 await DeleteDocument();
                 break;
             case ConsoleKey.D4:
-                await EditDocument();
+                await ExportDocument();
+                break;
+            case ConsoleKey.D5:
+                await LoadDocument();
                 break;
             default:
                 await DisplayCommandsMenu();
                 break;
         }
+    }
+
+    static void DisplayDocumentManagementOptions()
+    {
+        const int menuWidth = 40;
+        string line = new('-', menuWidth);
+
+        Console.WriteLine($"+{line}+");
+        Console.WriteLine($"|{"Manage documents:",-menuWidth}|");
+        Console.WriteLine($"+{line}+");
+        Console.WriteLine($"|{"(1) Create document",-menuWidth}|");
+        Console.WriteLine($"|{"(2) Edit document",-menuWidth}|");
+        Console.WriteLine($"|{"(3) Delete document",-menuWidth}|");
+        Console.WriteLine($"|{"(4) Export document",-menuWidth}|");
+        Console.WriteLine($"|{"(5) Load document",-menuWidth}|");
+        Console.WriteLine($"+{line}+");
     }
 
     async Task ExportDocument()
@@ -344,36 +381,6 @@ Data {DateTime.Today}							Semnatura";
         await DisplayCommandsMenu();
     }
 
-    static void DisplayDocumentManagementOptions()
-    {
-        const int menuWidth = 40;
-        string line = new('-', menuWidth);
-
-        Console.WriteLine($"+{line}+");
-        Console.WriteLine($"|{"Manage document:",-menuWidth}|");
-        Console.WriteLine($"+{line}+");
-        Console.WriteLine($"|{"(1) Export document",-menuWidth}|");
-        Console.WriteLine($"|{"(2) Load document",-menuWidth}|");
-        Console.WriteLine($"|{"(3) Delete document",-menuWidth}|");
-        Console.WriteLine($"|{"(4) Edit document",-menuWidth}|");
-        Console.WriteLine($"+{line}+");
-    }
-
-    static void DisplayCommandsHint()
-    {
-        const int menuWidth = 40;
-        string line = new('-', menuWidth);
-
-        Console.WriteLine($"+{line}+");
-        Console.WriteLine($"|{"Commands:",-menuWidth}|");
-        Console.WriteLine($"+{line}+");
-        Console.WriteLine($"|{"(1) Create document",-menuWidth}|");
-        Console.WriteLine($"|{"(2) Manage documents",-menuWidth}|");
-        Console.WriteLine($"|{"(3) Display User Data",-menuWidth}|");
-        Console.WriteLine($"|{"(4) Display Template Data",-menuWidth}|");
-        Console.WriteLine($"+{line}+");
-    }
-
     async Task CreateDocument()
     {
         await FindTemplate();
@@ -383,6 +390,69 @@ Data {DateTime.Today}							Semnatura";
         await DisplayDataGroups();
         await DisplayDocuments();
         await DisplayCommandsMenu();
+    }
+
+    async Task ManageDataGroups()
+    {
+        DisplayDataGroupManagementOptions();
+
+        ConsoleKeyInfo consoleKeyInfo = Console.ReadKey(true);
+
+        Console.Clear();
+        switch (consoleKeyInfo.Key)
+        {
+            case ConsoleKey.D1:
+                await CreateDataGroup();
+                break;
+            case ConsoleKey.D2:
+                await EditDataGroup();
+                break;
+            case ConsoleKey.D3:
+                await DeleteDataGroup();
+                break;
+            default:
+                await DisplayCommandsMenu();
+                break;
+        }
+    }
+
+    async Task CreateDataGroup()
+    {
+        DataGroupTemplate dataGroupTemplate = await _mediator.Send(new GetDataGroupTemplateQuery(0));
+        Console.WriteLine("Data group name:");
+        string dataGroupName = Console.ReadLine();
+        DataGroup dataGroup = new(dataGroupTemplate, dataGroupName, new());
+        await _mediator.Send(new CreateDataGroupCommand(dataGroup));
+        await DisplayCommandsMenu();
+    }
+
+    async Task EditDataGroup()
+    {
+        DataGroup dataGroup = await _mediator.Send(new GetDataGroupQuery(0));
+        Console.WriteLine("New data group name:");
+        dataGroup.Name = Console.ReadLine();
+        await _mediator.Send(new EditDataGroupCommand(dataGroup));
+        await DisplayCommandsMenu();
+    }
+
+    async Task DeleteDataGroup()
+    {
+        await _mediator.Send(new DeleteDataGroupCommand(0));
+        await DisplayCommandsMenu();
+    }
+
+    static void DisplayDataGroupManagementOptions()
+    {
+        const int menuWidth = 40;
+        string line = new('-', menuWidth);
+
+        Console.WriteLine($"+{line}+");
+        Console.WriteLine($"|{"Manage data groups:",-menuWidth}|");
+        Console.WriteLine($"+{line}+");
+        Console.WriteLine($"|{"(1) Create data group",-menuWidth}|");
+        Console.WriteLine($"|{"(2) Edit data group",-menuWidth}|");
+        Console.WriteLine($"|{"(3) Delete data group",-menuWidth}|");
+        Console.WriteLine($"+{line}+");
     }
 
     async Task DisplayUserData()
@@ -426,7 +496,7 @@ Data {DateTime.Today}							Semnatura";
 
     async Task DisplayDataGroupTemplates()
     {
-        dataGroupTemplates = await _mediator.Send(new GetDataGroupTemplatesListQuery());
+        dataGroupTemplates = await _mediator.Send(new GetDataGroupTemplatesQuery());
         const int cellWidth = -20;
         string line = new('-', 62);
         Console.WriteLine($"+{line}+");
@@ -447,7 +517,7 @@ Data {DateTime.Today}							Semnatura";
 
     async Task DisplayDataGroupTypes()
     {
-        dataGroupTypes = await _mediator.Send(new GetDataGroupTypesListQuery());
+        dataGroupTypes = await _mediator.Send(new GetDataGroupTypesQuery());
         const int cellWidth = -20;
         string line = new('-', 41);
         Console.WriteLine($"+{line}+");
@@ -468,7 +538,7 @@ Data {DateTime.Today}							Semnatura";
 
     async Task DisplayDataTemplates()
     {
-        dataTemplates = await _mediator.Send(new GetDataTemplatesListQuery());
+        dataTemplates = await _mediator.Send(new GetDataTemplatesQuery());
         const int cellWidth = -20;
         string line = new('-', 62);
         Console.WriteLine($"+{line}+");
@@ -489,7 +559,7 @@ Data {DateTime.Today}							Semnatura";
 
     async Task DisplayDataTypes()
     {
-        dataTypes = await _mediator.Send(new GetDataTypesListQuery());
+        dataTypes = await _mediator.Send(new GetDataTypesQuery());
         const int cellWidth = -20;
         string line = new('-', 41);
         Console.WriteLine($"+{line}+");
@@ -531,7 +601,7 @@ Data {DateTime.Today}							Semnatura";
 
     async Task DisplayDataGroups()
     {
-        dataGroups = await _mediator.Send(new GetDataGroupsListQuery());
+        dataGroups = await _mediator.Send(new GetDataGroupsQuery());
         const int cellWidth = -20;
         string line = new('-', 62);
         Console.WriteLine($"+{line}+");

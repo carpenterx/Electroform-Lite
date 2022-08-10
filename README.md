@@ -25,9 +25,8 @@ class Document{
 Id
 Name
 Content
-Created
-DataGroups
 TemplateId
+DataGroups
 }
 class Data{
 Id
@@ -39,6 +38,7 @@ class Template{
 Id
 Name
 Content
+DataGroupTemplates
 }
 class DataTemplate{
 Id
@@ -55,9 +55,7 @@ DataGroup ..> Data
 ## Template example
 
 ```
-CERERE ALOCARE CREDENTIALE PENTRU PLATA IMPOZITELOR SI TAXELOR LOCALE
-PENTRU PERSOANE FIZICE,
-PRIN WWW.GHISEUL.RO
+Cerere Alocare Credentiale Pentru Plata Impozitelor Si Taxelor Locale Pentru Persoane Fizice
 
 Subsemnatul/a [Person.FirstName] [Person.LastName], e-mail [Contact.Email], numar de
 telefon [Contact.PhoneNumber], solicit a-mi fi atribuit credential in
