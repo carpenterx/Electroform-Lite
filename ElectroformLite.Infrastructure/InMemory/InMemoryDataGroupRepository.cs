@@ -1,5 +1,7 @@
 ﻿using ElectroformLite.Application.Interfaces;
 using ElectroformLite.Domain.Models;
+using System.Reflection.Metadata;
+using System.Xml.Linq;
 
 namespace ElectroformLite.Infrastructure.InMemory;
 
@@ -24,7 +26,8 @@ public class InMemoryDataGroupRepository : IDataGroupRepository
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        DataGroup dataGroup = dataGroups.FirstOrDefault(d => d.Id == id);
+        dataGroups.Remove(dataGroup);
     }
 
     public DataGroup GetDataGroup(int id)
@@ -44,6 +47,11 @@ public class InMemoryDataGroupRepository : IDataGroupRepository
 
     public void Update(DataGroup dataGroup)
     {
-        throw new NotImplementedException();
+        DataGroup? dataGroupToEdit = dataGroups.FirstOrDefault(d => d.Id == dataGroup.Id);
+        if (dataGroupToEdit is not null)
+        {
+            dataGroupToEdit.Name = dataGroup.Name;
+            dataGroupToEdit.Data = dataGroup.Data;
+        }
     }
 }
