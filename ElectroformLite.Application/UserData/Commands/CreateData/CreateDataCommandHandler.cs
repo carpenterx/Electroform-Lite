@@ -15,7 +15,6 @@ public class CreateDataCommandHandler : IRequestHandler<CreateDataCommand, int>
 
     public Task<int> Handle(CreateDataCommand request, CancellationToken cancellationToken)
     {
-        //Data data = new(request.DataTemplate, request.DataValue);
         Data data = request.Data;
         _repository.Create(data);
 
