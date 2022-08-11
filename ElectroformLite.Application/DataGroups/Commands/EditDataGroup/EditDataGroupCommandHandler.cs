@@ -18,6 +18,6 @@ public class EditDataGroupCommandHandler : IRequestHandler<EditDataGroupCommand>
         DataGroup dataGroup = request.DataGroup;
         _repository.Update(dataGroup);
 
-        return Task.FromResult(Unit.Value;
+        return Task.FromResult(Unit.Value);
     }
 }
