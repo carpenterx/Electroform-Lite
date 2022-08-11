@@ -24,7 +24,8 @@ public class InMemoryDataGroupTypeRepository : IDataGroupTypeRepository
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        DataGroupType dataGroupType = dataGroupTypes.FirstOrDefault(d => d.Id == id);
+        dataGroupTypes.Remove(dataGroupType);
     }
 
     public DataGroupType GetDataGroupType(int id)
@@ -39,6 +40,10 @@ public class InMemoryDataGroupTypeRepository : IDataGroupTypeRepository
 
     public void Update(DataGroupType dataGroupType)
     {
-        throw new NotImplementedException();
+        DataGroupType? dataGroupTypeToEdit = dataGroupTypes.FirstOrDefault(d => d.Id == dataGroupType.Id);
+        if (dataGroupTypeToEdit is not null)
+        {
+            dataGroupTypeToEdit.Value = dataGroupType.Value;
+        }
     }
 }

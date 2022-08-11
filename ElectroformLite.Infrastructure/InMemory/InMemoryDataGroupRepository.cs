@@ -1,7 +1,5 @@
 ﻿using ElectroformLite.Application.Interfaces;
 using ElectroformLite.Domain.Models;
-using System.Reflection.Metadata;
-using System.Xml.Linq;
 
 namespace ElectroformLite.Infrastructure.InMemory;
 
