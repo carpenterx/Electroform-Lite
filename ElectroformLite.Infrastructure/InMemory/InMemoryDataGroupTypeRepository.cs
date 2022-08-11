@@ -30,7 +30,7 @@ public class InMemoryDataGroupTypeRepository : IDataGroupTypeRepository
 
     public DataGroupType GetDataGroupType(int id)
     {
-        return dataGroupTypes.FirstOrDefault(t => t.Id == id);
+        return dataGroupTypes.FirstOrDefault(d => d.Id == id);
     }
 
     public List<DataGroupType> GetDataGroupTypes()
