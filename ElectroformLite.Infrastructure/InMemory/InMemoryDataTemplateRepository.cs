@@ -24,7 +24,8 @@ public class InMemoryDataTemplateRepository : IDataTemplateRepository
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        DataTemplate dataTemplate = dataTemplates.FirstOrDefault(d => d.Id == id);
+        dataTemplates.Remove(dataTemplate);
     }
 
     public DataTemplate GetDataTemplate(int id)
@@ -34,7 +35,13 @@ public class InMemoryDataTemplateRepository : IDataTemplateRepository
 
     public void Update(DataTemplate dataTemplate)
     {
-        throw new NotImplementedException();
+        DataTemplate? dataTemplateToUpdate = dataTemplates.FirstOrDefault(d => d.Id == dataTemplate.Id);
+        if (dataTemplateToUpdate is null)
+        {
+            throw new InvalidOperationException($"Data template with id {dataTemplate.Id} not found");
+        }
+        dataTemplateToUpdate.Placeholder = dataTemplate.Placeholder;
+        dataTemplateToUpdate.Type = dataTemplate.Type;
     }
 
     public List<DataTemplate> GetDataTemplates()

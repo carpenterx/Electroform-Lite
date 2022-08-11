@@ -1,5 +1,4 @@
-﻿using ElectroformLite.Domain.Models;
-using MediatR;
+﻿using MediatR;
 
 namespace ElectroformLite.Application.DataGroups.Commands.DeleteDataGroup;
 
