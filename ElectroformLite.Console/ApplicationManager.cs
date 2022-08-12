@@ -35,12 +35,15 @@ using ElectroformLite.Application.DataGroups.Commands.EditDataGroup;
 using ElectroformLite.Application.DataGroups.Commands.DeleteDataGroup;
 using ElectroformLite.Application.Users.Commands.CreateUser;
 using ElectroformLite.Application.Users.Queries.GetUsers;
+using ElectroformLite.Application.Users.Queries.GetUserByName;
 
 namespace ElectroformLite.ConsolePresentation;
 
 public class ApplicationManager
 {
     readonly IMediator _mediator;
+
+    User currentUser;
 
     public ApplicationManager(IMediator mediator)
     {
@@ -51,15 +54,16 @@ public class ApplicationManager
     {
         await PopulateTemplates();
 
-        await DisplayCommandsMenu();
+        await DisplayLoginMenu();
+        //await DisplayCommandsMenu();
     }
 
     async Task PopulateTemplates()
     {
         User regularUser = new("User", "user");
-        int regularUserId = await _mediator.Send(new CreateUserCommand(regularUser));
+        await _mediator.Send(new CreateUserCommand(regularUser));
         User adminUser = new("Admin", "admin", true);
-        int adminUserId = await _mediator.Send(new CreateUserCommand(adminUser));
+        await _mediator.Send(new CreateUserCommand(adminUser));
 
         int textTypeId = await _mediator.Send(new CreateDataTypeCommand("Text"));
         int phoneTypeId = await _mediator.Send(new CreateDataTypeCommand("Phone"));
@@ -96,7 +100,50 @@ nu este comunicat la adresa de e-mail mai sus mentionata;
 
 Data {DateTime.Today}							Semnatura";
 
-        int cerereTemplateId = await _mediator.Send(new CreateTemplateCommand(templateName, templateContent, dataGroupTemplates));
+        await _mediator.Send(new CreateTemplateCommand(templateName, templateContent, dataGroupTemplates));
+    }
+
+    async Task DisplayLoginMenu()
+    {
+        await DisplayUsers();
+        Console.WriteLine("User name:");
+        string userName = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace(userName))
+        {
+            Console.Clear();
+            Console.WriteLine("ERROR: Please input a user name");
+            await DisplayLoginMenu();
+        }
+        else
+        {
+            User user = await _mediator.Send(new GetUserByNameQuery(userName));
+            if (user is null)
+            {
+                Console.Clear();
+                Console.WriteLine($"ERROR: User name \"{userName}\" not found");
+                await DisplayLoginMenu();
+            }
+            else
+            {
+                Console.Clear();
+                currentUser = user;
+                await LogIn();
+            }
+        }
+    }
+
+    async Task LogIn()
+    {
+        if (currentUser.IsAdmin)
+        {
+            Console.WriteLine("logged in as admin");
+        }
+        else
+        {
+            Console.WriteLine("logged in as user");
+        }
+
+        await DisplayCommandsMenu();
     }
 
     async Task FindTemplate()
