@@ -24,12 +24,13 @@ public class InMemoryDataTypeRepository : IDataTypeRepository
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        DataType dataType = dataTypes.FirstOrDefault(d => d.Id == id);
+        dataTypes.Remove(dataType);
     }
 
     public DataType GetDataType(int id)
     {
-        throw new NotImplementedException();
+        return dataTypes.FirstOrDefault(d => d.Id == id);
     }
 
     public List<DataType> GetDataTypes()
@@ -39,6 +40,10 @@ public class InMemoryDataTypeRepository : IDataTypeRepository
 
     public void Update(DataType dataType)
     {
-        throw new NotImplementedException();
+        DataType? dataTypeToEdit = dataTypes.FirstOrDefault(d => d.Id == dataType.Id);
+        if (dataTypeToEdit is not null)
+        {
+            dataTypeToEdit.Value = dataType.Value;
+        }
     }
 }

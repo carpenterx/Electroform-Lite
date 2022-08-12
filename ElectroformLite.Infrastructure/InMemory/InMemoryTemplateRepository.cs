@@ -24,7 +24,8 @@ public class InMemoryTemplateRepository : ITemplateRepository
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        Template template = templates.FirstOrDefault(d => d.Id == id);
+        templates.Remove(template);
     }
 
     public List<Template> FindTemplates(string searchTerm)
@@ -45,6 +46,13 @@ public class InMemoryTemplateRepository : ITemplateRepository
 
     public void Update(Template template)
     {
-        throw new NotImplementedException();
+        Template? templateToUpdate = templates.FirstOrDefault(d => d.Id == template.Id);
+        if (templateToUpdate is null)
+        {
+            throw new InvalidOperationException($"Template with id {template.Id} not found");
+        }
+        templateToUpdate.Name = template.Name;
+        templateToUpdate.Content = template.Content;
+        templateToUpdate.DataGroupTemplates = template.DataGroupTemplates;
     }
 }

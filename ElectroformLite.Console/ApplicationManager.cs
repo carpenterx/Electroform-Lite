@@ -49,7 +49,7 @@ public class ApplicationManager
     List<Template> templates = new();
     List<Document> documents = new();
 
-    User user = new();
+    //User user = new();
 
     int cerereTemplateId;
 
