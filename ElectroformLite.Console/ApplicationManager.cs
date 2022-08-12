@@ -33,26 +33,13 @@ using System.Text.Json;
 using ElectroformLite.Application.Templates.Queries.GetTemplate;
 using ElectroformLite.Application.DataGroups.Commands.EditDataGroup;
 using ElectroformLite.Application.DataGroups.Commands.DeleteDataGroup;
+using ElectroformLite.Application.Users.Commands.CreateUser;
+using ElectroformLite.Application.Users.Queries.GetUsers;
 
 namespace ElectroformLite.ConsolePresentation;
 
 public class ApplicationManager
 {
-    List<DataType> dataTypes = new();
-    List<DataTemplate> dataTemplates = new();
-    List<Data> dataList = new();
-
-    List<DataGroupType> dataGroupTypes = new();
-    List<DataGroupTemplate> dataGroupTemplates = new();
-    List<DataGroup> dataGroups = new();
-
-    List<Template> templates = new();
-    List<Document> documents = new();
-
-    //User user = new();
-
-    int cerereTemplateId;
-
     readonly IMediator _mediator;
 
     public ApplicationManager(IMediator mediator)
@@ -62,8 +49,6 @@ public class ApplicationManager
 
     public async void StartApplication()
     {
-        /*user = await _mediator.Send(new GetUserQuery(0));*/
-
         await PopulateTemplates();
 
         await DisplayCommandsMenu();
@@ -71,6 +56,11 @@ public class ApplicationManager
 
     async Task PopulateTemplates()
     {
+        User regularUser = new("User", "user");
+        int regularUserId = await _mediator.Send(new CreateUserCommand(regularUser));
+        User adminUser = new("Admin", "admin", true);
+        int adminUserId = await _mediator.Send(new CreateUserCommand(adminUser));
+
         int textTypeId = await _mediator.Send(new CreateDataTypeCommand("Text"));
         int phoneTypeId = await _mediator.Send(new CreateDataTypeCommand("Phone"));
         int emailTypeId = await _mediator.Send(new CreateDataTypeCommand("Email"));
@@ -106,7 +96,7 @@ nu este comunicat la adresa de e-mail mai sus mentionata;
 
 Data {DateTime.Today}							Semnatura";
 
-        cerereTemplateId = await _mediator.Send(new CreateTemplateCommand(templateName, templateContent, dataGroupTemplates));
+        int cerereTemplateId = await _mediator.Send(new CreateTemplateCommand(templateName, templateContent, dataGroupTemplates));
     }
 
     async Task FindTemplate()
@@ -457,6 +447,7 @@ Data {DateTime.Today}							Semnatura";
 
     async Task DisplayUserData()
     {
+        await DisplayUsers();
         await DisplayDocuments();
         await DisplayDataGroups();
         await DisplayData();
@@ -475,7 +466,7 @@ Data {DateTime.Today}							Semnatura";
 
     async Task DisplayTemplates()
     {
-        templates = await _mediator.Send(new GetTemplatesQuery());
+        List<Template> templates = await _mediator.Send(new GetTemplatesQuery());
         const int cellWidth = -20;
         string line = new('-', 41);
         Console.WriteLine($"+{line}+");
@@ -496,7 +487,7 @@ Data {DateTime.Today}							Semnatura";
 
     async Task DisplayDataGroupTemplates()
     {
-        dataGroupTemplates = await _mediator.Send(new GetDataGroupTemplatesQuery());
+        List<DataGroupTemplate> dataGroupTemplates = await _mediator.Send(new GetDataGroupTemplatesQuery());
         const int cellWidth = -20;
         string line = new('-', 62);
         Console.WriteLine($"+{line}+");
@@ -517,7 +508,7 @@ Data {DateTime.Today}							Semnatura";
 
     async Task DisplayDataGroupTypes()
     {
-        dataGroupTypes = await _mediator.Send(new GetDataGroupTypesQuery());
+        List<DataGroupType> dataGroupTypes = await _mediator.Send(new GetDataGroupTypesQuery());
         const int cellWidth = -20;
         string line = new('-', 41);
         Console.WriteLine($"+{line}+");
@@ -538,7 +529,7 @@ Data {DateTime.Today}							Semnatura";
 
     async Task DisplayDataTemplates()
     {
-        dataTemplates = await _mediator.Send(new GetDataTemplatesQuery());
+        List<DataTemplate> dataTemplates = await _mediator.Send(new GetDataTemplatesQuery());
         const int cellWidth = -20;
         string line = new('-', 62);
         Console.WriteLine($"+{line}+");
@@ -559,7 +550,7 @@ Data {DateTime.Today}							Semnatura";
 
     async Task DisplayDataTypes()
     {
-        dataTypes = await _mediator.Send(new GetDataTypesQuery());
+        List<DataType> dataTypes = await _mediator.Send(new GetDataTypesQuery());
         const int cellWidth = -20;
         string line = new('-', 41);
         Console.WriteLine($"+{line}+");
@@ -578,9 +569,30 @@ Data {DateTime.Today}							Semnatura";
         Console.WriteLine();
     }
 
+    async Task DisplayUsers()
+    {
+        List<User> users = await _mediator.Send(new GetUsersQuery());
+        const int cellWidth = -20;
+        string line = new('-', 83);
+        Console.WriteLine($"+{line}+");
+        Console.WriteLine($"|{"Users",-83}|");
+        Console.WriteLine($"+{line}+");
+        if (users.Count > 0)
+        {
+            Console.WriteLine($"|{"Id",cellWidth}|{"Name",cellWidth}|{"Password",cellWidth}|{"IsAdmin",cellWidth}|");
+            Console.WriteLine($"+{line}+");
+            foreach (User user in users)
+            {
+                Console.WriteLine($"|{user.Id,cellWidth}|{user.Name,cellWidth}|{user.Password,cellWidth}|{user.IsAdmin,cellWidth}|");
+            }
+            Console.WriteLine($"+{line}+");
+        }
+        Console.WriteLine();
+    }
+
     async Task DisplayDocuments()
     {
-        documents = await _mediator.Send(new GetDocumentsQuery());
+        List<Document> documents = await _mediator.Send(new GetDocumentsQuery());
         const int cellWidth = -20;
         string line = new('-', 62);
         Console.WriteLine($"+{line}+");
@@ -601,7 +613,7 @@ Data {DateTime.Today}							Semnatura";
 
     async Task DisplayDataGroups()
     {
-        dataGroups = await _mediator.Send(new GetDataGroupsQuery());
+        List<DataGroup> dataGroups = await _mediator.Send(new GetDataGroupsQuery());
         const int cellWidth = -20;
         string line = new('-', 62);
         Console.WriteLine($"+{line}+");
@@ -622,7 +634,7 @@ Data {DateTime.Today}							Semnatura";
 
     async Task DisplayData()
     {
-        dataList = await _mediator.Send(new GetDataListQuery());
+        List<Data> dataList = await _mediator.Send(new GetDataListQuery());
         const int cellWidth = -20;
         string line = new('-', 83);
         Console.WriteLine($"+{line}+");
