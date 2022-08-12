@@ -24,7 +24,8 @@ public class InMemoryDataGroupTemplateRepository : IDataGroupTemplateRepository
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        DataGroupTemplate dataGroupTemplate = dataGroupTemplates.FirstOrDefault(d => d.Id == id);
+        dataGroupTemplates.Remove(dataGroupTemplate);
     }
 
     public DataGroupTemplate GetDataGroupTemplate(int id)
@@ -39,6 +40,12 @@ public class InMemoryDataGroupTemplateRepository : IDataGroupTemplateRepository
 
     public void Update(DataGroupTemplate dataGroupTemplate)
     {
-        throw new NotImplementedException();
+        DataGroupTemplate? dataGroupTemplateToEdit = dataGroupTemplates.FirstOrDefault(d => d.Id == dataGroupTemplate.Id);
+        if (dataGroupTemplateToEdit is not null)
+        {
+            dataGroupTemplateToEdit.Name = dataGroupTemplate.Name;
+            dataGroupTemplateToEdit.Type = dataGroupTemplate.Type;
+            dataGroupTemplateToEdit.DataTemplates = dataGroupTemplate.DataTemplates;
+        }
     }
 }
