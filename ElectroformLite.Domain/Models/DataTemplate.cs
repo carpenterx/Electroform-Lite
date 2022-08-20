@@ -2,15 +2,14 @@
 
 public class DataTemplate
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public string Placeholder { get; set; }
 
-    public int Type { get; set; }
+    public ICollection<Data> UserData { get; set; }
 
-    public DataTemplate(string placeholder, int type)
+    public DataTemplate(string placeholder)
     {
         Placeholder = placeholder;
-        Type = type;
     }
 }

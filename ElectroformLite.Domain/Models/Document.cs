@@ -2,7 +2,7 @@
 
 public class Document
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public string Name { get; set; }
 
@@ -12,15 +12,9 @@ public class Document
 
     //public DateTime LastModified { get; set; }
 
-    public int TemplateId { get; set; }
-
-    public List<int> DataGroups { get; set; } = new();
-
-    public Document(string name, string content, int templateId, List<int> dataGroups)
+    public Document(string name, string content)
     {
         Name = name;
         Content = content;
-        TemplateId = templateId;
-        DataGroups = dataGroups;
     }
 }

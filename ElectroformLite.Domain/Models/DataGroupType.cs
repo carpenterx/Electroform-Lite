@@ -2,9 +2,13 @@
 
 public class DataGroupType
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public string Value { get; set; }
+
+    public ICollection<DataGroupTemplate> DataGroupTemplates { get; set; }
+
+    //public ICollection<DataGroup> DataGroups { get; set; }
 
     public DataGroupType(string value)
     {

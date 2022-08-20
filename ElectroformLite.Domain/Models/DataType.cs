@@ -2,9 +2,11 @@
 
 public class DataType
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public string Value { get; set; }
+
+    public ICollection<DataTemplate> DataTemplates { get; set; }
 
     public DataType(string value)
     {

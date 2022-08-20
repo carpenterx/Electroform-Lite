@@ -2,18 +2,15 @@
 
 public class DataGroupTemplate
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public string Name { get; set; }
 
-    public int Type { get; set; }
+    //public List<int> DataTemplates { get; set; } = new();
+    public ICollection<DataGroup> DataGroups { get; set; }
 
-    public List<int> DataTemplates { get; set; } = new();
-
-    public DataGroupTemplate(string name, int type, List<int> dataTemplates)
+    public DataGroupTemplate(string name)
     {
         Name = name;
-        Type = type;
-        DataTemplates = dataTemplates;
     }
 }
