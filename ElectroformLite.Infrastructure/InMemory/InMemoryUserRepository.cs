@@ -33,6 +33,11 @@ public class InMemoryUserRepository : IUserRepository
         return users.FirstOrDefault(u => u.Id == id);
     }
 
+    public User GetUserByName(string name)
+    {
+        return users.FirstOrDefault(u => u.Name == name);
+    }
+
     public List<User> GetUsers()
     {
         return users;

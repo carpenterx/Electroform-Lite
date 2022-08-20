@@ -8,5 +8,6 @@ public interface IUserRepository
     void Delete(int id);
     void Update(User user);
     User GetUser(int id);
+    User GetUserByName(string name);
     List<User> GetUsers();
 }
