@@ -107,7 +107,7 @@ Data {DateTime.Today}							Semnatura";
     {
         await DisplayUsers();
         Console.WriteLine("User name:");
-        string userName = Console.ReadLine();
+        string? userName = Console.ReadLine();
         if (string.IsNullOrWhiteSpace(userName))
         {
             Console.Clear();
@@ -136,11 +136,11 @@ Data {DateTime.Today}							Semnatura";
     {
         if (currentUser.IsAdmin)
         {
-            Console.WriteLine("logged in as admin");
+            Console.WriteLine($"logged in as {currentUser.Name}(admin)");
         }
         else
         {
-            Console.WriteLine("logged in as user");
+            Console.WriteLine($"logged in as {currentUser.Name}(regular user)");
         }
 
         await DisplayCommandsMenu();
@@ -149,12 +149,21 @@ Data {DateTime.Today}							Semnatura";
     async Task FindTemplate()
     {
         Console.WriteLine("Find template:");
-        string searchTerm = Console.ReadLine();
-        List<Template> foundTemplates = await _mediator.Send(new FindTemplatesQuery(searchTerm));
-        if (foundTemplates.Count > 0)
+        string? searchTerm = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace(searchTerm))
         {
-            Console.WriteLine($"Using template: {foundTemplates[0].Name}");
-            await GenerateDocument(foundTemplates[0].Id);
+            Console.Clear();
+            Console.WriteLine("ERROR: Please input a valid search term");
+            await FindTemplate();
+        }
+        else
+        {
+            List<Template> foundTemplates = await _mediator.Send(new FindTemplatesQuery(searchTerm));
+            if (foundTemplates.Count > 0)
+            {
+                Console.WriteLine($"Using template: {foundTemplates[0].Name}");
+                await GenerateDocument(foundTemplates[0].Id);
+            }
         }
     }
 
@@ -186,7 +195,7 @@ Data {DateTime.Today}							Semnatura";
             else
             {
                 Console.WriteLine($"{dataGroupTemplate.Name} data group name:");
-                string dataGroupName = Console.ReadLine();
+                string? dataGroupName = Console.ReadLine();
 
                 List<int> dataIds = new();
                 // get each data template
@@ -195,7 +204,7 @@ Data {DateTime.Today}							Semnatura";
                     // generate each data
                     DataTemplate dataTemplate = await _mediator.Send(new GetDataTemplateQuery(dataTemplateId));
                     Console.WriteLine($"{dataTemplate.Placeholder}:");
-                    string dataValue = Console.ReadLine();
+                    string? dataValue = Console.ReadLine();
                     Data data = new(dataTemplate, dataValue);
                     int dataId = await _mediator.Send(new CreateDataCommand(data));
                     dataIds.Add(dataId);
@@ -210,7 +219,7 @@ Data {DateTime.Today}							Semnatura";
         }
         // generate document
         Console.WriteLine($"Document name: {documentTitle}");
-        string documentName = Console.ReadLine();
+        string? documentName = Console.ReadLine();
         Document document = new(documentName, documentContent, templateId, dataGroupIds);
         await _mediator.Send(new CreateDocumentCommand(document));
         DisplayDocument(document);
@@ -707,6 +716,7 @@ Data {DateTime.Today}							Semnatura";
         Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++");
         Console.WriteLine(document.Content);
         Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++");
+        Console.WriteLine();
     }
 
     /*static void DisplayClassDiagram()
