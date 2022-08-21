@@ -52,20 +52,17 @@ public class ApplicationManager
 
     public async void StartApplication()
     {
-        await PopulateTemplates();
+        //await PopulateTemplates();
 
-        await DisplayLoginMenu();
-        //await DisplayCommandsMenu();
+        //await DisplayLoginMenu();
     }
 
-    async Task PopulateTemplates()
+    /*async Task PopulateTemplates()
     {
         User regularUser = new("User", "user");
         await _mediator.Send(new CreateUserCommand(regularUser));
         User adminUser = new("Admin", "admin", true);
         await _mediator.Send(new CreateUserCommand(adminUser));
-
-        
 
         Guid firstNameId = await _mediator.Send(new CreateDataTemplateCommand("FirstName", new List<Data>()));
         Guid lastNameId = await _mediator.Send(new CreateDataTemplateCommand("LastName", new List<Data>()));
@@ -84,18 +81,18 @@ public class ApplicationManager
         DataTemplate phoneNameDataTemplate = await _mediator.Send(new GetDataTemplateQuery(phoneId));
         phoneDataTemplates.Add(phoneNameDataTemplate);
 
-        Guid textTypeId = await _mediator.Send(new CreateDataTypeCommand("Text", textDataTemplates));
-        Guid phoneTypeId = await _mediator.Send(new CreateDataTypeCommand("Phone", emailDataTemplates));
-        Guid emailTypeId = await _mediator.Send(new CreateDataTypeCommand("Email", phoneDataTemplates));
+        Guid textDataTypeId = await _mediator.Send(new CreateDataTypeCommand("Text", textDataTemplates));
+        Guid phoneDataTypeId = await _mediator.Send(new CreateDataTypeCommand("Phone", emailDataTemplates));
+        Guid emailDataTypeId = await _mediator.Send(new CreateDataTypeCommand("Email", phoneDataTemplates));
 
         List<Guid> personDataTemplates = new() { firstNameId, lastNameId };
         List<Guid> contactDataTemplates = new() { emailId, phoneId };
 
-        Guid personTypeId = await _mediator.Send(new CreateDataGroupTypeCommand("Person"));
-        Guid contactTypeId = await _mediator.Send(new CreateDataGroupTypeCommand("Contact"));
+        Guid personDataGroupTypeId = await _mediator.Send(new CreateDataGroupTypeCommand("Person"));
+        Guid contactDataGroupTypeId = await _mediator.Send(new CreateDataGroupTypeCommand("Contact"));
 
-        Guid personDataGroupTemplateId = await _mediator.Send(new CreateDataGroupTemplateCommand("Person", personTypeId, personDataTemplates));
-        Guid contactDataGroupTemplateId = await _mediator.Send(new CreateDataGroupTemplateCommand("Contact", contactTypeId, contactDataTemplates));
+        Guid personDataGroupTemplateId = await _mediator.Send(new CreateDataGroupTemplateCommand("Person", new List<DataGroup>()));
+        Guid contactDataGroupTemplateId = await _mediator.Send(new CreateDataGroupTemplateCommand("Contact", new List<DataGroup>()));
         List<Guid> dataGroupTemplates = new() { personDataGroupTemplateId, contactDataGroupTemplateId };
 
         string templateName = "Cerere plata online for [Person.FirstName] [Person.LastName]";
@@ -731,7 +728,7 @@ Data {DateTime.Today}							Semnatura";
         Console.WriteLine(document.Content);
         Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++");
         Console.WriteLine();
-    }
+    }*/
 
     /*static void DisplayClassDiagram()
     {
