@@ -15,6 +15,11 @@ public class DataGroup
 
     public ICollection<Data> UserData { get; set; }
 
+    public DataGroup()
+    {
+
+    }
+
     public DataGroup(string name, ICollection<Data> data)
     {
         Name = name;

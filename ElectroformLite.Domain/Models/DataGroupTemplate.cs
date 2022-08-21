@@ -12,6 +12,11 @@ public class DataGroupTemplate
 
     public ICollection<DataGroup> DataGroups { get; set; }
 
+    public DataGroupTemplate()
+    {
+
+    }
+
     public DataGroupTemplate(string name, ICollection<DataGroup> dataGroups)
     {
         Name = name;

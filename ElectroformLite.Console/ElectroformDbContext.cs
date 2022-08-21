@@ -1,11 +1,12 @@
-﻿using ElectroformLite.Domain.Models;
+﻿using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Domain.Models;
 using ElectroformLite.Infrastructure.Database.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace ElectroformLite.Infrastructure.Database;
 
-public class ElectroformDbContext : DbContext
+public class ElectroformDbContext : DbContext, IElectroformDbContext
 {
     public DbSet<Data> UserData { get; set; }
     public DbSet<DataGroup> DataGroups { get; set; }
@@ -20,9 +21,7 @@ public class ElectroformDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
     {
         builder
-            .UseSqlServer(@"Data Source=localhost\SQLEXPRESS01;Initial Catalog=electroform;Integrated Security=True")
-            .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information)
-            .EnableSensitiveDataLogging();
+            .UseSqlServer(@"Data Source=localhost\SQLEXPRESS01;Initial Catalog=electroform;Integrated Security=True");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

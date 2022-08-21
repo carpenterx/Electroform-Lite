@@ -36,6 +36,7 @@ using ElectroformLite.Application.DataGroups.Commands.DeleteDataGroup;
 using ElectroformLite.Application.Users.Commands.CreateUser;
 using ElectroformLite.Application.Users.Queries.GetUsers;
 using ElectroformLite.Application.Users.Queries.GetUserByName;
+using ElectroformLite.Application.Interfaces;
 
 namespace ElectroformLite.ConsolePresentation;
 
@@ -45,7 +46,7 @@ public class ApplicationManager
 
     User? currentUser;
 
-    public ApplicationManager(IMediator mediator)
+    public ApplicationManager(IMediator mediator, IElectroformDbContext electroformDbContext)
     {
         _mediator = mediator;
     }
