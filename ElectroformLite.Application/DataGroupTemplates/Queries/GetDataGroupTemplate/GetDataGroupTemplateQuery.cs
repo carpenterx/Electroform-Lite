@@ -5,9 +5,9 @@ namespace ElectroformLite.Application.DataGroupTemplates.Queries.GetDataGroupTem
 
 public class GetDataGroupTemplateQuery : IRequest<DataGroupTemplate>
 {
-    public int DataGroupTemplateId { get; set; }
+    public Guid DataGroupTemplateId { get; set; }
 
-    public GetDataGroupTemplateQuery(int dataGroupTemplateId)
+    public GetDataGroupTemplateQuery(Guid dataGroupTemplateId)
     {
         DataGroupTemplateId = dataGroupTemplateId;
     }

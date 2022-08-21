@@ -15,7 +15,8 @@ public class GetDataGroupsByTypeQueryHandler : IRequestHandler<GetDataGroupsByTy
 
     public Task<List<DataGroup>> Handle(GetDataGroupsByTypeQuery request, CancellationToken cancellationToken)
     {
-        var result = _repository.GetDataGroupsByType(request.TypeId);
+        //var result = _repository.GetDataGroupsByType(request.TypeId);
+        var result = _repository.GetDataGroups();
 
         return Task.FromResult(result);
     }

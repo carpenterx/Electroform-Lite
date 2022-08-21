@@ -5,9 +5,9 @@ namespace ElectroformLite.Application.DataGroupTypes.Queries.GetDataGroupType;
 
 public class GetDataGroupTypeQuery : IRequest<DataGroupType>
 {
-    public int DataGroupTypeId { get; set; }
+    public Guid DataGroupTypeId { get; set; }
 
-    public GetDataGroupTypeQuery(int dataGroupTypeId)
+    public GetDataGroupTypeQuery(Guid dataGroupTypeId)
     {
         DataGroupTypeId = dataGroupTypeId;
     }
