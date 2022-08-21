@@ -9,26 +9,17 @@ public class InMemoryDataTypeRepository : IDataTypeRepository
 
     public void Create(DataType dataType)
     {
-        int previousId;
-        if (dataTypes.Count > 0)
-        {
-            previousId = dataTypes[^1].Id;
-        }
-        else
-        {
-            previousId = -1;
-        }
-        dataType.Id = previousId + 1;
+        dataType.Id = Guid.NewGuid();
         dataTypes.Add(dataType);
     }
 
-    public void Delete(int id)
+    public void Delete(Guid id)
     {
         DataType dataType = dataTypes.FirstOrDefault(d => d.Id == id);
         dataTypes.Remove(dataType);
     }
 
-    public DataType GetDataType(int id)
+    public DataType GetDataType(Guid id)
     {
         return dataTypes.FirstOrDefault(d => d.Id == id);
     }

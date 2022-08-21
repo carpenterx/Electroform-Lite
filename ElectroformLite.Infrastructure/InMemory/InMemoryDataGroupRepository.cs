@@ -9,26 +9,17 @@ public class InMemoryDataGroupRepository : IDataGroupRepository
 
     public void Create(DataGroup dataGroup)
     {
-        int previousId;
-        if (dataGroups.Count > 0)
-        {
-            previousId = dataGroups[^1].Id;
-        }
-        else
-        {
-            previousId = -1;
-        }
-        dataGroup.Id = previousId + 1;
+        dataGroup.Id = Guid.NewGuid();
         dataGroups.Add(dataGroup);
     }
 
-    public void Delete(int id)
+    public void Delete(Guid id)
     {
         DataGroup dataGroup = dataGroups.FirstOrDefault(d => d.Id == id);
         dataGroups.Remove(dataGroup);
     }
 
-    public DataGroup GetDataGroup(int id)
+    public DataGroup GetDataGroup(Guid id)
     {
         return dataGroups.FirstOrDefault(d => d.Id == id);
     }
@@ -38,7 +29,7 @@ public class InMemoryDataGroupRepository : IDataGroupRepository
         return dataGroups;
     }
 
-    public List<DataGroup> GetDataGroupsByType(int id)
+    public List<DataGroup> GetDataGroupsByType(Guid id)
     {
         return dataGroups.FindAll(d => d.Type == id);
     }

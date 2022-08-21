@@ -9,20 +9,11 @@ public class InMemoryTemplateRepository : ITemplateRepository
 
     public void Create(Template template)
     {
-        int previousId;
-        if (templates.Count > 0)
-        {
-            previousId = templates[^1].Id;
-        }
-        else
-        {
-            previousId = -1;
-        }
-        template.Id = previousId + 1;
+        template.Id = Guid.NewGuid();
         templates.Add(template);
     }
 
-    public void Delete(int id)
+    public void Delete(Guid id)
     {
         Template template = templates.FirstOrDefault(d => d.Id == id);
         templates.Remove(template);
@@ -34,7 +25,7 @@ public class InMemoryTemplateRepository : ITemplateRepository
         return templates.FindAll(t => t.Name.ToLowerInvariant().Contains(lowercaseSearchTerm) || t.Content.ToLowerInvariant().Contains(lowercaseSearchTerm));
     }
 
-    public Template GetTemplate(int id)
+    public Template GetTemplate(Guid id)
     {
         return templates.FirstOrDefault(t => t.Id == id);
     }

@@ -10,11 +10,11 @@ public class DataGroupTemplate
     [StringLength(100)]
     public string Name { get; set; }
 
-    //public List<int> DataTemplates { get; set; } = new();
     public ICollection<DataGroup> DataGroups { get; set; }
 
-    public DataGroupTemplate(string name)
+    public DataGroupTemplate(string name, ICollection<DataGroup> dataGroups)
     {
         Name = name;
+        DataGroups = dataGroups;
     }
 }

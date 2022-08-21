@@ -65,24 +65,28 @@ public class ApplicationManager
         User adminUser = new("Admin", "admin", true);
         await _mediator.Send(new CreateUserCommand(adminUser));
 
-        int textTypeId = await _mediator.Send(new CreateDataTypeCommand("Text"));
-        int phoneTypeId = await _mediator.Send(new CreateDataTypeCommand("Phone"));
-        int emailTypeId = await _mediator.Send(new CreateDataTypeCommand("Email"));
+        
 
-        int firstNameId = await _mediator.Send(new CreateDataTemplateCommand("FirstName", textTypeId));
-        int lastNameId = await _mediator.Send(new CreateDataTemplateCommand("LastName", textTypeId));
-        int emailId = await _mediator.Send(new CreateDataTemplateCommand("Email", emailTypeId));
-        int phoneId = await _mediator.Send(new CreateDataTemplateCommand("PhoneNumber", phoneTypeId));
+        Guid firstNameId = await _mediator.Send(new CreateDataTemplateCommand("FirstName", new List<Data>()));
+        Guid lastNameId = await _mediator.Send(new CreateDataTemplateCommand("LastName", new List<Data>()));
+        Guid emailId = await _mediator.Send(new CreateDataTemplateCommand("Email", new List<Data>()));
+        Guid phoneId = await _mediator.Send(new CreateDataTemplateCommand("PhoneNumber", new List<Data>()));
 
-        List<int> personDataTemplates = new() { firstNameId, lastNameId };
-        List<int> contactDataTemplates = new() { emailId, phoneId };
+        List<DataTemplate> textDataTemplates = new();
+        DataTemplate firstNameDataTemplate = await _mediator.Send(new GetDataTemplateQuery(firstNameId));
+        Guid textTypeId = await _mediator.Send(new CreateDataTypeCommand("Text"));
+        Guid phoneTypeId = await _mediator.Send(new CreateDataTypeCommand("Phone"));
+        Guid emailTypeId = await _mediator.Send(new CreateDataTypeCommand("Email"));
 
-        int personTypeId = await _mediator.Send(new CreateDataGroupTypeCommand("Person"));
-        int contactTypeId = await _mediator.Send(new CreateDataGroupTypeCommand("Contact"));
+        List<Guid> personDataTemplates = new() { firstNameId, lastNameId };
+        List<Guid> contactDataTemplates = new() { emailId, phoneId };
 
-        int personDataGroupTemplateId = await _mediator.Send(new CreateDataGroupTemplateCommand("Person", personTypeId, personDataTemplates));
-        int contactDataGroupTemplateId = await _mediator.Send(new CreateDataGroupTemplateCommand("Contact", contactTypeId, contactDataTemplates));
-        List<int> dataGroupTemplates = new() { personDataGroupTemplateId, contactDataGroupTemplateId };
+        Guid personTypeId = await _mediator.Send(new CreateDataGroupTypeCommand("Person"));
+        Guid contactTypeId = await _mediator.Send(new CreateDataGroupTypeCommand("Contact"));
+
+        Guid personDataGroupTemplateId = await _mediator.Send(new CreateDataGroupTemplateCommand("Person", personTypeId, personDataTemplates));
+        Guid contactDataGroupTemplateId = await _mediator.Send(new CreateDataGroupTemplateCommand("Contact", contactTypeId, contactDataTemplates));
+        List<Guid> dataGroupTemplates = new() { personDataGroupTemplateId, contactDataGroupTemplateId };
 
         string templateName = "Cerere plata online for [Person.FirstName] [Person.LastName]";
         string templateContent = @"Cerere Alocare Credentiale Pentru Plata Impozitelor Si Taxelor Locale Pentru Persoane Fizice
@@ -174,7 +178,7 @@ Data {DateTime.Today}							Semnatura";
         string documentTitle = template.Name;
         string documentContent = template.Content;
 
-        List<int> dataGroupIds = new();
+        List<Guid> dataGroupIds = new();
         // get each data group template
         foreach (int dataGroupTemplateId in template.DataGroupTemplates)
         {
@@ -197,7 +201,7 @@ Data {DateTime.Today}							Semnatura";
                 Console.WriteLine($"{dataGroupTemplate.Name} data group name:");
                 string? dataGroupName = Console.ReadLine();
 
-                List<int> dataIds = new();
+                List<Guid> dataIds = new();
                 // get each data template
                 foreach (int dataTemplateId in dataGroupTemplate.DataTemplates)
                 {
@@ -206,14 +210,14 @@ Data {DateTime.Today}							Semnatura";
                     Console.WriteLine($"{dataTemplate.Placeholder}:");
                     string? dataValue = Console.ReadLine();
                     Data data = new(dataTemplate, dataValue);
-                    int dataId = await _mediator.Send(new CreateDataCommand(data));
+                    Guid dataId = await _mediator.Send(new CreateDataCommand(data));
                     dataIds.Add(dataId);
                     documentTitle = documentTitle.Replace($"[{dataGroupType.Value}.{data.Placeholder}]", data.Value);
                     documentContent = documentContent.Replace($"[{dataGroupType.Value}.{data.Placeholder}]", data.Value);
                 }
                 // generate each data group
                 DataGroup dataGroup = new(dataGroupTemplate, dataGroupName, dataIds);
-                int dataGroupId = await _mediator.Send(new CreateDataGroupCommand(dataGroup));
+                Guid dataGroupId = await _mediator.Send(new CreateDataGroupCommand(dataGroup));
                 dataGroupIds.Add(dataGroupId);
             }
         }

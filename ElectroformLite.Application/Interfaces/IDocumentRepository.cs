@@ -5,8 +5,8 @@ namespace ElectroformLite.Application.Interfaces;
 public interface IDocumentRepository
 {
     void Create(Document document);
-    void Delete(int id);
+    void Delete(Guid id);
     void Update(Document document);
-    Document GetDocument(int id);
+    Document GetDocument(Guid id);
     List<Document> GetDocuments();
 }

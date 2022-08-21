@@ -1,11 +1,10 @@
-﻿using ElectroformLite.Application.DataTemplates.Commands.CreateDataTemplate;
-using ElectroformLite.Application.Interfaces;
+﻿using ElectroformLite.Application.Interfaces;
 using ElectroformLite.Domain.Models;
 using MediatR;
 
 namespace ElectroformLite.Application.DataGroupTemplates.Commands.CreateDataGroupTemplate;
 
-public class CreateDataGroupTemplateCommandHandler : IRequestHandler<CreateDataGroupTemplateCommand, int>
+public class CreateDataGroupTemplateCommandHandler : IRequestHandler<CreateDataGroupTemplateCommand, Guid>
 {
     private readonly IDataGroupTemplateRepository _repository;
 
@@ -14,9 +13,9 @@ public class CreateDataGroupTemplateCommandHandler : IRequestHandler<CreateDataG
         _repository = repository;
     }
 
-    public Task<int> Handle(CreateDataGroupTemplateCommand request, CancellationToken cancellationToken)
+    public Task<Guid> Handle(CreateDataGroupTemplateCommand request, CancellationToken cancellationToken)
     {
-        DataGroupTemplate dataGroupTemplate = new(request.TemplateName, request.TemplateType, request.DataTemplates);
+        DataGroupTemplate dataGroupTemplate = new(request.TemplateName, request.DataGroups);
         _repository.Create(dataGroupTemplate);
 
         return Task.FromResult(dataGroupTemplate.Id);

@@ -3,7 +3,7 @@ using MediatR;
 
 namespace ElectroformLite.Application.UserData.Commands.CreateData;
 
-public class CreateDataCommand : IRequest<int>
+public class CreateDataCommand : IRequest<Guid>
 {
     public Data Data { get; set; }
 

@@ -12,8 +12,9 @@ public class DataType
 
     public ICollection<DataTemplate> DataTemplates { get; set; }
 
-    public DataType(string value)
+    public DataType(string value, ICollection<DataTemplate> dataTemplates)
     {
         Value = value;
+        DataTemplates = dataTemplates;
     }
 }

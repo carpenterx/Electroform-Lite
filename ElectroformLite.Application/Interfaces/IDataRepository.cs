@@ -5,8 +5,8 @@ namespace ElectroformLite.Application.Interfaces;
 public interface IDataRepository
 {
     void Create(Data data);
-    void Delete(int id);
+    void Delete(Guid id);
     void Update(Data data);
-    Data GetData(int id);
+    Data GetData(Guid id);
     List<Data> GetAllData();
 }

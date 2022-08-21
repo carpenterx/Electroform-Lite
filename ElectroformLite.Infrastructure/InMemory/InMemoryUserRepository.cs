@@ -9,26 +9,17 @@ public class InMemoryUserRepository : IUserRepository
 
     public void Create(User user)
     {
-        int previousId;
-        if (users.Count > 0)
-        {
-            previousId = users[^1].Id;
-        }
-        else
-        {
-            previousId = -1;
-        }
-        user.Id = previousId + 1;
+        user.Id = Guid.NewGuid();
         users.Add(user);
     }
 
-    public void Delete(int id)
+    public void Delete(Guid id)
     {
         User user = users.FirstOrDefault(u => u.Id == id);
         users.Remove(user);
     }
 
-    public User GetUser(int id)
+    public User GetUser(Guid id)
     {
         return users.FirstOrDefault(u => u.Id == id);
     }

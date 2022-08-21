@@ -5,9 +5,9 @@ namespace ElectroformLite.Application.DataTemplates.Queries.GetDataTemplate;
 
 public class GetDataTemplateQuery : IRequest<DataTemplate>
 {
-    public int DataTemplateId { get; set; }
+    public Guid DataTemplateId { get; set; }
 
-    public GetDataTemplateQuery(int dataTemplateId)
+    public GetDataTemplateQuery(Guid dataTemplateId)
     {
         DataTemplateId = dataTemplateId;
     }

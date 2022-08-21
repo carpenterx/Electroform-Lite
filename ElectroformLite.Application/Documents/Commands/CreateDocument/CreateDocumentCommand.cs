@@ -3,7 +3,7 @@ using MediatR;
 
 namespace ElectroformLite.Application.Documents.Commands.CreateDocument;
 
-public class CreateDocumentCommand : IRequest<int>
+public class CreateDocumentCommand : IRequest<Guid>
 {
     public Document Document { get; set; }
 

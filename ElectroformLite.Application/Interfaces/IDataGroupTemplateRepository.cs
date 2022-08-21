@@ -5,8 +5,8 @@ namespace ElectroformLite.Application.Interfaces;
 public interface IDataGroupTemplateRepository
 {
     void Create(DataGroupTemplate dataGroupTemplate);
-    void Delete(int id);
+    void Delete(Guid id);
     void Update(DataGroupTemplate dataGroupTemplate);
-    DataGroupTemplate GetDataGroupTemplate(int id);
+    DataGroupTemplate GetDataGroupTemplate(Guid id);
     List<DataGroupTemplate> GetDataGroupTemplates();
 }

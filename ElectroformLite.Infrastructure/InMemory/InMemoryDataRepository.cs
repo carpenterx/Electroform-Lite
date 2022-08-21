@@ -9,20 +9,11 @@ public class InMemoryDataRepository : IDataRepository
 
     public void Create(Data data)
     {
-        int previousId;
-        if (dataList.Count > 0)
-        {
-            previousId = dataList[^1].Id;
-        }
-        else
-        {
-            previousId = -1;
-        }
-        data.Id = previousId + 1;
+        data.Id = Guid.NewGuid();
         dataList.Add(data);
     }
 
-    public void Delete(int id)
+    public void Delete(Guid id)
     {
         Data? data = dataList.FirstOrDefault(d => d.Id == id);
         if (data is null)
@@ -37,7 +28,7 @@ public class InMemoryDataRepository : IDataRepository
         return dataList;
     }
 
-    public Data GetData(int id)
+    public Data GetData(Guid id)
     {
         Data? data = dataList.FirstOrDefault(d => d.Id == id);
         if (data is null)

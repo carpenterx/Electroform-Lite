@@ -2,7 +2,7 @@
 
 namespace ElectroformLite.Application.DataGroupTypes.Commands.CreateDataGroupType;
 
-public class CreateDataGroupTypeCommand : IRequest<int>
+public class CreateDataGroupTypeCommand : IRequest<Guid>
 {
     public string TypeValue { get; set; }
 

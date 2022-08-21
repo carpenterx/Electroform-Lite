@@ -12,8 +12,9 @@ public class DataTemplate
 
     public ICollection<Data> UserData { get; set; }
 
-    public DataTemplate(string placeholder)
+    public DataTemplate(string placeholder, ICollection<Data> userData)
     {
         Placeholder = placeholder;
+        UserData = userData;
     }
 }

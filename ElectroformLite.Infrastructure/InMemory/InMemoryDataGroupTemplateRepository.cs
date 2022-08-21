@@ -9,26 +9,17 @@ public class InMemoryDataGroupTemplateRepository : IDataGroupTemplateRepository
 
     public void Create(DataGroupTemplate dataGroupTemplate)
     {
-        int previousId;
-        if (dataGroupTemplates.Count > 0)
-        {
-            previousId = dataGroupTemplates[^1].Id;
-        }
-        else
-        {
-            previousId = -1;
-        }
-        dataGroupTemplate.Id = previousId + 1;
+        dataGroupTemplate.Id = Guid.NewGuid();
         dataGroupTemplates.Add(dataGroupTemplate);
     }
 
-    public void Delete(int id)
+    public void Delete(Guid id)
     {
         DataGroupTemplate dataGroupTemplate = dataGroupTemplates.FirstOrDefault(d => d.Id == id);
         dataGroupTemplates.Remove(dataGroupTemplate);
     }
 
-    public DataGroupTemplate GetDataGroupTemplate(int id)
+    public DataGroupTemplate GetDataGroupTemplate(Guid id)
     {
         return dataGroupTemplates.FirstOrDefault(d => d.Id == id);
     }

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace ElectroformLite.Application.Templates.Commands.CreateTemplate;
 
-public class CreateTemplateCommandHandler : IRequestHandler<CreateTemplateCommand, int>
+public class CreateTemplateCommandHandler : IRequestHandler<CreateTemplateCommand, Guid>
 {
     private readonly ITemplateRepository _repository;
 
@@ -13,7 +13,7 @@ public class CreateTemplateCommandHandler : IRequestHandler<CreateTemplateComman
         _repository = repository;
     }
 
-    public Task<int> Handle(CreateTemplateCommand request, CancellationToken cancellationToken)
+    public Task<Guid> Handle(CreateTemplateCommand request, CancellationToken cancellationToken)
     {
         Template template = new(request.TemplateName, request.TemplateContent, request.DataGroupTemplates);
         _repository.Create(template);

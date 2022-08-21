@@ -5,8 +5,8 @@ namespace ElectroformLite.Application.Interfaces;
 public interface IDataTypeRepository
 {
     void Create(DataType dataType);
-    void Delete(int id);
+    void Delete(Guid id);
     void Update(DataType dataType);
-    DataType GetDataType(int id);
+    DataType GetDataType(Guid id);
     List<DataType> GetDataTypes();
 }

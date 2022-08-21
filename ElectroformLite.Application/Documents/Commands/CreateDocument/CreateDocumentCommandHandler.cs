@@ -4,7 +4,7 @@ using MediatR;
 
 namespace ElectroformLite.Application.Documents.Commands.CreateDocument;
 
-public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentCommand, int>
+public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentCommand, Guid>
 {
     private readonly IDocumentRepository _repository;
 
@@ -13,7 +13,7 @@ public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentComman
         _repository = repository;
     }
 
-    public Task<int> Handle(CreateDocumentCommand request, CancellationToken cancellationToken)
+    public Task<Guid> Handle(CreateDocumentCommand request, CancellationToken cancellationToken)
     {
         Document document = request.Document;
         _repository.Create(document);

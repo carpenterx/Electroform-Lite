@@ -2,7 +2,7 @@
 
 namespace ElectroformLite.Application.Templates.Commands.CreateTemplate;
 
-public class CreateTemplateCommand : IRequest<int>
+public class CreateTemplateCommand : IRequest<Guid>
 {
     public string TemplateName { get; set; }
 

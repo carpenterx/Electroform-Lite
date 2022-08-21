@@ -9,26 +9,17 @@ public class InMemoryDocumentRepository : IDocumentRepository
 
     public void Create(Document document)
     {
-        int previousId;
-        if (documents.Count > 0)
-        {
-            previousId = documents[^1].Id;
-        }
-        else
-        {
-            previousId = -1;
-        }
-        document.Id = previousId + 1;
+        document.Id = Guid.NewGuid();
         documents.Add(document);
     }
 
-    public void Delete(int id)
+    public void Delete(Guid id)
     {
         Document document = documents.FirstOrDefault(d => d.Id == id);
         documents.Remove(document);
     }
 
-    public Document GetDocument(int id)
+    public Document GetDocument(Guid id)
     {
         return documents.FirstOrDefault(d => d.Id == id);
     }

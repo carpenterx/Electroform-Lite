@@ -3,7 +3,7 @@ using MediatR;
 
 namespace ElectroformLite.Application.Users.Commands.CreateUser;
 
-public class CreateUserCommand : IRequest<int>
+public class CreateUserCommand : IRequest<Guid>
 {
     public User User { get; set; }
 

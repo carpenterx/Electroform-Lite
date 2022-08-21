@@ -4,7 +4,7 @@ using MediatR;
 
 namespace ElectroformLite.Application.UserData.Commands.CreateData;
 
-public class CreateDataCommandHandler : IRequestHandler<CreateDataCommand, int>
+public class CreateDataCommandHandler : IRequestHandler<CreateDataCommand, Guid>
 {
     private readonly IDataRepository _repository;
 
@@ -13,7 +13,7 @@ public class CreateDataCommandHandler : IRequestHandler<CreateDataCommand, int>
         _repository = repository;
     }
 
-    public Task<int> Handle(CreateDataCommand request, CancellationToken cancellationToken)
+    public Task<Guid> Handle(CreateDataCommand request, CancellationToken cancellationToken)
     {
         Data data = request.Data;
         _repository.Create(data);
