@@ -4,9 +4,9 @@ namespace ElectroformLite.Application.Templates.Commands.DeleteTemplate;
 
 public class DeleteTemplateCommand : IRequest
 {
-    public int TemplateId { get; set; }
+    public Guid TemplateId { get; set; }
 
-    public DeleteTemplateCommand(int templateId)
+    public DeleteTemplateCommand(Guid templateId)
     {
         TemplateId = templateId;
     }

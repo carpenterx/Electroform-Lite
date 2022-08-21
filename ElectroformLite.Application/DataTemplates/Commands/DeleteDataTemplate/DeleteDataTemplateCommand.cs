@@ -4,9 +4,9 @@ namespace ElectroformLite.Application.DataTemplates.Commands.DeleteDataTemplate;
 
 public class DeleteDataTemplateCommand : IRequest
 {
-    public int DataTemplateId { get; set; }
+    public Guid DataTemplateId { get; set; }
 
-    public DeleteDataTemplateCommand(int dataTemplateId)
+    public DeleteDataTemplateCommand(Guid dataTemplateId)
     {
         DataTemplateId = dataTemplateId;
     }

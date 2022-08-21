@@ -43,7 +43,7 @@ public class ApplicationManager
 {
     readonly IMediator _mediator;
 
-    User currentUser;
+    User? currentUser;
 
     public ApplicationManager(IMediator mediator)
     {
@@ -74,9 +74,19 @@ public class ApplicationManager
 
         List<DataTemplate> textDataTemplates = new();
         DataTemplate firstNameDataTemplate = await _mediator.Send(new GetDataTemplateQuery(firstNameId));
-        Guid textTypeId = await _mediator.Send(new CreateDataTypeCommand("Text"));
-        Guid phoneTypeId = await _mediator.Send(new CreateDataTypeCommand("Phone"));
-        Guid emailTypeId = await _mediator.Send(new CreateDataTypeCommand("Email"));
+        textDataTemplates.Add(firstNameDataTemplate);
+        DataTemplate lastNameDataTemplate = await _mediator.Send(new GetDataTemplateQuery(lastNameId));
+        textDataTemplates.Add(lastNameDataTemplate);
+        List<DataTemplate> emailDataTemplates = new();
+        DataTemplate emailNameDataTemplate = await _mediator.Send(new GetDataTemplateQuery(emailId));
+        emailDataTemplates.Add(emailNameDataTemplate);
+        List<DataTemplate> phoneDataTemplates = new();
+        DataTemplate phoneNameDataTemplate = await _mediator.Send(new GetDataTemplateQuery(phoneId));
+        phoneDataTemplates.Add(phoneNameDataTemplate);
+
+        Guid textTypeId = await _mediator.Send(new CreateDataTypeCommand("Text", textDataTemplates));
+        Guid phoneTypeId = await _mediator.Send(new CreateDataTypeCommand("Phone", emailDataTemplates));
+        Guid emailTypeId = await _mediator.Send(new CreateDataTypeCommand("Email", phoneDataTemplates));
 
         List<Guid> personDataTemplates = new() { firstNameId, lastNameId };
         List<Guid> contactDataTemplates = new() { emailId, phoneId };

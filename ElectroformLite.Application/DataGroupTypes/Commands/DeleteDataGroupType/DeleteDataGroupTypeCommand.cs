@@ -4,9 +4,9 @@ namespace ElectroformLite.Application.DataGroupTypes.Commands.DeleteDataGroupTyp
 
 public class DeleteDataGroupTypeCommand : IRequest
 {
-    public int DataGroupTypeId { get; set; }
+    public Guid DataGroupTypeId { get; set; }
 
-    public DeleteDataGroupTypeCommand(int dataGroupTypeId)
+    public DeleteDataGroupTypeCommand(Guid dataGroupTypeId)
     {
         DataGroupTypeId = dataGroupTypeId;
     }

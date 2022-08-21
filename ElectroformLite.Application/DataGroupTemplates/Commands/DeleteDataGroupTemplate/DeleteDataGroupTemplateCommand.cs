@@ -4,9 +4,9 @@ namespace ElectroformLite.Application.DataGroupTemplates.Commands.DeleteDataGrou
 
 public class DeleteDataGroupTemplateCommand : IRequest
 {
-    public int DataGroupTemplateId { get; set; }
+    public Guid DataGroupTemplateId { get; set; }
 
-    public DeleteDataGroupTemplateCommand(int dataGroupTemplateId)
+    public DeleteDataGroupTemplateCommand(Guid dataGroupTemplateId)
     {
         DataGroupTemplateId = dataGroupTemplateId;
     }

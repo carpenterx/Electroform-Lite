@@ -4,9 +4,9 @@ namespace ElectroformLite.Application.UserData.Commands.DeleteData;
 
 public class DeleteDataCommand : IRequest
 {
-    public int DataId { get; set; }
+    public Guid DataId { get; set; }
 
-    public DeleteDataCommand(int dataId)
+    public DeleteDataCommand(Guid dataId)
     {
         DataId = dataId;
     }
