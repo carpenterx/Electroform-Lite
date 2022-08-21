@@ -1,4 +1,6 @@
-﻿namespace ElectroformLite.Domain.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ElectroformLite.Domain.Models;
 
 public class Document
 {

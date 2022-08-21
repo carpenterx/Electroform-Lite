@@ -1,11 +1,16 @@
-﻿namespace ElectroformLite.Domain.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ElectroformLite.Domain.Models;
 
 public class Template
 {
     public Guid Id { get; set; }
 
+    [Required]
+    [StringLength(250)]
     public string Name { get; set; }
 
+    [Required]
     public string Content { get; set; }
 
     //public List<int> DataGroupTemplates { get; set; }

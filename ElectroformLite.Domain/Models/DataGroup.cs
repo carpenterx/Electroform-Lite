@@ -1,9 +1,12 @@
-﻿namespace ElectroformLite.Domain.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ElectroformLite.Domain.Models;
 
 public class DataGroup
 {
     public Guid Id { get; set; }
 
+    [StringLength(100)]
     public string Name { get; set; }
 
     //public DateTime Created { get; set; }
