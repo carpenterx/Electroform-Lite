@@ -44,6 +44,6 @@ public class InMemoryTemplateRepository : ITemplateRepository
         }
         templateToUpdate.Name = template.Name;
         templateToUpdate.Content = template.Content;
-        templateToUpdate.DataGroupTemplates = template.DataGroupTemplates;
+        //templateToUpdate.DataGroupTemplates = template.DataGroupTemplates;
     }
 }

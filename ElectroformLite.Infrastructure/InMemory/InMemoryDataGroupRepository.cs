@@ -31,7 +31,8 @@ public class InMemoryDataGroupRepository : IDataGroupRepository
 
     public List<DataGroup> GetDataGroupsByType(Guid id)
     {
-        return dataGroups.FindAll(d => d.Type == id);
+        //return dataGroups.FindAll(d => d.Type == id);
+        return dataGroups;
     }
 
     public void Update(DataGroup dataGroup)
@@ -40,7 +41,7 @@ public class InMemoryDataGroupRepository : IDataGroupRepository
         if (dataGroupToEdit is not null)
         {
             dataGroupToEdit.Name = dataGroup.Name;
-            dataGroupToEdit.Data = dataGroup.Data;
+            //dataGroupToEdit.Data = dataGroup.Data;
         }
     }
 }

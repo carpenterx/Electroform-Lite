@@ -35,8 +35,8 @@ public class InMemoryDataGroupTemplateRepository : IDataGroupTemplateRepository
         if (dataGroupTemplateToEdit is not null)
         {
             dataGroupTemplateToEdit.Name = dataGroupTemplate.Name;
-            dataGroupTemplateToEdit.Type = dataGroupTemplate.Type;
-            dataGroupTemplateToEdit.DataTemplates = dataGroupTemplate.DataTemplates;
+            //dataGroupTemplateToEdit.Type = dataGroupTemplate.Type;
+            //dataGroupTemplateToEdit.DataTemplates = dataGroupTemplate.DataTemplates;
         }
     }
 }

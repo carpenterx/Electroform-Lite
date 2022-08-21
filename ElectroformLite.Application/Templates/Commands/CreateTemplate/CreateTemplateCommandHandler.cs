@@ -15,7 +15,7 @@ public class CreateTemplateCommandHandler : IRequestHandler<CreateTemplateComman
 
     public Task<Guid> Handle(CreateTemplateCommand request, CancellationToken cancellationToken)
     {
-        Template template = new(request.TemplateName, request.TemplateContent, request.DataGroupTemplates);
+        Template template = new(request.TemplateName, request.TemplateContent);
         _repository.Create(template);
 
         return Task.FromResult(template.Id);

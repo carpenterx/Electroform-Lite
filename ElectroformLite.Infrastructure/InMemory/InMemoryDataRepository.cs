@@ -45,7 +45,7 @@ public class InMemoryDataRepository : IDataRepository
         {
             throw new InvalidOperationException($"Data with id {data.Id} not found");
         }
-        dataToUpdate.Placeholder = data.Placeholder;
+        //dataToUpdate.Placeholder = data.Placeholder;
         dataToUpdate.Value = data.Value;
     }
 }

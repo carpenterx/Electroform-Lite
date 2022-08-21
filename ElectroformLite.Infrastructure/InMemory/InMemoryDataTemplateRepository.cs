@@ -32,7 +32,7 @@ public class InMemoryDataTemplateRepository : IDataTemplateRepository
             throw new InvalidOperationException($"Data template with id {dataTemplate.Id} not found");
         }
         dataTemplateToUpdate.Placeholder = dataTemplate.Placeholder;
-        dataTemplateToUpdate.Type = dataTemplate.Type;
+        //dataTemplateToUpdate.Type = dataTemplate.Type;
     }
 
     public List<DataTemplate> GetDataTemplates()
