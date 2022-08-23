@@ -6,18 +6,20 @@ namespace ElectroformLite.Application.DataGroupTypes.Commands.CreateDataGroupTyp
 
 public class CreateDataGroupTypeCommandHandler : IRequestHandler<CreateDataGroupTypeCommand, Guid>
 {
-    private readonly IDataGroupTypeRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public CreateDataGroupTypeCommandHandler(IDataGroupTypeRepository repository)
+    public CreateDataGroupTypeCommandHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<Guid> Handle(CreateDataGroupTypeCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateDataGroupTypeCommand request, CancellationToken cancellationToken)
     {
         DataGroupType dataGroupType = new(request.TypeValue);
-        _repository.Create(dataGroupType);
 
-        return Task.FromResult(dataGroupType.Id);
+        await _unitOfWork.DataGroupTypeRepository.Create(dataGroupType);
+        await _unitOfWork.Save();
+
+        return dataGroupType.Id;
     }
 }

@@ -57,11 +57,12 @@ public class ApplicationManager
 
         //await DisplayLoginMenu();
         var addedDataGroupType = await AddDataGroupType(_mediator);
+        System.Console.WriteLine($"id: {addedDataGroupType}");
     }
 
     static async Task<Guid> AddDataGroupType(IMediator mediator)
     {
-        var addDataGroupTypeCommand = new CreateDataGroupTypeCommand("Type");
+        var addDataGroupTypeCommand = new CreateDataGroupTypeCommand("New Type 3");
 
         return await mediator.Send(addDataGroupTypeCommand);
     }

@@ -1,4 +1,6 @@
 ﻿using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Console;
+using ElectroformLite.Infrastructure;
 using ElectroformLite.Infrastructure.Database;
 using ElectroformLite.Infrastructure.InMemory;
 using MediatR;
@@ -19,8 +21,12 @@ internal class Program
 
     private static IMediator Init()
     {
+        /*var optionsBuilder = new DbContextOptionsBuilder();
+        optionsBuilder.UseSqlServer(@"Data Source=localhost\SQLEXPRESS01;Initial Catalog=electroform;Integrated Security=True", b => b.MigrationsAssembly("ElectroformLite.Console"));
+        Action<DbContextOptionsBuilder> optionsAction = new Action<DbContextOptionsBuilder>(optionsBuilder);*/
         var diContainer = new ServiceCollection()
             .AddMediatR(typeof(IDataRepository))
+            .AddDbContext<ElectroformDbContext>()
             .AddScoped<IDataRepository, InMemoryDataRepository>()
             .AddScoped<IDataTypeRepository, InMemoryDataTypeRepository>()
             .AddScoped<IDataGroupRepository, InMemoryDataGroupRepository>()
@@ -30,8 +36,7 @@ internal class Program
             .AddScoped<IDocumentRepository, InMemoryDocumentRepository>()
             .AddScoped<ITemplateRepository, InMemoryTemplateRepository>()
             .AddScoped<IUserRepository, InMemoryUserRepository>()
-            .AddDbContext<ElectroformDbContext>(
-                builder => builder.UseSqlServer(@"Data Source=localhost\SQLEXPRESS01;Initial Catalog=electroform;Integrated Security=True"))
+            .AddScoped<IUnitOfWork, UnitOfWork>()
             .BuildServiceProvider();
 
         return diContainer.GetRequiredService<IMediator>();

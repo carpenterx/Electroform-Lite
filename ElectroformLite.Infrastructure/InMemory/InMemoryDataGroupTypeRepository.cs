@@ -7,7 +7,7 @@ public class InMemoryDataGroupTypeRepository : IDataGroupTypeRepository
 {
     readonly List<DataGroupType> dataGroupTypes = new();
 
-    public void Create(DataGroupType dataGroupType)
+    public async Task Create(DataGroupType dataGroupType)
     {
         dataGroupType.Id = Guid.NewGuid();
         dataGroupTypes.Add(dataGroupType);

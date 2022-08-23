@@ -12,10 +12,10 @@ namespace ElectroformLite.Infrastructure.Database
             _context = context;
         }
 
-        public void Create(DataGroupType dataGroupType)
+        public async Task Create(DataGroupType dataGroupType)
         {
-            _context.DataGroupTypes.Add(dataGroupType);
-            _context.SaveChanges();
+            await _context.DataGroupTypes.AddAsync(dataGroupType);
+            //await _context.SaveChangesAsync();
         }
 
         public void Delete(Guid id)
