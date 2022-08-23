@@ -23,11 +23,10 @@ public class ElectroformDbContext : DbContext
 
     }
 
-    /*protected override void OnConfiguring(DbContextOptionsBuilder builder)
+    protected override void OnConfiguring(DbContextOptionsBuilder builder)
     {
-        builder
-            .UseSqlServer(@"Data Source=localhost\SQLEXPRESS01;Initial Catalog=electroform;Integrated Security=True");
-    }*/
+        builder.UseSqlServer(@"Data Source=localhost\SQLEXPRESS01;Initial Catalog=electroform;Integrated Security=True");
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
