@@ -37,16 +37,16 @@ using ElectroformLite.Application.Users.Commands.CreateUser;
 using ElectroformLite.Application.Users.Queries.GetUsers;
 using ElectroformLite.Application.Users.Queries.GetUserByName;
 using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Infrastructure.Database;
 
 namespace ElectroformLite.ConsolePresentation;
 
 public class ApplicationManager
 {
     readonly IMediator _mediator;
-
     User? currentUser;
 
-    public ApplicationManager(IMediator mediator, IElectroformDbContext electroformDbContext)
+    public ApplicationManager(IMediator mediator)
     {
         _mediator = mediator;
     }
@@ -56,6 +56,14 @@ public class ApplicationManager
         //await PopulateTemplates();
 
         //await DisplayLoginMenu();
+        var addedDataGroupType = await AddDataGroupType(_mediator);
+    }
+
+    static async Task<Guid> AddDataGroupType(IMediator mediator)
+    {
+        var addDataGroupTypeCommand = new CreateDataGroupTypeCommand("Type");
+
+        return await mediator.Send(addDataGroupTypeCommand);
     }
 
     /*async Task PopulateTemplates()

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElectroformLite.Console.Migrations
 {
     [DbContext(typeof(ElectroformDbContext))]
-    [Migration("20220821185457_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20220823061742_NewMigration")]
+    partial class NewMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

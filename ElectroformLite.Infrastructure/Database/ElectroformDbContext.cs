@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ElectroformLite.Infrastructure.Database;
 
-public class ElectroformDbContext : DbContext, IElectroformDbContext
+public class ElectroformDbContext : DbContext
 {
     public DbSet<Data> UserData { get; set; }
     public DbSet<DataGroup> DataGroups { get; set; }
@@ -18,11 +18,16 @@ public class ElectroformDbContext : DbContext, IElectroformDbContext
     public DbSet<Template> Templates { get; set; }
     public DbSet<User> Users { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder builder)
+    public ElectroformDbContext(DbContextOptions<ElectroformDbContext> dbContextOptions) : base(dbContextOptions)
+    {
+
+    }
+
+    /*protected override void OnConfiguring(DbContextOptionsBuilder builder)
     {
         builder
             .UseSqlServer(@"Data Source=localhost\SQLEXPRESS01;Initial Catalog=electroform;Integrated Security=True");
-    }
+    }*/
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -2,6 +2,7 @@
 using ElectroformLite.Infrastructure.Database;
 using ElectroformLite.Infrastructure.InMemory;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ElectroformLite.ConsolePresentation;
@@ -10,25 +11,30 @@ internal class Program
 {
     private static void Main(string[] args)
     {
+        var mediator = Init();
+
+        ApplicationManager applicationManager = new(mediator);
+        applicationManager.StartApplication();
+    }
+
+    private static IMediator Init()
+    {
         var diContainer = new ServiceCollection()
             .AddMediatR(typeof(IDataRepository))
             .AddScoped<IDataRepository, InMemoryDataRepository>()
             .AddScoped<IDataTypeRepository, InMemoryDataTypeRepository>()
             .AddScoped<IDataGroupRepository, InMemoryDataGroupRepository>()
             .AddScoped<IDataGroupTemplateRepository, InMemoryDataGroupTemplateRepository>()
-            .AddScoped<IDataGroupTypeRepository, InMemoryDataGroupTypeRepository>()
+            .AddScoped<IDataGroupTypeRepository, DataGroupTypeRepository>()
             .AddScoped<IDataTemplateRepository, InMemoryDataTemplateRepository>()
             .AddScoped<IDocumentRepository, InMemoryDocumentRepository>()
             .AddScoped<ITemplateRepository, InMemoryTemplateRepository>()
             .AddScoped<IUserRepository, InMemoryUserRepository>()
-            .AddScoped<IElectroformDbContext, ElectroformDbContext>()
+            .AddDbContext<ElectroformDbContext>(
+                builder => builder.UseSqlServer(@"Data Source=localhost\SQLEXPRESS01;Initial Catalog=electroform;Integrated Security=True"))
             .BuildServiceProvider();
 
-        var mediator = diContainer.GetRequiredService<IMediator>();
-        var electroformDbContext = diContainer.GetRequiredService<IElectroformDbContext>();
-
-        ApplicationManager applicationManager = new ApplicationManager(mediator, electroformDbContext);
-        applicationManager.StartApplication();
+        return diContainer.GetRequiredService<IMediator>();
     }
 }
 
