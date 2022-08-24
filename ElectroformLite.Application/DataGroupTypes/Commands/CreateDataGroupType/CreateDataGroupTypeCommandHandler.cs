@@ -4,7 +4,7 @@ using MediatR;
 
 namespace ElectroformLite.Application.DataGroupTypes.Commands.CreateDataGroupType;
 
-public class CreateDataGroupTypeCommandHandler : IRequestHandler<CreateDataGroupTypeCommand, Guid>
+public class CreateDataGroupTypeCommandHandler : IRequestHandler<CreateDataGroupTypeCommand, DataGroupType>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -13,13 +13,13 @@ public class CreateDataGroupTypeCommandHandler : IRequestHandler<CreateDataGroup
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Guid> Handle(CreateDataGroupTypeCommand request, CancellationToken cancellationToken)
+    public async Task<DataGroupType> Handle(CreateDataGroupTypeCommand request, CancellationToken cancellationToken)
     {
         DataGroupType dataGroupType = new(request.TypeValue);
 
         await _unitOfWork.DataGroupTypeRepository.Create(dataGroupType);
         await _unitOfWork.Save();
 
-        return dataGroupType.Id;
+        return dataGroupType;
     }
 }

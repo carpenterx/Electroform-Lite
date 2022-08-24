@@ -6,17 +6,17 @@ namespace ElectroformLite.Application.DataGroupTypes.Queries.GetDataGroupType;
 
 public class GetDataGroupTypeQueryHandler : IRequestHandler<GetDataGroupTypeQuery, DataGroupType>
 {
-    private readonly IDataGroupTypeRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetDataGroupTypeQueryHandler(IDataGroupTypeRepository repository)
+    public GetDataGroupTypeQueryHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<DataGroupType> Handle(GetDataGroupTypeQuery request, CancellationToken cancellationToken)
+    public async Task<DataGroupType> Handle(GetDataGroupTypeQuery request, CancellationToken cancellationToken)
     {
-        var result = _repository.GetDataGroupType(request.DataGroupTypeId);
+        DataGroupType dataGroupType = await _unitOfWork.DataGroupTypeRepository.GetDataGroupType(request.DataGroupTypeId);
 
-        return Task.FromResult(result);
+        return dataGroupType;
     }
 }

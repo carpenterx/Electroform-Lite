@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using ElectroformLite.Domain.Models;
+using MediatR;
 
 namespace ElectroformLite.Application.DataGroupTypes.Commands.CreateDataGroupType;
 
-public class CreateDataGroupTypeCommand : IRequest<Guid>
+public class CreateDataGroupTypeCommand : IRequest<DataGroupType>
 {
     public string TypeValue { get; set; }
 

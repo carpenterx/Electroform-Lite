@@ -16,17 +16,18 @@ namespace ElectroformLite.Infrastructure.Database
         public async Task Create(DataGroupType dataGroupType)
         {
             await _context.DataGroupTypes.AddAsync(dataGroupType);
-            //await _context.SaveChangesAsync();
         }
 
-        public void Delete(Guid id)
+        public void Delete(DataGroupType dataGroupType)
         {
-            throw new NotImplementedException();
+            _context.DataGroupTypes.Remove(dataGroupType);
         }
 
-        public DataGroupType GetDataGroupType(Guid id)
+        public async Task<DataGroupType> GetDataGroupType(Guid id)
         {
-            throw new NotImplementedException();
+            var dataGroupType = await _context.DataGroupTypes.SingleOrDefaultAsync(p => p.Id == id);
+
+            return dataGroupType;
         }
 
         public async Task<List<DataGroupType>> GetDataGroupTypes()
@@ -36,7 +37,7 @@ namespace ElectroformLite.Infrastructure.Database
 
         public void Update(DataGroupType dataGroupType)
         {
-            throw new NotImplementedException();
+            _context.Update(dataGroupType);
         }
     }
 }

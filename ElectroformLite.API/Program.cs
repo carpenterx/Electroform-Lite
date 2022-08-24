@@ -1,8 +1,9 @@
+using ElectroformLite.API.Controllers;
 using ElectroformLite.Application.Interfaces;
 using ElectroformLite.Infrastructure;
 using ElectroformLite.Infrastructure.Database;
-using ElectroformLite.Infrastructure.InMemory;
 using MediatR;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,17 +13,17 @@ builder.Services.AddDbContext<ElectroformDbContext>(o =>
     o.UseSqlServer(@"Data Source=localhost\SQLEXPRESS01;Initial Catalog=electroform;Integrated Security=True"));
 builder.Services.AddMediatR(typeof(IDataRepository));
 
-builder.Services.AddScoped<IDataRepository, InMemoryDataRepository>();
-builder.Services.AddScoped<IDataTypeRepository, InMemoryDataTypeRepository>();
-builder.Services.AddScoped<IDataGroupRepository, InMemoryDataGroupRepository>();
-builder.Services.AddScoped<IDataGroupTemplateRepository, InMemoryDataGroupTemplateRepository>();
-//builder.Services.AddScoped<IDataGroupTypeRepository, DataGroupTypeRepository>();
+builder.Services.AddScoped<IDataRepository, DataRepository>();
+builder.Services.AddScoped<IDataTypeRepository, DataTypeRepository>();
+builder.Services.AddScoped<IDataGroupRepository, DataGroupRepository>();
+builder.Services.AddScoped<IDataGroupTemplateRepository, DataGroupTemplateRepository>();
 builder.Services.AddScoped<IDataGroupTypeRepository, DataGroupTypeRepository>();
-builder.Services.AddScoped<IDataTemplateRepository, InMemoryDataTemplateRepository>();
-builder.Services.AddScoped<IDocumentRepository, InMemoryDocumentRepository>();
-builder.Services.AddScoped<ITemplateRepository, InMemoryTemplateRepository>();
-builder.Services.AddScoped<IUserRepository, InMemoryUserRepository>();
+builder.Services.AddScoped<IDataTemplateRepository, DataTemplateRepository>();
+builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
+builder.Services.AddScoped<ITemplateRepository, TemplateRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddAutoMapper(typeof(DataGroupTypesController));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

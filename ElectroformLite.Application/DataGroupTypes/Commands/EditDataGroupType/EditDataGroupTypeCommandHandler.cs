@@ -5,17 +5,18 @@ namespace ElectroformLite.Application.DataGroupTypes.Commands.EditDataGroupType;
 
 public class EditDataGroupTypeCommandHandler : IRequestHandler<EditDataGroupTypeCommand>
 {
-    private readonly IDataGroupTypeRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public EditDataGroupTypeCommandHandler(IDataGroupTypeRepository repository)
+    public EditDataGroupTypeCommandHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<Unit> Handle(EditDataGroupTypeCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(EditDataGroupTypeCommand request, CancellationToken cancellationToken)
     {
-        _repository.Update(request.DataGroupType);
+        _unitOfWork.DataGroupTypeRepository.Update(request.DataGroupType);
+        await _unitOfWork.Save();
 
-        return Task.FromResult(Unit.Value);
+        return Unit.Value;
     }
 }
