@@ -37,4 +37,9 @@ public class InMemoryDataGroupTypeRepository : IDataGroupTypeRepository
             dataGroupTypeToEdit.Value = dataGroupType.Value;
         }
     }
+
+    Task<List<DataGroupType>> IDataGroupTypeRepository.GetDataGroupTypes()
+    {
+        throw new NotImplementedException();
+    }
 }

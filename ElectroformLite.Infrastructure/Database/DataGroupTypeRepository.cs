@@ -1,5 +1,6 @@
 ﻿using ElectroformLite.Application.Interfaces;
 using ElectroformLite.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ElectroformLite.Infrastructure.Database
 {
@@ -28,9 +29,9 @@ namespace ElectroformLite.Infrastructure.Database
             throw new NotImplementedException();
         }
 
-        public List<DataGroupType> GetDataGroupTypes()
+        public async Task<List<DataGroupType>> GetDataGroupTypes()
         {
-            throw new NotImplementedException();
+            return await _context.DataGroupTypes.ToListAsync(); ;
         }
 
         public void Update(DataGroupType dataGroupType)

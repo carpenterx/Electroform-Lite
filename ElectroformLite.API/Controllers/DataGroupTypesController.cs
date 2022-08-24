@@ -1,5 +1,7 @@
-﻿using ElectroformLite.Domain.Models;
+﻿using ElectroformLite.Application.DataGroupTypes.Queries.GetDataGroupTypes;
+using ElectroformLite.Domain.Models;
 using ElectroformLite.Infrastructure.Database;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,24 +12,24 @@ namespace ElectroformLite.API.Controllers
     [ApiController]
     public class DataGroupTypesController : ControllerBase
     {
-        private readonly ElectroformDbContext _dbContext;
-        public DataGroupTypesController(ElectroformDbContext dbContext)
+        private readonly IMediator _mediator;
+        public DataGroupTypesController(IMediator mediator)
         {
-            _dbContext = dbContext;
+            _mediator = mediator;
         }
 
         [HttpGet(Name = "GetDataGroupTypes")]
         public async Task<List<DataGroupType>> Get()
         {
-            return await _dbContext.DataGroupTypes.ToListAsync();
+            return await _mediator.Send(new GetDataGroupTypesQuery());
         }
 
         [HttpPost(Name = "CreateDataGroupType")]
         public async Task Post()
         {
             DataGroupType dataGroupType = new("MyType");
-            await _dbContext.DataGroupTypes.AddAsync(dataGroupType);
-            await _dbContext.SaveChangesAsync();
+            //await _mediator.DataGroupTypes.AddAsync(dataGroupType);
+            //await _mediator.SaveChangesAsync();
         }
     }
 }

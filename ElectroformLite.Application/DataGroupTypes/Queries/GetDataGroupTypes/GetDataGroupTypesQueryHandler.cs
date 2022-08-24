@@ -13,10 +13,10 @@ public class GetDataGroupTypesQueryHandler : IRequestHandler<GetDataGroupTypesQu
         _repository = repository;
     }
 
-    public Task<List<DataGroupType>> Handle(GetDataGroupTypesQuery request, CancellationToken cancellationToken)
+    public async Task<List<DataGroupType>> Handle(GetDataGroupTypesQuery request, CancellationToken cancellationToken)
     {
-        var result = _repository.GetDataGroupTypes();
+        var result = await _repository.GetDataGroupTypes();
 
-        return Task.FromResult(result);
+        return result;
     }
 }
