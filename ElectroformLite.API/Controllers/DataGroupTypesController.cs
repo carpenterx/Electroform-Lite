@@ -1,15 +1,13 @@
-﻿using ElectroformLite.Application.DataGroupTypes.Queries.GetDataGroupTypes;
+﻿using ElectroformLite.Application.DataGroupTypes.Commands.CreateDataGroupType;
+using ElectroformLite.Application.DataGroupTypes.Queries.GetDataGroupTypes;
 using ElectroformLite.Domain.Models;
-using ElectroformLite.Infrastructure.Database;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace ElectroformLite.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("[controller]")]
     public class DataGroupTypesController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -27,9 +25,7 @@ namespace ElectroformLite.API.Controllers
         [HttpPost(Name = "CreateDataGroupType")]
         public async Task Post()
         {
-            DataGroupType dataGroupType = new("MyType");
-            //await _mediator.DataGroupTypes.AddAsync(dataGroupType);
-            //await _mediator.SaveChangesAsync();
+            await _mediator.Send(new CreateDataGroupTypeCommand("Person"));
         }
     }
 }
