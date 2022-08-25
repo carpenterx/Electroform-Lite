@@ -1,9 +1,10 @@
 ﻿using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Domain.Models;
 using MediatR;
 
 namespace ElectroformLite.Application.DataGroupTypes.Commands.EditDataGroupType;
 
-public class EditDataGroupTypeCommandHandler : IRequestHandler<EditDataGroupTypeCommand>
+public class EditDataGroupTypeCommandHandler : IRequestHandler<EditDataGroupTypeCommand, DataGroupType>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -12,11 +13,18 @@ public class EditDataGroupTypeCommandHandler : IRequestHandler<EditDataGroupType
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Unit> Handle(EditDataGroupTypeCommand request, CancellationToken cancellationToken)
+    public async Task<DataGroupType> Handle(EditDataGroupTypeCommand request, CancellationToken cancellationToken)
     {
-        _unitOfWork.DataGroupTypeRepository.Update(request.DataGroupType);
+        DataGroupType dataGroupTypeFromRequest = request.DataGroupType;
+        DataGroupType dataGroupTypeToEdit = await _unitOfWork.DataGroupTypeRepository.GetDataGroupType(dataGroupTypeFromRequest.Id);
+        if (dataGroupTypeToEdit == null)
+        {
+            return null;
+        }
+        dataGroupTypeToEdit.Value = dataGroupTypeFromRequest.Value;
+        _unitOfWork.DataGroupTypeRepository.Update(dataGroupTypeToEdit);
         await _unitOfWork.Save();
 
-        return Unit.Value;
+        return dataGroupTypeToEdit;
     }
 }

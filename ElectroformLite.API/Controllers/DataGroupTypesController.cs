@@ -28,12 +28,15 @@ namespace ElectroformLite.API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<DataGroupType>>> GetDataGroupTypes()
         {
-            return await _mediator.Send(new GetDataGroupTypesQuery());
+            List<DataGroupType> dataGroupTypes = await _mediator.Send(new GetDataGroupTypesQuery());
+            List<DataGroupTypeDto> dataGroupTypeDtos = _mapper.Map<List<DataGroupTypeDto>>(dataGroupTypes);
+
+            return Ok(dataGroupTypeDtos);
         }
 
         // GET: DataGroupTypes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<DataGroupType>> GetDataGroupType(Guid id)
+        public async Task<ActionResult<DataGroupType>> GetDataGroupType([FromRoute] Guid id)
         {
             DataGroupType dataGroupType = await _mediator.Send(new GetDataGroupTypeQuery(id));
 
@@ -41,22 +44,24 @@ namespace ElectroformLite.API.Controllers
             {
                 return NotFound();
             }
-            return dataGroupType;
+            DataGroupTypeDto dataGroupTypeDto = _mapper.Map<DataGroupTypeDto>(dataGroupType);
+
+            return Ok(dataGroupTypeDto);
         }
 
         // POST: DataGroupTypes
         [HttpPost]
-        public async Task<IActionResult> CreateDataGroupType(string type)
+        public async Task<IActionResult> CreateDataGroupType([FromBody] string type)
         {
             DataGroupType dataGroupType = await _mediator.Send(new CreateDataGroupTypeCommand(type));
 
-            return CreatedAtAction(nameof(GetDataGroupType), dataGroupType.Id, dataGroupType);
+            return CreatedAtAction(nameof(GetDataGroupType), new { dataGroupType.Id }, dataGroupType);
         }
 
         // DELETE: DataGroupTypes/5
         [HttpDelete]
         [Route("{id}")]
-        public async Task<IActionResult> DeleteDataGroupType(Guid id)
+        public async Task<IActionResult> DeleteDataGroupType([FromRoute] Guid id)
         {
             DataGroupType dataGroupType = await _mediator.Send(new DeleteDataGroupTypeCommand(id));
 
@@ -70,14 +75,21 @@ namespace ElectroformLite.API.Controllers
 
         // PUT: DataGroupTypes/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateDataGroupType(Guid id, DataGroupTypePutDto dataGroupTypeDto)
+        public async Task<IActionResult> UpdateDataGroupType([FromRoute] Guid id,[FromBody] DataGroupTypeDto dataGroupTypeDto)
         {
-            DataGroupType dataGroupTypeToEdit = await _mediator.Send(new GetDataGroupTypeQuery(id));
+            if (id != dataGroupTypeDto.Id)
+            {
+                return BadRequest();
+            }
+
             DataGroupType dataGroupTypeFromDto = _mapper.Map<DataGroupType>(dataGroupTypeDto);
 
-            dataGroupTypeToEdit.Value = dataGroupTypeFromDto.Value;
+            DataGroupType editedDataGroupType = await _mediator.Send(new EditDataGroupTypeCommand(dataGroupTypeFromDto));
 
-            await _mediator.Send(new EditDataGroupTypeCommand(dataGroupTypeToEdit));
+            if (editedDataGroupType == null)
+            {
+                return NotFound();
+            }
 
             return NoContent();
         }

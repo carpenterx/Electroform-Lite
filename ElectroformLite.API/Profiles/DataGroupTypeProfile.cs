@@ -8,6 +8,6 @@ public class DataGroupTypeProfile : Profile
 {
 	public DataGroupTypeProfile()
 	{
-		CreateMap<DataGroupTypePutDto, DataGroupType>();
+		CreateMap<DataGroupTypeDto, DataGroupType>().ReverseMap();
 	}
 }

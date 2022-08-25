@@ -13,9 +13,9 @@ namespace ElectroformLite.Infrastructure.Database
             _context = context;
         }
 
-        public async Task Create(DataGroupType dataGroupType)
+        public void Create(DataGroupType dataGroupType)
         {
-            await _context.DataGroupTypes.AddAsync(dataGroupType);
+            _context.DataGroupTypes.Add(dataGroupType);
         }
 
         public void Delete(DataGroupType dataGroupType)

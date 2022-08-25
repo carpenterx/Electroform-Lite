@@ -17,7 +17,7 @@ public class CreateDataGroupTypeCommandHandler : IRequestHandler<CreateDataGroup
     {
         DataGroupType dataGroupType = new(request.TypeValue);
 
-        await _unitOfWork.DataGroupTypeRepository.Create(dataGroupType);
+        _unitOfWork.DataGroupTypeRepository.Create(dataGroupType);
         await _unitOfWork.Save();
 
         return dataGroupType;
