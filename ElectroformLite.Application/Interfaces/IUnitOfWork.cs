@@ -3,6 +3,7 @@
 public interface IUnitOfWork : IDisposable
 {
     public IDataGroupTypeRepository DataGroupTypeRepository { get; }
+    public IDataTypeRepository DataTypeRepository { get; }
 
     Task Save();
 }

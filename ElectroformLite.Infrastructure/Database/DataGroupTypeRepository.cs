@@ -23,16 +23,16 @@ namespace ElectroformLite.Infrastructure.Database
             _context.DataGroupTypes.Remove(dataGroupType);
         }
 
-        public async Task<DataGroupType> GetDataGroupType(Guid id)
+        public async Task<DataGroupType?> GetDataGroupType(Guid id)
         {
-            var dataGroupType = await _context.DataGroupTypes.SingleOrDefaultAsync(p => p.Id == id);
+            DataGroupType? dataGroupType = await _context.DataGroupTypes.SingleOrDefaultAsync(p => p.Id == id);
 
             return dataGroupType;
         }
 
         public async Task<List<DataGroupType>> GetDataGroupTypes()
         {
-            return await _context.DataGroupTypes.ToListAsync(); ;
+            return await _context.DataGroupTypes.ToListAsync();
         }
 
         public void Update(DataGroupType dataGroupType)

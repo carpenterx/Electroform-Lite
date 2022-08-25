@@ -15,7 +15,7 @@ public class DeleteDataGroupTypeCommandHandler : IRequestHandler<DeleteDataGroup
 
     public async Task<DataGroupType> Handle(DeleteDataGroupTypeCommand request, CancellationToken cancellationToken)
     {
-        DataGroupType dataGroupType = await _unitOfWork.DataGroupTypeRepository.GetDataGroupType(request.DataGroupTypeId);
+        DataGroupType? dataGroupType = await _unitOfWork.DataGroupTypeRepository.GetDataGroupType(request.DataGroupTypeId);
         if (dataGroupType == null)
         {
             return null;

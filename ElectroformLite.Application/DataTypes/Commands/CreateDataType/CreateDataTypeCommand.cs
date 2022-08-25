@@ -3,15 +3,12 @@ using MediatR;
 
 namespace ElectroformLite.Application.DataTypes.Commands.CreateDataType;
 
-public class CreateDataTypeCommand : IRequest<Guid>
+public class CreateDataTypeCommand : IRequest<DataType>
 {
     public string TypeValue { get; set; }
 
-    public ICollection<DataTemplate> DataTemplates { get; set; }
-
-    public CreateDataTypeCommand(string typeValue, ICollection<DataTemplate> dataTemplates)
+    public CreateDataTypeCommand(string typeValue)
     {
         TypeValue = typeValue;
-        DataTemplates = dataTemplates;
     }
 }

@@ -1,21 +1,29 @@
 ﻿using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Domain.Models;
 using MediatR;
 
 namespace ElectroformLite.Application.DataTypes.Commands.DeleteDataType;
 
-public class DeleteDataTypeCommandHandler : IRequestHandler<DeleteDataTypeCommand>
+public class DeleteDataTypeCommandHandler : IRequestHandler<DeleteDataTypeCommand, DataType>
 {
-    private readonly IDataTypeRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public DeleteDataTypeCommandHandler(IDataTypeRepository repository)
+    public DeleteDataTypeCommandHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<Unit> Handle(DeleteDataTypeCommand request, CancellationToken cancellationToken)
+    public async Task<DataType> Handle(DeleteDataTypeCommand request, CancellationToken cancellationToken)
     {
-        _repository.Delete(request.DataTypeId);
+        DataType? dataType = await _unitOfWork.DataTypeRepository.GetDataType(request.DataTypeId);
+        if (dataType == null)
+        {
+            return null;
+        }
 
-        return Task.FromResult(Unit.Value);
+        _unitOfWork.DataTypeRepository.Delete(dataType);
+        await _unitOfWork.Save();
+
+        return dataType;
     }
 }

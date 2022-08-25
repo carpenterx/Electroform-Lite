@@ -16,7 +16,7 @@ public class EditDataGroupTypeCommandHandler : IRequestHandler<EditDataGroupType
     public async Task<DataGroupType> Handle(EditDataGroupTypeCommand request, CancellationToken cancellationToken)
     {
         DataGroupType dataGroupTypeFromRequest = request.DataGroupType;
-        DataGroupType dataGroupTypeToEdit = await _unitOfWork.DataGroupTypeRepository.GetDataGroupType(dataGroupTypeFromRequest.Id);
+        DataGroupType? dataGroupTypeToEdit = await _unitOfWork.DataGroupTypeRepository.GetDataGroupType(dataGroupTypeFromRequest.Id);
         if (dataGroupTypeToEdit == null)
         {
             return null;

@@ -3,7 +3,7 @@ using MediatR;
 
 namespace ElectroformLite.Application.DataTypes.Commands.EditDataType;
 
-public class EditDataTypeCommand : IRequest
+public class EditDataTypeCommand : IRequest<DataType>
 {
     public DataType DataType { get; set; }
 
