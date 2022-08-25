@@ -4,20 +4,22 @@ using MediatR;
 
 namespace ElectroformLite.Application.DataGroups.Commands.CreateDataGroup;
 
-public class CreateDataGroupCommandHandler : IRequestHandler<CreateDataGroupCommand, Guid>
+public class CreateDataGroupCommandHandler : IRequestHandler<CreateDataGroupCommand, DataGroup>
 {
-    private readonly IDataGroupRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public CreateDataGroupCommandHandler(IDataGroupRepository repository)
+    public CreateDataGroupCommandHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<Guid> Handle(CreateDataGroupCommand request, CancellationToken cancellationToken)
+    public async Task<DataGroup> Handle(CreateDataGroupCommand request, CancellationToken cancellationToken)
     {
         DataGroup dataGroup = request.DataGroup;
-        _repository.Create(dataGroup);
 
-        return Task.FromResult(dataGroup.Id);
+        _unitOfWork.DataGroupRepository.Create(dataGroup);
+        await _unitOfWork.Save();
+
+        return dataGroup;
     }
 }

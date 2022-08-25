@@ -18,6 +18,6 @@ public class GetDataGroupsByTypeQueryHandler : IRequestHandler<GetDataGroupsByTy
         //var result = _repository.GetDataGroupsByType(request.TypeId);
         var result = _repository.GetDataGroups();
 
-        return Task.FromResult(result);
+        return result;
     }
 }

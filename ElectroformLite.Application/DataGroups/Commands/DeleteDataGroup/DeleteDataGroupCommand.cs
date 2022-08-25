@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using ElectroformLite.Domain.Models;
+using MediatR;
 
 namespace ElectroformLite.Application.DataGroups.Commands.DeleteDataGroup;
 
-public class DeleteDataGroupCommand : IRequest
+public class DeleteDataGroupCommand : IRequest<DataGroup?>
 {
     public Guid DataGroupId { get; set; }
 

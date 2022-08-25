@@ -5,6 +5,7 @@ public interface IUnitOfWork : IDisposable
     public IDataGroupTypeRepository DataGroupTypeRepository { get; }
     public IDataTypeRepository DataTypeRepository { get; }
     public IDataRepository DataRepository { get; }
+    public IDataGroupRepository DataGroupRepository { get; }
 
     Task Save();
 }

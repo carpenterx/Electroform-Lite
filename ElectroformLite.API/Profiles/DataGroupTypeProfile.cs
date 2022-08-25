@@ -12,5 +12,7 @@ public class DataGroupTypeProfile : Profile
 		CreateMap<DataTypeDto, DataType>().ReverseMap();
 		CreateMap<Data, DataGetPutDto>().ReverseMap();
 		CreateMap<DataPostDto, Data>();
+        CreateMap<DataGroup, DataGroupGetPutDto>().ReverseMap();
+        CreateMap<DataGroupPostDto, DataGroup>();
 	}
 }
