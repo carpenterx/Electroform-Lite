@@ -38,7 +38,7 @@ public class DataGroupTypesController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<DataGroupType>> GetDataGroupType([FromRoute] Guid id)
     {
-        DataGroupType dataGroupType = await _mediator.Send(new GetDataGroupTypeQuery(id));
+        DataGroupType? dataGroupType = await _mediator.Send(new GetDataGroupTypeQuery(id));
 
         if (dataGroupType == null)
         {
@@ -63,7 +63,7 @@ public class DataGroupTypesController : ControllerBase
     [Route("{id}")]
     public async Task<IActionResult> DeleteDataGroupType([FromRoute] Guid id)
     {
-        DataGroupType dataGroupType = await _mediator.Send(new DeleteDataGroupTypeCommand(id));
+        DataGroupType? dataGroupType = await _mediator.Send(new DeleteDataGroupTypeCommand(id));
 
         if (dataGroupType == null)
         {
@@ -84,7 +84,7 @@ public class DataGroupTypesController : ControllerBase
 
         DataGroupType dataGroupTypeFromDto = _mapper.Map<DataGroupType>(dataGroupTypeDto);
 
-        DataGroupType editedDataGroupType = await _mediator.Send(new EditDataGroupTypeCommand(dataGroupTypeFromDto));
+        DataGroupType? editedDataGroupType = await _mediator.Send(new EditDataGroupTypeCommand(dataGroupTypeFromDto));
 
         if (editedDataGroupType == null)
         {

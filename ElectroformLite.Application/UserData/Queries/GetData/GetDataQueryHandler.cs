@@ -4,19 +4,19 @@ using MediatR;
 
 namespace ElectroformLite.Application.UserData.Queries.GetData;
 
-public class GetDataQueryHandler : IRequestHandler<GetDataQuery, Data>
+public class GetDataQueryHandler : IRequestHandler<GetDataQuery, Data?>
 {
-    private readonly IDataRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetDataQueryHandler(IDataRepository repository)
+    public GetDataQueryHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<Data> Handle(GetDataQuery request, CancellationToken cancellationToken)
+    public async Task<Data?> Handle(GetDataQuery request, CancellationToken cancellationToken)
     {
-        var result = _repository.GetData(request.DataId);
+        Data? data = await _unitOfWork.DataRepository.GetData(request.DataId);
 
-        return Task.FromResult(result);
+        return data;
     }
 }

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace ElectroformLite.Application.DataGroupTypes.Commands.EditDataGroupType;
 
-public class EditDataGroupTypeCommandHandler : IRequestHandler<EditDataGroupTypeCommand, DataGroupType>
+public class EditDataGroupTypeCommandHandler : IRequestHandler<EditDataGroupTypeCommand, DataGroupType?>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -13,7 +13,7 @@ public class EditDataGroupTypeCommandHandler : IRequestHandler<EditDataGroupType
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<DataGroupType> Handle(EditDataGroupTypeCommand request, CancellationToken cancellationToken)
+    public async Task<DataGroupType?> Handle(EditDataGroupTypeCommand request, CancellationToken cancellationToken)
     {
         DataGroupType dataGroupTypeFromRequest = request.DataGroupType;
         DataGroupType? dataGroupTypeToEdit = await _unitOfWork.DataGroupTypeRepository.GetDataGroupType(dataGroupTypeFromRequest.Id);

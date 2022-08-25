@@ -4,7 +4,7 @@ using MediatR;
 
 namespace ElectroformLite.Application.DataTypes.Commands.DeleteDataType;
 
-public class DeleteDataTypeCommandHandler : IRequestHandler<DeleteDataTypeCommand, DataType>
+public class DeleteDataTypeCommandHandler : IRequestHandler<DeleteDataTypeCommand, DataType?>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -13,7 +13,7 @@ public class DeleteDataTypeCommandHandler : IRequestHandler<DeleteDataTypeComman
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<DataType> Handle(DeleteDataTypeCommand request, CancellationToken cancellationToken)
+    public async Task<DataType?> Handle(DeleteDataTypeCommand request, CancellationToken cancellationToken)
     {
         DataType? dataType = await _unitOfWork.DataTypeRepository.GetDataType(request.DataTypeId);
         if (dataType == null)

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace ElectroformLite.Application.DataTypes.Commands.EditDataType;
 
-public class EditDataTypeCommandHandler : IRequestHandler<EditDataTypeCommand, DataType>
+public class EditDataTypeCommandHandler : IRequestHandler<EditDataTypeCommand, DataType?>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -13,7 +13,7 @@ public class EditDataTypeCommandHandler : IRequestHandler<EditDataTypeCommand, D
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<DataType> Handle(EditDataTypeCommand request, CancellationToken cancellationToken)
+    public async Task<DataType?> Handle(EditDataTypeCommand request, CancellationToken cancellationToken)
     {
         DataType dataTypeFromRequest = request.DataType;
         DataType? dataTypeToEdit = await _unitOfWork.DataTypeRepository.GetDataType(dataTypeFromRequest.Id);
