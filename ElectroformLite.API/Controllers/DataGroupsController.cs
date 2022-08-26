@@ -2,18 +2,14 @@
 using ElectroformLite.API.Dto;
 using ElectroformLite.Application.DataGroups.Commands.AddDataToDataGroup;
 using ElectroformLite.Application.DataGroups.Commands.CreateDataGroup;
+using ElectroformLite.Application.DataGroups.Commands.DeleteDataFromDataGroup;
 using ElectroformLite.Application.DataGroups.Commands.DeleteDataGroup;
 using ElectroformLite.Application.DataGroups.Commands.EditDataGroup;
 using ElectroformLite.Application.DataGroups.Queries.GetDataGroup;
 using ElectroformLite.Application.DataGroups.Queries.GetDataGroups;
-using ElectroformLite.Application.UserData.Commands.CreateData;
-using ElectroformLite.Application.UserData.Commands.DeleteData;
-using ElectroformLite.Application.UserData.Commands.EditData;
-using ElectroformLite.Application.UserData.Queries.GetData;
 using ElectroformLite.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
 
 namespace ElectroformLite.API.Controllers;
 
@@ -32,7 +28,7 @@ public class DataGroupsController : ControllerBase
 
     // GET: DataGroups
     [HttpGet]
-    public async Task<ActionResult<List<Data>>> GetDataGroups()
+    public async Task<ActionResult<List<DataGroup>>> GetDataGroups()
     {
         List<DataGroup> dataGroups = await _mediator.Send(new GetDataGroupsQuery());
         List<DataGroupGetPutDto> dataGroupDtos = _mapper.Map<List<DataGroupGetPutDto>>(dataGroups);
@@ -117,5 +113,20 @@ public class DataGroupsController : ControllerBase
         DataGroupGetPutDto dtoFromDataGroup = _mapper.Map<DataGroupGetPutDto>(dataGroup);
 
         return CreatedAtAction(nameof(GetDataGroup), new { dtoFromDataGroup.Id }, dtoFromDataGroup);
+    }
+
+    // DELETE: DataGroups/5/Data/6
+    [HttpDelete]
+    [Route("{dataGroupId}/data/{dataId}")]
+    public async Task<IActionResult> DeleteDataFromDataGroup([FromRoute] Guid dataGroupId, [FromRoute] Guid dataId)
+    {
+        DataGroup? dataGroup = await _mediator.Send(new DeleteDataFromDataGroupCommand(dataGroupId, dataId));
+
+        if (dataGroup == null)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
     }
 }
