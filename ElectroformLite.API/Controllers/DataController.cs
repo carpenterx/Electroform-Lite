@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
 using ElectroformLite.API.Dto;
-using ElectroformLite.Application.DataTypes.Commands.CreateDataType;
-using ElectroformLite.Application.DataTypes.Commands.DeleteDataType;
-using ElectroformLite.Application.DataTypes.Commands.EditDataType;
 using ElectroformLite.Application.UserData.Commands.CreateData;
 using ElectroformLite.Application.UserData.Commands.DeleteData;
 using ElectroformLite.Application.UserData.Commands.EditData;

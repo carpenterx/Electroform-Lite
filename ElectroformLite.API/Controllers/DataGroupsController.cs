@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ElectroformLite.API.Dto;
+using ElectroformLite.Application.DataGroups.Commands.AddDataToDataGroup;
 using ElectroformLite.Application.DataGroups.Commands.CreateDataGroup;
 using ElectroformLite.Application.DataGroups.Commands.DeleteDataGroup;
 using ElectroformLite.Application.DataGroups.Commands.EditDataGroup;
@@ -99,5 +100,22 @@ public class DataGroupsController : ControllerBase
         }
 
         return NoContent();
+    }
+
+    // POST: DataGroups/5/Data/6
+    [HttpPost]
+    [Route("{dataGroupId}/data/{dataId}")]
+    public async Task<IActionResult> AddDataToDataGroup([FromRoute] Guid dataGroupId, [FromRoute] Guid dataId)
+    {
+        DataGroup? dataGroup = await _mediator.Send(new AddDataToDataGroupCommand(dataGroupId, dataId));
+
+        if (dataGroup == null)
+        {
+            return NotFound();
+        }
+
+        DataGroupGetPutDto dtoFromDataGroup = _mapper.Map<DataGroupGetPutDto>(dataGroup);
+
+        return CreatedAtAction(nameof(GetDataGroup), new { dtoFromDataGroup.Id }, dtoFromDataGroup);
     }
 }

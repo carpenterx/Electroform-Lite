@@ -13,16 +13,10 @@ public class DataGroup
 
     //public DateTime LastModified { get; set; }
 
-    public ICollection<Data> UserData { get; set; }
+    public List<Data> UserData { get; set; } = new();
 
-    public DataGroup()
-    {
-
-    }
-
-    public DataGroup(string name, ICollection<Data> data)
+    public DataGroup(string name)
     {
         Name = name;
-        UserData = data;
     }
 }
