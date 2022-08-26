@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ElectroformLite.API.Migrations
+namespace ElectroformLite.Infrastructure.Migrations
 {
     [DbContext(typeof(ElectroformDbContext))]
-    [Migration("20220823144712_ApiMigration")]
-    partial class ApiMigration
+    [Migration("20220826141733_NewMigration")]
+    partial class NewMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

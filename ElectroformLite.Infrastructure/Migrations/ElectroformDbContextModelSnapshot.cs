@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ElectroformLite.API.Migrations
+namespace ElectroformLite.Infrastructure.Migrations
 {
     [DbContext(typeof(ElectroformDbContext))]
     partial class ElectroformDbContextModelSnapshot : ModelSnapshot

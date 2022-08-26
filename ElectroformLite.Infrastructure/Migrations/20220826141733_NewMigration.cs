@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ElectroformLite.API.Migrations
+namespace ElectroformLite.Infrastructure.Migrations
 {
-    public partial class ApiMigration : Migration
+    public partial class NewMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
