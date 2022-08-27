@@ -7,6 +7,7 @@ public interface IUnitOfWork : IDisposable
     public IDataRepository DataRepository { get; }
     public IDataGroupRepository DataGroupRepository { get; }
     public IDataTemplateRepository DataTemplateRepository { get; }
+    public IDataGroupTemplateRepository DataGroupTemplateRepository { get; }
 
     Task Save();
 }

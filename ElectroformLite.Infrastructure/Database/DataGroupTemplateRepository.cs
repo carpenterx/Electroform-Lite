@@ -1,32 +1,42 @@
 ﻿using ElectroformLite.Application.Interfaces;
 using ElectroformLite.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ElectroformLite.Infrastructure.Database;
 
 public class DataGroupTemplateRepository : IDataGroupTemplateRepository
 {
+    private readonly ElectroformDbContext _context;
+
+    public DataGroupTemplateRepository(ElectroformDbContext context)
+    {
+        _context = context;
+    }
+
     public void Create(DataGroupTemplate dataGroupTemplate)
     {
-        throw new NotImplementedException();
+        _context.DataGroupTemplates.Add(dataGroupTemplate);
     }
 
-    public void Delete(Guid id)
+    public void Delete(DataGroupTemplate dataGroupTemplate)
     {
-        throw new NotImplementedException();
+        _context.DataGroupTemplates.Remove(dataGroupTemplate);
     }
 
-    public DataGroupTemplate GetDataGroupTemplate(Guid id)
+    public async Task<DataGroupTemplate?> GetDataGroupTemplate(Guid id)
     {
-        throw new NotImplementedException();
+        DataGroupTemplate? dataGroupTemplate = await _context.DataGroupTemplates.SingleOrDefaultAsync(d => d.Id == id);
+
+        return dataGroupTemplate;
     }
 
-    public List<DataGroupTemplate> GetDataGroupTemplates()
+    public async Task<List<DataGroupTemplate>> GetDataGroupTemplates()
     {
-        throw new NotImplementedException();
+        return await _context.DataGroupTemplates.ToListAsync();
     }
 
     public void Update(DataGroupTemplate dataGroupTemplate)
     {
-        throw new NotImplementedException();
+        _context.DataGroupTemplates.Update(dataGroupTemplate);
     }
 }

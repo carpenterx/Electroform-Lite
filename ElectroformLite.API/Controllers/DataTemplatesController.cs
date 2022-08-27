@@ -5,15 +5,9 @@ using ElectroformLite.Application.DataTemplates.Commands.DeleteDataTemplate;
 using ElectroformLite.Application.DataTemplates.Commands.EditDataTemplate;
 using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplate;
 using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplates;
-using ElectroformLite.Application.UserData.Commands.CreateData;
-using ElectroformLite.Application.UserData.Commands.DeleteData;
-using ElectroformLite.Application.UserData.Commands.EditData;
-using ElectroformLite.Application.UserData.Queries.GetData;
-using ElectroformLite.Application.UserData.Queries.GetDataList;
 using ElectroformLite.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
 
 namespace ElectroformLite.API.Controllers;
 

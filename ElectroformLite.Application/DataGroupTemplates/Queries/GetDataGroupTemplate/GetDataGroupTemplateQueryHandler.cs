@@ -4,19 +4,19 @@ using MediatR;
 
 namespace ElectroformLite.Application.DataGroupTemplates.Queries.GetDataGroupTemplate;
 
-public class GetDataGroupTemplateQueryHandler : IRequestHandler<GetDataGroupTemplateQuery, DataGroupTemplate>
+public class GetDataGroupTemplateQueryHandler : IRequestHandler<GetDataGroupTemplateQuery, DataGroupTemplate?>
 {
-    private readonly IDataGroupTemplateRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetDataGroupTemplateQueryHandler(IDataGroupTemplateRepository repository)
+    public GetDataGroupTemplateQueryHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<DataGroupTemplate> Handle(GetDataGroupTemplateQuery request, CancellationToken cancellationToken)
+    public async Task<DataGroupTemplate?> Handle(GetDataGroupTemplateQuery request, CancellationToken cancellationToken)
     {
-        var result = _repository.GetDataGroupTemplate(request.DataGroupTemplateId);
+        DataGroupTemplate? dataGroupTemplate = await _unitOfWork.DataGroupTemplateRepository.GetDataGroupTemplate(request.DataGroupTemplateId);
 
-        return Task.FromResult(result);
+        return dataGroupTemplate;
     }
 }
