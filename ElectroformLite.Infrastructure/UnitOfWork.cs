@@ -9,16 +9,18 @@ public class UnitOfWork : IUnitOfWork
     public IDataTypeRepository DataTypeRepository { get; private set; }
     public IDataRepository DataRepository { get; private set; }
     public IDataGroupRepository DataGroupRepository { get; private set; }
+    public IDataTemplateRepository DataTemplateRepository { get; private set; }
 
     private readonly ElectroformDbContext _dbContext;
 
-    public UnitOfWork(ElectroformDbContext dbContext, IDataGroupTypeRepository dataGroupTypeRepository, IDataTypeRepository dataTypeRepository, IDataRepository dataRepository, IDataGroupRepository dataGroupRepository)
+    public UnitOfWork(ElectroformDbContext dbContext, IDataGroupTypeRepository dataGroupTypeRepository, IDataTypeRepository dataTypeRepository, IDataRepository dataRepository, IDataGroupRepository dataGroupRepository, IDataTemplateRepository dataTemplateRepository)
     {
         _dbContext = dbContext;
         DataGroupTypeRepository = dataGroupTypeRepository;
         DataTypeRepository = dataTypeRepository;
         DataRepository = dataRepository;
         DataGroupRepository = dataGroupRepository;
+        DataTemplateRepository = dataTemplateRepository;
     }
 
     public async Task Save()

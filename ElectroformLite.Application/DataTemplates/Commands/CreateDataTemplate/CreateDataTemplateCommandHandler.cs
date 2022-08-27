@@ -4,20 +4,22 @@ using MediatR;
 
 namespace ElectroformLite.Application.DataTemplates.Commands.CreateDataTemplate;
 
-public class CreateDataTemplateCommandHandler : IRequestHandler<CreateDataTemplateCommand, Guid>
+public class CreateDataTemplateCommandHandler : IRequestHandler<CreateDataTemplateCommand, DataTemplate>
 {
-    private readonly IDataTemplateRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public CreateDataTemplateCommandHandler(IDataTemplateRepository repository)
+    public CreateDataTemplateCommandHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<Guid> Handle(CreateDataTemplateCommand request, CancellationToken cancellationToken)
+    public async Task<DataTemplate> Handle(CreateDataTemplateCommand request, CancellationToken cancellationToken)
     {
-        DataTemplate dataTemplate = new(request.TemplatePlaceholder, request.UserData);
-        _repository.Create(dataTemplate);
+        DataTemplate dataTemplate = request.DataTemplate;
 
-        return Task.FromResult(dataTemplate.Id);
+        _unitOfWork.DataTemplateRepository.Create(dataTemplate);
+        await _unitOfWork.Save();
+
+        return dataTemplate;
     }
 }

@@ -1,32 +1,42 @@
 ﻿using ElectroformLite.Application.Interfaces;
 using ElectroformLite.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ElectroformLite.Infrastructure.Database;
 
 public class DataTemplateRepository : IDataTemplateRepository
 {
+    private readonly ElectroformDbContext _context;
+
+    public DataTemplateRepository(ElectroformDbContext context)
+    {
+        _context = context;
+    }
+
     public void Create(DataTemplate dataTemplate)
     {
-        throw new NotImplementedException();
+        _context.DataTemplates.Add(dataTemplate);
     }
 
-    public void Delete(Guid id)
+    public void Delete(DataTemplate dataTemplate)
     {
-        throw new NotImplementedException();
+        _context.DataTemplates.Remove(dataTemplate);
     }
 
-    public DataTemplate GetDataTemplate(Guid id)
+    public async Task<DataTemplate?> GetDataTemplate(Guid id)
     {
-        throw new NotImplementedException();
+        DataTemplate? dataTemplate = await _context.DataTemplates.SingleOrDefaultAsync(d => d.Id == id);
+
+        return dataTemplate;
     }
 
-    public List<DataTemplate> GetDataTemplates()
+    public async Task<List<DataTemplate>> GetDataTemplates()
     {
-        throw new NotImplementedException();
+        return await _context.DataTemplates.ToListAsync();
     }
 
     public void Update(DataTemplate dataTemplate)
     {
-        throw new NotImplementedException();
+        _context.DataTemplates.Update(dataTemplate);
     }
 }

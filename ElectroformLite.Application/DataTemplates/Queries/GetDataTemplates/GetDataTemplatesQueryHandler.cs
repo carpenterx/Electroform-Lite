@@ -6,17 +6,15 @@ namespace ElectroformLite.Application.DataTemplates.Queries.GetDataTemplates;
 
 public class GetDataTemplatesQueryHandler : IRequestHandler<GetDataTemplatesQuery, List<DataTemplate>>
 {
-    private readonly IDataTemplateRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetDataTemplatesQueryHandler(IDataTemplateRepository repository)
+    public GetDataTemplatesQueryHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<List<DataTemplate>> Handle(GetDataTemplatesQuery request, CancellationToken cancellationToken)
+    public async Task<List<DataTemplate>> Handle(GetDataTemplatesQuery request, CancellationToken cancellationToken)
     {
-        var result = _repository.GetDataTemplates();
-
-        return Task.FromResult(result);
+        return await _unitOfWork.DataTemplateRepository.GetDataTemplates();
     }
 }
