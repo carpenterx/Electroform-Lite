@@ -1,16 +1,14 @@
-﻿using MediatR;
+﻿using ElectroformLite.Domain.Models;
+using MediatR;
 
 namespace ElectroformLite.Application.Templates.Commands.CreateTemplate;
 
-public class CreateTemplateCommand : IRequest<Guid>
+public class CreateTemplateCommand : IRequest<Template>
 {
-    public string TemplateName { get; set; }
+    public Template Template { get; set; }
 
-    public string TemplateContent { get; set; }
-
-    public CreateTemplateCommand(string templateName, string templateContent)
+    public CreateTemplateCommand(Template template)
     {
-        TemplateName = templateName;
-        TemplateContent = templateContent;
+        Template = template;
     }
 }
