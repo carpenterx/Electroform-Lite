@@ -118,7 +118,7 @@ public class DocumentsController : ControllerBase
     // DELETE: Documents/5/DataGroups/6
     [HttpDelete]
     [Route("{documentId}/datagroups/{dataGroupId}")]
-    public async Task<IActionResult> DeleteDataFromDataGroup([FromRoute] Guid documentId, [FromRoute] Guid dataGroupId)
+    public async Task<IActionResult> DeleteDataGroupFromDocument([FromRoute] Guid documentId, [FromRoute] Guid dataGroupId)
     {
         Document? document = await _mediator.Send(new DeleteDataGroupFromDocumentCommand(documentId, dataGroupId));
 

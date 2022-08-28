@@ -3,14 +3,13 @@ using ElectroformLite.Application.Interfaces;
 using ElectroformLite.Infrastructure;
 using ElectroformLite.Infrastructure.Database;
 using MediatR;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<ElectroformDbContext>(o =>
-    o.UseSqlServer(@"Data Source=localhost\SQLEXPRESS01;Initial Catalog=electroform;Integrated Security=True"));
+    o.UseSqlServer(builder.Configuration.GetConnectionString("Local")));
 builder.Services.AddMediatR(typeof(IDataRepository));
 
 builder.Services.AddScoped<IDataRepository, DataRepository>();
