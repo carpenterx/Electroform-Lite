@@ -15,6 +15,8 @@ public class DataGroup
 
     public List<Data> UserData { get; set; } = new();
 
+    public List<Document> Documents { get; set; } = new();
+
     public DataGroup(string name)
     {
         Name = name;

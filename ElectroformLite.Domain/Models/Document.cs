@@ -10,6 +10,8 @@ public class Document
 
     public string Content { get; set; }
 
+    public List<DataGroup> DataGroups { get; set; } = new();
+
     //public DateTime Created { get; set; }
 
     //public DateTime LastModified { get; set; }
