@@ -1,21 +1,29 @@
 ﻿using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Domain.Models;
 using MediatR;
 
 namespace ElectroformLite.Application.Documents.Commands.DeleteDocument;
 
-public class DeleteDocumentCommandHandler : IRequestHandler<DeleteDocumentCommand>
+public class DeleteDocumentCommandHandler : IRequestHandler<DeleteDocumentCommand, Document?>
 {
-    private readonly IDocumentRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public DeleteDocumentCommandHandler(IDocumentRepository repository)
+    public DeleteDocumentCommandHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<Unit> Handle(DeleteDocumentCommand request, CancellationToken cancellationToken)
+    public async Task<Document?> Handle(DeleteDocumentCommand request, CancellationToken cancellationToken)
     {
-        _repository.Delete(request.DocumentId);
+        Document? document = await _unitOfWork.DocumentRepository.GetDocument(request.DocumentId);
+        if (document == null)
+        {
+            return null;
+        }
 
-        return Task.FromResult(Unit.Value);
+        _unitOfWork.DocumentRepository.Delete(document);
+        await _unitOfWork.Save();
+
+        return document;
     }
 }

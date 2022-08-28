@@ -4,19 +4,19 @@ using MediatR;
 
 namespace ElectroformLite.Application.Documents.Queries.GetDocument;
 
-public class GetDocumentQueryHandler : IRequestHandler<GetDocumentQuery, Document>
+public class GetDocumentQueryHandler : IRequestHandler<GetDocumentQuery, Document?>
 {
-    private readonly IDocumentRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetDocumentQueryHandler(IDocumentRepository repository)
+    public GetDocumentQueryHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<Document> Handle(GetDocumentQuery request, CancellationToken cancellationToken)
+    public async Task<Document?> Handle(GetDocumentQuery request, CancellationToken cancellationToken)
     {
-        var result = _repository.GetDocument(request.DocumentId);
+        Document? document = await _unitOfWork.DocumentRepository.GetDocument(request.DocumentId);
 
-        return Task.FromResult(result);
+        return document;
     }
 }

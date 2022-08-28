@@ -9,6 +9,7 @@ public interface IUnitOfWork : IDisposable
     public IDataTemplateRepository DataTemplateRepository { get; }
     public IDataGroupTemplateRepository DataGroupTemplateRepository { get; }
     public ITemplateRepository TemplateRepository { get; }
+    public IDocumentRepository DocumentRepository { get; }
 
     Task Save();
 }

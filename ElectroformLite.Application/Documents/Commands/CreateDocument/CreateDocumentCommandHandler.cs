@@ -4,20 +4,22 @@ using MediatR;
 
 namespace ElectroformLite.Application.Documents.Commands.CreateDocument;
 
-public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentCommand, Guid>
+public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentCommand, Document>
 {
-    private readonly IDocumentRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public CreateDocumentCommandHandler(IDocumentRepository repository)
+    public CreateDocumentCommandHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<Guid> Handle(CreateDocumentCommand request, CancellationToken cancellationToken)
+    public async Task<Document> Handle(CreateDocumentCommand request, CancellationToken cancellationToken)
     {
         Document document = request.Document;
-        _repository.Create(document);
 
-        return Task.FromResult(document.Id);
+        _unitOfWork.DocumentRepository.Create(document);
+        await _unitOfWork.Save();
+
+        return document;
     }
 }

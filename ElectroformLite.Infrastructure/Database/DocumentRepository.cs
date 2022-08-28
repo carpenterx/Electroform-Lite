@@ -1,32 +1,42 @@
 ﻿using ElectroformLite.Application.Interfaces;
 using ElectroformLite.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ElectroformLite.Infrastructure.Database;
 
 public class DocumentRepository : IDocumentRepository
 {
+    private readonly ElectroformDbContext _context;
+
+    public DocumentRepository(ElectroformDbContext context)
+    {
+        _context = context;
+    }
+
     public void Create(Document document)
     {
-        throw new NotImplementedException();
+        _context.Documents.Add(document);
     }
 
-    public void Delete(Guid id)
+    public void Delete(Document document)
     {
-        throw new NotImplementedException();
+        _context.Documents.Remove(document);
     }
 
-    public Document GetDocument(Guid id)
+    public async Task<Document?> GetDocument(Guid id)
     {
-        throw new NotImplementedException();
+        Document? document = await _context.Documents.SingleOrDefaultAsync(d => d.Id == id);
+
+        return document;
     }
 
-    public List<Document> GetDocuments()
+    public async Task<List<Document>> GetDocuments()
     {
-        throw new NotImplementedException();
+        return await _context.Documents.ToListAsync();
     }
 
     public void Update(Document document)
     {
-        throw new NotImplementedException();
+        _context.Documents.Update(document);
     }
 }
