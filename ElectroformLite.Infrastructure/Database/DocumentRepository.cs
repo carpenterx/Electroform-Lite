@@ -25,14 +25,14 @@ public class DocumentRepository : IDocumentRepository
 
     public async Task<Document?> GetDocument(Guid id)
     {
-        Document? document = await _context.Documents.SingleOrDefaultAsync(d => d.Id == id);
+        Document? document = await _context.Documents.Include(d => d.DataGroups).SingleOrDefaultAsync(d => d.Id == id);
 
         return document;
     }
 
     public async Task<List<Document>> GetDocuments()
     {
-        return await _context.Documents.ToListAsync();
+        return await _context.Documents.Include(d => d.DataGroups).ToListAsync();
     }
 
     public void Update(Document document)

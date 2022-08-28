@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using ElectroformLite.API.Dto;
+using ElectroformLite.Application.Documents.Commands.AddDataGroupToDocument;
 using ElectroformLite.Application.Documents.Commands.CreateDocument;
+using ElectroformLite.Application.Documents.Commands.DeleteDataGroupFromDocument;
 using ElectroformLite.Application.Documents.Commands.DeleteDocument;
 using ElectroformLite.Application.Documents.Commands.EditDocument;
 using ElectroformLite.Application.Documents.Queries.GetDocument;
@@ -89,6 +91,38 @@ public class DocumentsController : ControllerBase
         Document? editedDocument = await _mediator.Send(new EditDocumentCommand(documentFromDto));
 
         if (editedDocument == null)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
+    }
+
+    // POST: Documents/5/DataGroups/6
+    [HttpPost]
+    [Route("{documentId}/datagroups/{dataGroupId}")]
+    public async Task<IActionResult> AddDataGroupToDocument([FromRoute] Guid documentId, [FromRoute] Guid dataGroupId)
+    {
+        Document? document = await _mediator.Send(new AddDataGroupToDocumentCommand(documentId, dataGroupId));
+
+        if (document == null)
+        {
+            return NotFound();
+        }
+
+        DocumentGetPutDto dtoFromDocument = _mapper.Map<DocumentGetPutDto>(document);
+
+        return CreatedAtAction(nameof(GetDocument), new { dtoFromDocument.Id }, dtoFromDocument);
+    }
+
+    // DELETE: Documents/5/DataGroups/6
+    [HttpDelete]
+    [Route("{documentId}/datagroups/{dataGroupId}")]
+    public async Task<IActionResult> DeleteDataFromDataGroup([FromRoute] Guid documentId, [FromRoute] Guid dataGroupId)
+    {
+        Document? document = await _mediator.Send(new DeleteDataGroupFromDocumentCommand(documentId, dataGroupId));
+
+        if (document == null)
         {
             return NotFound();
         }
