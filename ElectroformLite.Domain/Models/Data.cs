@@ -14,6 +14,11 @@ public class Data
 
     //public DateTime LastModified { get; set; }
 
+    public Data()
+    {
+
+    }
+
     public Data(string value)
     {
         Value = value;

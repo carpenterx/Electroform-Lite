@@ -10,16 +10,10 @@ public class DataTemplate
     [StringLength(100)]
     public string Placeholder { get; set; }
 
-    public ICollection<Data> UserData { get; set; }
+    public List<Data> UserData { get; set; } = new();
 
     public DataTemplate()
     {
 
-    }
-
-    public DataTemplate(string placeholder, ICollection<Data> userData)
-    {
-        Placeholder = placeholder;
-        UserData = userData;
     }
 }
