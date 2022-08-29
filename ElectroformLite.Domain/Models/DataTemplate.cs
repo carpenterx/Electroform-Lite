@@ -8,9 +8,11 @@ public class DataTemplate
 
     [Required]
     [StringLength(100)]
-    public string Placeholder { get; set; }
+    public string Placeholder { get; set; } = string.Empty;
 
     public List<Data> UserData { get; set; } = new();
+
+    public List<DataGroupTemplate> DataGroupTemplates { get; set; } = new();
 
     public DataTemplate()
     {

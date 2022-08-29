@@ -8,7 +8,7 @@ public class Data
 
     [Required]
     [StringLength(100)]
-    public string Value { get; set; }
+    public string Value { get; set; } = string.Empty;
 
     //public DateTime Created { get; set; }
 

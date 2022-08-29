@@ -4,15 +4,23 @@ public class User
 {
     public Guid Id { get; set; }
 
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
-    public string Password { get; set; }
+    public string Password { get; set; } = string.Empty;
 
-    public bool IsAdmin { get; set; }
+    public bool IsAdmin { get; set; } = false;
 
-    public ICollection<DataGroup> DataGroups { get; set; }
+    public List<Data> UserData { get; set; } = new();
 
-    public ICollection<Document> Documents { get; set; }
+    public List<DataGroup> DataGroups { get; set; } = new();
+
+    public List<Document> Documents { get; set; } = new();
+
+    //public List<DataTemplate> DataTemplates { get; set; } = new();
+
+    //public List<DataGroupTemplate> DataGroupTemplates { get; set; } = new();
+
+    //public List<Template> Templates { get; set; } = new();
 
     public User(string name, string password, bool isAdmin = false)
     {

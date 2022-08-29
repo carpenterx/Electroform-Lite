@@ -1,6 +1,5 @@
 using ElectroformLite.Application.Utils;
 using ElectroformLite.Domain.Models;
-using Newtonsoft.Json.Linq;
 
 namespace ElectroformLite.Tests;
 

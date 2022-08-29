@@ -7,7 +7,7 @@ public class DataGroup
     public Guid Id { get; set; }
 
     [StringLength(100)]
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     //public DateTime Created { get; set; }
 

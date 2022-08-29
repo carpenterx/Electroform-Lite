@@ -8,14 +8,16 @@ public class Template
 
     [Required]
     [StringLength(250)]
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     [Required]
-    public string Content { get; set; }
+    public string Content { get; set; } = string.Empty;
 
     //public List<int> DataGroupTemplates { get; set; }
 
-    public ICollection<Document> Documents { get; set; }
+    public List<Document> Documents { get; set; } = new();
+
+    public List<DataGroupTemplate> DataGroupTemplates { get; set; } = new();
 
     public Template(string name, string content)
     {

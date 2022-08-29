@@ -8,9 +8,9 @@ public class DataType
 
     [Required]
     [StringLength(100)]
-    public string Value { get; set; }
+    public string Value { get; set; } = string.Empty;
 
-    public ICollection<DataTemplate> DataTemplates { get; set; }
+    public List<DataTemplate> DataTemplates { get; set; } = new();
 
     public DataType()
     {

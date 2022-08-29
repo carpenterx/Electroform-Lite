@@ -8,11 +8,13 @@ public class DataGroupTemplate
 
     [Required]
     [StringLength(100)]
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     public List<DataGroup> DataGroups { get; set; } = new();
 
     public List<DataTemplate> DataTemplates { get; set; } = new();
+
+    public List<Template> Templates { get; set; } = new();
 
     public DataGroupTemplate()
     {
