@@ -55,8 +55,13 @@ public class DataGroupsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateDataGroup([FromBody] DataGroupPostDto dataGroupDto)
     {
-        DataGroup dataGroupFromDto = _mapper.Map<DataGroup>(dataGroupDto);
-        DataGroup dataGroup = await _mediator.Send(new CreateDataGroupCommand(dataGroupFromDto));
+        DataGroup? dataGroup = await _mediator.Send(new CreateDataGroupCommand(dataGroupDto.DataGroupTemplateId, dataGroupDto.Name));
+
+        if (dataGroup == null)
+        {
+            return NotFound();
+        }
+
         DataGroupGetPutDto dtoFromDataGroup = _mapper.Map<DataGroupGetPutDto>(dataGroup);
 
         return CreatedAtAction(nameof(GetDataGroup), new { dtoFromDataGroup.Id }, dtoFromDataGroup);

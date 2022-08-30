@@ -2,5 +2,6 @@
 
 public class DataGroupPostDto
 {
+    public Guid DataGroupTemplateId { get; set; }
     public string Name { get; set; }
 }
