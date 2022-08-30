@@ -3,12 +3,14 @@ using MediatR;
 
 namespace ElectroformLite.Application.DataTemplates.Commands.CreateDataTemplate;
 
-public class CreateDataTemplateCommand : IRequest<DataTemplate>
+public class CreateDataTemplateCommand : IRequest<DataTemplate?>
 {
-    public DataTemplate DataTemplate { get; set; }
+    public Guid DataTypeId { get; set; }
+    public string Placeholder { get; set; }
 
-    public CreateDataTemplateCommand(DataTemplate dataTemplate)
+    public CreateDataTemplateCommand(Guid dataTypeId, string placeholder)
     {
-        DataTemplate = dataTemplate;
+        DataTypeId = dataTypeId;
+        Placeholder = placeholder;
     }
 }

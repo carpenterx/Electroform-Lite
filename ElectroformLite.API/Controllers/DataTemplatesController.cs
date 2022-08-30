@@ -53,8 +53,13 @@ public class DataTemplatesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateDataTemplate([FromBody] DataTemplatePostDto dataTemplateDto)
     {
-        DataTemplate dataTemplateFromDto = _mapper.Map<DataTemplate>(dataTemplateDto);
-        DataTemplate dataTemplate = await _mediator.Send(new CreateDataTemplateCommand(dataTemplateFromDto));
+        //DataTemplate dataTemplateFromDto = _mapper.Map<DataTemplate>(dataTemplateDto);
+        DataTemplate? dataTemplate = await _mediator.Send(new CreateDataTemplateCommand(dataTemplateDto.DataTypeId, dataTemplateDto.Placeholder));
+
+        if (dataTemplate == null)
+        {
+            return NotFound();
+        }
         DataTemplateGetPutDto dtoFromDataTemplate = _mapper.Map<DataTemplateGetPutDto>(dataTemplate);
 
         return CreatedAtAction(nameof(GetDataTemplate), new { dtoFromDataTemplate.Id }, dtoFromDataTemplate);

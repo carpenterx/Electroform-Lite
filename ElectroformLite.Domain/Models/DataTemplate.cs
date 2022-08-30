@@ -14,8 +14,8 @@ public class DataTemplate
 
     public List<DataGroupTemplate> DataGroupTemplates { get; set; } = new();
 
-    public DataTemplate()
+    public DataTemplate(string placeholder)
     {
-
+        Placeholder = placeholder;
     }
 }
