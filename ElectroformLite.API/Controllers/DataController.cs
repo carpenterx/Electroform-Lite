@@ -53,8 +53,14 @@ public class DataController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateData([FromBody] DataPostDto dataDto)
     {
-        Data dataFromDto = _mapper.Map<Data>(dataDto);
-        Data data = await _mediator.Send(new CreateDataCommand(dataFromDto));
+        //Data dataFromDto = _mapper.Map<Data>(dataDto);
+        Data? data = await _mediator.Send(new CreateDataCommand(dataDto.DataTemplateId, dataDto.Value));
+
+        if (data == null)
+        {
+            return NotFound();
+        }
+
         DataGetPutDto dtoFromData = _mapper.Map<DataGetPutDto>(data);
 
         return CreatedAtAction(nameof(GetData), new { dtoFromData.Id }, dtoFromData);

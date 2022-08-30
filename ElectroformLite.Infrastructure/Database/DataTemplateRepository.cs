@@ -25,7 +25,7 @@ public class DataTemplateRepository : IDataTemplateRepository
 
     public async Task<DataTemplate?> GetDataTemplate(Guid id)
     {
-        DataTemplate? dataTemplate = await _context.DataTemplates.SingleOrDefaultAsync(d => d.Id == id);
+        DataTemplate? dataTemplate = await _context.DataTemplates.Include(d => d.UserData).SingleOrDefaultAsync(d => d.Id == id);
 
         return dataTemplate;
     }

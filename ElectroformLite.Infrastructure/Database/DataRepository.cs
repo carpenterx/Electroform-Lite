@@ -30,7 +30,7 @@ public class DataRepository : IDataRepository
 
     public async Task<Data?> GetData(Guid id)
     {
-        Data? data = await _context.UserData.SingleOrDefaultAsync(p => p.Id == id);
+        Data? data = await _context.UserData.SingleOrDefaultAsync(d => d.Id == id);
 
         return data;
     }
