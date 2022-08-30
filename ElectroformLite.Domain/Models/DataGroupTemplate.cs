@@ -16,8 +16,8 @@ public class DataGroupTemplate
 
     public List<Template> Templates { get; set; } = new();
 
-    public DataGroupTemplate()
+    public DataGroupTemplate(string name)
     {
-
+        Name = name;
     }
 }

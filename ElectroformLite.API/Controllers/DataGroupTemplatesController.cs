@@ -53,8 +53,13 @@ public class DataGroupTemplatesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateDataGroupTemplate([FromBody] DataGroupTemplatePostDto dataGroupTemplateDto)
     {
-        DataGroupTemplate dataGroupTemplateFromDto = _mapper.Map<DataGroupTemplate>(dataGroupTemplateDto);
-        DataGroupTemplate dataGroupTemplate = await _mediator.Send(new CreateDataGroupTemplateCommand(dataGroupTemplateFromDto));
+        DataGroupTemplate? dataGroupTemplate = await _mediator.Send(new CreateDataGroupTemplateCommand(dataGroupTemplateDto.DataGroupTypeId, dataGroupTemplateDto.Name));
+
+        if (dataGroupTemplate == null)
+        {
+            return NotFound();
+        }
+
         DataGroupTemplateGetPutDto dtoFromDataGroupTemplate = _mapper.Map<DataGroupTemplateGetPutDto>(dataGroupTemplate);
 
         return CreatedAtAction(nameof(GetDataGroupTemplate), new { dtoFromDataGroupTemplate.Id }, dtoFromDataGroupTemplate);
