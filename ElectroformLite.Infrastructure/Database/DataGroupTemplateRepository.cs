@@ -27,6 +27,7 @@ public class DataGroupTemplateRepository : IDataGroupTemplateRepository
     {
         DataGroupTemplate? dataGroupTemplate = await _context.DataGroupTemplates
             .Include(d => d.DataGroups)
+            .Include(d => d.DataTemplates)
             .SingleOrDefaultAsync(d => d.Id == id);
 
         return dataGroupTemplate;

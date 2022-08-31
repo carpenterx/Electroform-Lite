@@ -53,7 +53,7 @@ public class DataGroupTemplatesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateDataGroupTemplate([FromBody] DataGroupTemplatePostDto dataGroupTemplateDto)
     {
-        DataGroupTemplate? dataGroupTemplate = await _mediator.Send(new CreateDataGroupTemplateCommand(dataGroupTemplateDto.DataGroupTypeId, dataGroupTemplateDto.Name));
+        DataGroupTemplate? dataGroupTemplate = await _mediator.Send(new CreateDataGroupTemplateCommand(dataGroupTemplateDto.DataGroupTypeId, dataGroupTemplateDto.Name, dataGroupTemplateDto.DataTemplateIds));
 
         if (dataGroupTemplate == null)
         {
