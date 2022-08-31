@@ -46,6 +46,7 @@ public class DocumentsController : ControllerBase
         {
             return NotFound();
         }
+
         DocumentGetPutDto documentDto = _mapper.Map<DocumentGetPutDto>(document);
 
         return Ok(documentDto);
@@ -53,10 +54,15 @@ public class DocumentsController : ControllerBase
 
     // POST: Documents
     [HttpPost]
-    public async Task<IActionResult> CreateDocument([FromBody] DocumentPostDto dataTemplateDto)
+    public async Task<IActionResult> CreateDocument([FromBody] DocumentPostDto documentDto)
     {
-        Document documentFromDto = _mapper.Map<Document>(dataTemplateDto);
-        Document document = await _mediator.Send(new CreateDocumentCommand(documentFromDto));
+        Document? document = await _mediator.Send(new CreateDocumentCommand(documentDto.TemplateId, documentDto.DataGroupIds));
+
+        if (document == null)
+        {
+            return NotFound();
+        }
+
         DocumentGetPutDto dtoFromDocument = _mapper.Map<DocumentGetPutDto>(document);
 
         return CreatedAtAction(nameof(GetDocument), new { dtoFromDocument.Id }, dtoFromDocument);

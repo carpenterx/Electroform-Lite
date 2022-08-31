@@ -21,6 +21,6 @@ public class ElectroformProfiles : Profile
         CreateMap<Template, TemplateGetPutDto>().ReverseMap();
         //CreateMap<TemplatePostDto, Template>();
         CreateMap<Document, DocumentGetPutDto>().ReverseMap();
-        CreateMap<DocumentPostDto, Document>();
+        //CreateMap<DocumentPostDto, Document>();
     }
 }
