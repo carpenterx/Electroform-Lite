@@ -55,7 +55,7 @@ public class DataGroupsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateDataGroup([FromBody] DataGroupPostDto dataGroupDto)
     {
-        DataGroup? dataGroup = await _mediator.Send(new CreateDataGroupCommand(dataGroupDto.DataGroupTemplateId, dataGroupDto.Name));
+        DataGroup? dataGroup = await _mediator.Send(new CreateDataGroupCommand(dataGroupDto.DataGroupTemplateId, dataGroupDto.Name, dataGroupDto.DataProperties));
 
         if (dataGroup == null)
         {

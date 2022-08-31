@@ -15,15 +15,14 @@ public class CreateDataCommandHandler : IRequestHandler<CreateDataCommand, Data?
 
     public async Task<Data?> Handle(CreateDataCommand request, CancellationToken cancellationToken)
     {
-        Data data = new(request.Value);
-        _unitOfWork.DataRepository.Create(data);
         DataTemplate? dataTemplate = await _unitOfWork.DataTemplateRepository.GetDataTemplate(request.DataTemplateId);
-
         if (dataTemplate is null)
         {
             return null;
         }
 
+        Data data = new(request.Value);
+        _unitOfWork.DataRepository.Create(data);
         dataTemplate.UserData.Add(data);
         await _unitOfWork.Save();
 

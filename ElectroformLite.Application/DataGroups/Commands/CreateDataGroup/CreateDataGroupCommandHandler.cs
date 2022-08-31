@@ -15,13 +15,28 @@ public class CreateDataGroupCommandHandler : IRequestHandler<CreateDataGroupComm
 
     public async Task<DataGroup?> Handle(CreateDataGroupCommand request, CancellationToken cancellationToken)
     {
-        DataGroup dataGroup = new(request.Name);
-        _unitOfWork.DataGroupRepository.Create(dataGroup);
         DataGroupTemplate? dataGroupTemplate = await _unitOfWork.DataGroupTemplateRepository.GetDataGroupTemplate(request.DataGroupTemplateId);
 
         if (dataGroupTemplate is null)
         {
             return null;
+        }
+
+        DataGroup dataGroup = new(request.Name);
+        _unitOfWork.DataGroupRepository.Create(dataGroup);
+
+        foreach (KeyValuePair<Guid, string> dataProperty in request.DataProperties)
+        {
+            DataTemplate? dataTemplate = await _unitOfWork.DataTemplateRepository.GetDataTemplate(dataProperty.Key);
+            if (dataTemplate is null)
+            {
+                return null;
+            }
+
+            Data data = new(dataProperty.Value);
+            _unitOfWork.DataRepository.Create(data);
+            dataTemplate.UserData.Add(data);
+            dataGroup.UserData.Add(data);
         }
 
         dataGroupTemplate.DataGroups.Add(dataGroup);
