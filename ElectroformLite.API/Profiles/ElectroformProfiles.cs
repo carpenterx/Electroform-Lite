@@ -4,9 +4,9 @@ using ElectroformLite.Domain.Models;
 
 namespace ElectroformLite.API.Profiles;
 
-public class DataGroupTypeProfile : Profile
+public class ElectroformProfiles : Profile
 {
-	public DataGroupTypeProfile()
+	public ElectroformProfiles()
 	{
 		CreateMap<DataGroupTypeDto, DataGroupType>().ReverseMap();
 		CreateMap<DataTypeDto, DataType>().ReverseMap();
@@ -19,7 +19,7 @@ public class DataGroupTypeProfile : Profile
         CreateMap<DataGroupTemplate, DataGroupTemplateGetPutDto>().ReverseMap();
         //CreateMap<DataGroupTemplatePostDto, DataGroupTemplate>();
         CreateMap<Template, TemplateGetPutDto>().ReverseMap();
-        CreateMap<TemplatePostDto, Template>();
+        //CreateMap<TemplatePostDto, Template>();
         CreateMap<Document, DocumentGetPutDto>().ReverseMap();
         CreateMap<DocumentPostDto, Document>();
     }
