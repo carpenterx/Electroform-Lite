@@ -9,6 +9,8 @@ public class DataGroup
     [StringLength(100)]
     public string Name { get; set; } = string.Empty;
 
+    public string DataGroupPlaceholder { get; set; } = string.Empty;
+
     //public DateTime Created { get; set; }
 
     //public DateTime LastModified { get; set; }
@@ -17,8 +19,9 @@ public class DataGroup
 
     public List<Document> Documents { get; set; } = new();
 
-    public DataGroup(string name)
+    public DataGroup(string name, string dataGroupPlaceholder)
     {
         Name = name;
+        DataGroupPlaceholder = dataGroupPlaceholder;
     }
 }

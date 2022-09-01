@@ -4,6 +4,7 @@ using ElectroformLite.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElectroformLite.Infrastructure.Migrations
 {
     [DbContext(typeof(ElectroformDbContext))]
-    partial class ElectroformDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220901125304_AddExtraDataColumns")]
+    partial class AddExtraDataColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,12 +114,12 @@ namespace ElectroformLite.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("DataGroupPlaceholder")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid?>("DataGroupTemplateId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DataGroupType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -141,6 +143,10 @@ namespace ElectroformLite.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DataGroupType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("DataGroupTypeId")
                         .HasColumnType("uniqueidentifier");

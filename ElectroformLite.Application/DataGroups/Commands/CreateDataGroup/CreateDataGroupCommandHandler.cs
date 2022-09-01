@@ -22,7 +22,7 @@ public class CreateDataGroupCommandHandler : IRequestHandler<CreateDataGroupComm
             return null;
         }
 
-        DataGroup dataGroup = new(request.Name);
+        DataGroup dataGroup = new(request.Name,dataGroupTemplate.Name);
         _unitOfWork.DataGroupRepository.Create(dataGroup);
 
         foreach (KeyValuePair<Guid, string> dataProperty in request.DataProperties)
@@ -33,7 +33,7 @@ public class CreateDataGroupCommandHandler : IRequestHandler<CreateDataGroupComm
                 return null;
             }
 
-            Data data = new(dataProperty.Value);
+            Data data = new(dataTemplate.Placeholder, dataProperty.Value, dataTemplate.DataType);
             _unitOfWork.DataRepository.Create(data);
             dataTemplate.UserData.Add(data);
             dataGroup.UserData.Add(data);

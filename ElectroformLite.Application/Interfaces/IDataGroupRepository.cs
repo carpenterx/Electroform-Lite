@@ -10,4 +10,5 @@ public interface IDataGroupRepository
     Task<DataGroup?> GetDataGroup(Guid id);
     Task<List<DataGroup>> GetDataGroupsByType(Guid id);
     Task<List<DataGroup>> GetDataGroups();
+    Task<List<DataGroup>> GetDataGroupsWithIds(List<Guid> guids);
 }

@@ -25,9 +25,20 @@ public class DataGroupRepository : IDataGroupRepository
 
     public async Task<DataGroup?> GetDataGroup(Guid id)
     {
-        DataGroup? dataGroup = await _context.DataGroups.Include(d => d.UserData).SingleOrDefaultAsync(d => d.Id == id);
+        DataGroup? dataGroup = await _context.DataGroups
+            .Include(d => d.UserData)
+            .Include(d => d.Documents)
+            .SingleOrDefaultAsync(d => d.Id == id);
 
         return dataGroup;
+    }
+
+    public async Task<List<DataGroup>> GetDataGroupsWithIds(List<Guid> guids)
+    {
+        return await _context.DataGroups
+            .Include(d => d.UserData)
+            .Where(d => guids.Contains( d.Id))
+            .ToListAsync();
     }
 
     public async Task<List<DataGroup>> GetDataGroups()

@@ -21,19 +21,26 @@ public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentComman
             return null;
         }
 
-        Document document = new(template.Name, template.Content);
-        _unitOfWork.DocumentRepository.Create(document);
-
-        foreach (Guid dataGroupId in request.DataGroupIds)
+        if (template.DataGroupTemplates.Count != request.DataGroupIds.Count)
         {
-            DataGroup? dataGroup = await _unitOfWork.DataGroupRepository.GetDataGroup(dataGroupId);
-            if (dataGroup == null)
-            {
-                return null;
-            }
-
-            document.DataGroups.Add(dataGroup);
+            return null;
         }
+
+        List<DataGroup> dataGroups = await _unitOfWork.DataGroupRepository.GetDataGroupsWithIds(request.DataGroupIds);
+        string documentName = template.Name;
+        string documentContent = template.Content;
+        foreach (DataGroup dataGroup in dataGroups)
+        {
+            foreach (Data data in dataGroup.UserData)
+            {
+                documentName = documentName.Replace($"[{dataGroup.DataGroupPlaceholder}.{data.Placeholder}]", data.Value);
+                documentContent = documentContent.Replace($"[{dataGroup.DataGroupPlaceholder}.{data.Placeholder}]", data.Value);
+            }
+        }
+
+        Document document = new(documentName, documentContent);
+        _unitOfWork.DocumentRepository.Create(document);
+        document.DataGroups.AddRange(dataGroups);
         template.Documents.Add(document);
         await _unitOfWork.Save();
 
