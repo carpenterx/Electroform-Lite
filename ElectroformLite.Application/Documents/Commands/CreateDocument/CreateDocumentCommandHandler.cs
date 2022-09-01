@@ -1,4 +1,5 @@
 ﻿using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Application.Utils;
 using ElectroformLite.Domain.Models;
 using MediatR;
 
@@ -27,17 +28,17 @@ public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentComman
         }
 
         List<DataGroup> dataGroups = await _unitOfWork.DataGroupRepository.GetDataGroupsWithIds(request.DataGroupIds);
-        string documentName = template.Name;
-        string documentContent = template.Content;
+
+        Dictionary<string, string> dataDictionary = new();
         foreach (DataGroup dataGroup in dataGroups)
         {
             foreach (Data data in dataGroup.UserData)
             {
-                documentName = documentName.Replace($"[{dataGroup.DataGroupPlaceholder}.{data.Placeholder}]", data.Value);
-                documentContent = documentContent.Replace($"[{dataGroup.DataGroupPlaceholder}.{data.Placeholder}]", data.Value);
+                dataDictionary.Add($"[{dataGroup.DataGroupPlaceholder}.{data.Placeholder}]", data.Value);
             }
         }
-
+        string documentName = TextUtilities.ReplacePlaceholders(template.Name, dataDictionary);
+        string documentContent = TextUtilities.ReplacePlaceholders(template.Content, dataDictionary);
         Document document = new(documentName, documentContent);
         _unitOfWork.DocumentRepository.Create(document);
         document.DataGroups.AddRange(dataGroups);
