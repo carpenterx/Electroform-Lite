@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ElectroformLite.API.Controllers;
 
-[Route("[controller]")]
+[Route("templates")]
 [ApiController]
 public class TemplatesController : ControllerBase
 {
@@ -24,7 +24,7 @@ public class TemplatesController : ControllerBase
         _mapper = mapper;
     }
 
-    // GET: Templates
+    // GET: templates
     [HttpGet]
     public async Task<ActionResult<List<Template>>> GetTemplates()
     {
@@ -34,7 +34,7 @@ public class TemplatesController : ControllerBase
         return Ok(templateDtos);
     }
 
-    // GET: Templates/5
+    // GET: templates/5
     [HttpGet("{id}")]
     public async Task<ActionResult<Template>> GetTemplate([FromRoute] Guid id)
     {
@@ -49,7 +49,7 @@ public class TemplatesController : ControllerBase
         return Ok(templateDto);
     }
 
-    // POST: Templates
+    // POST: templates
     [HttpPost]
     public async Task<IActionResult> CreateTemplate([FromBody] TemplatePostDto templateDto)
     {
@@ -65,7 +65,7 @@ public class TemplatesController : ControllerBase
         return CreatedAtAction(nameof(GetTemplate), new { dtoFromTemplate.Id }, dtoFromTemplate);
     }
 
-    // DELETE: Templates/5
+    // DELETE: templates/5
     [HttpDelete]
     [Route("{id}")]
     public async Task<IActionResult> DeleteTemplate([FromRoute] Guid id)
@@ -80,7 +80,7 @@ public class TemplatesController : ControllerBase
         return NoContent();
     }
 
-    // PUT: Templates/5
+    // PUT: templates/5
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateTemplate([FromRoute] Guid id, [FromBody] TemplateGetPutDto templateDto)
     {

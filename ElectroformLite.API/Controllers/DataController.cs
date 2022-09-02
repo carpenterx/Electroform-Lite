@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ElectroformLite.API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("data")]
 public class DataController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -24,7 +24,7 @@ public class DataController : ControllerBase
         _mapper = mapper;
     }
 
-    // GET: Data
+    // GET: data
     [HttpGet]
     public async Task<ActionResult<List<Data>>> GetData()
     {
@@ -34,7 +34,7 @@ public class DataController : ControllerBase
         return Ok(dataDtos);
     }
 
-    // GET: Data/5
+    // GET: data/5
     [HttpGet("{id}")]
     public async Task<ActionResult<Data>> GetData([FromRoute] Guid id)
     {
@@ -49,7 +49,7 @@ public class DataController : ControllerBase
         return Ok(dataDto);
     }
 
-    // POST: Data
+    // POST: data
     [HttpPost]
     public async Task<IActionResult> CreateData([FromBody] DataPostDto dataDto)
     {
@@ -66,7 +66,7 @@ public class DataController : ControllerBase
         return CreatedAtAction(nameof(GetData), new { dtoFromData.Id }, dtoFromData);
     }
 
-    // DELETE: Data/5
+    // DELETE: data/5
     [HttpDelete]
     [Route("{id}")]
     public async Task<IActionResult> DeleteData([FromRoute] Guid id)
@@ -81,7 +81,7 @@ public class DataController : ControllerBase
         return NoContent();
     }
 
-    // PUT: Data/5
+    // PUT: data/5
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateData([FromRoute] Guid id, [FromBody] DataGetPutDto dataDto)
     {

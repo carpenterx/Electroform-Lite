@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ElectroformLite.API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("data-groups")]
 public class DataGroupsController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -26,7 +26,7 @@ public class DataGroupsController : ControllerBase
         _mapper = mapper;
     }
 
-    // GET: DataGroups
+    // GET: data-groups
     [HttpGet]
     public async Task<ActionResult<List<DataGroup>>> GetDataGroups()
     {
@@ -36,7 +36,7 @@ public class DataGroupsController : ControllerBase
         return Ok(dataGroupDtos);
     }
 
-    // GET: DataGroups/5
+    // GET: data-groups/5
     [HttpGet("{id}")]
     public async Task<ActionResult<DataGroup>> GetDataGroup([FromRoute] Guid id)
     {
@@ -51,7 +51,7 @@ public class DataGroupsController : ControllerBase
         return Ok(dataGroupDto);
     }
 
-    // POST: DataGroups
+    // POST: data-groups
     [HttpPost]
     public async Task<IActionResult> CreateDataGroup([FromBody] DataGroupPostDto dataGroupDto)
     {
@@ -67,7 +67,7 @@ public class DataGroupsController : ControllerBase
         return CreatedAtAction(nameof(GetDataGroup), new { dtoFromDataGroup.Id }, dtoFromDataGroup);
     }
 
-    // DELETE: DataGroups/5
+    // DELETE: data-groups/5
     [HttpDelete]
     [Route("{id}")]
     public async Task<IActionResult> DeleteDataGroup([FromRoute] Guid id)
@@ -82,7 +82,7 @@ public class DataGroupsController : ControllerBase
         return NoContent();
     }
 
-    // PUT: DataGroups/5
+    // PUT: data-groups/5
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateDataGroup([FromRoute] Guid id, [FromBody] DataGroupGetPutDto dataGroupDto)
     {
@@ -103,7 +103,7 @@ public class DataGroupsController : ControllerBase
         return NoContent();
     }
 
-    // POST: DataGroups/5/Data/6
+    // POST: data-groups/5/data/6
     [HttpPost]
     [Route("{dataGroupId}/data/{dataId}")]
     public async Task<IActionResult> AddDataToDataGroup([FromRoute] Guid dataGroupId, [FromRoute] Guid dataId)
@@ -120,7 +120,7 @@ public class DataGroupsController : ControllerBase
         return CreatedAtAction(nameof(GetDataGroup), new { dtoFromDataGroup.Id }, dtoFromDataGroup);
     }
 
-    // DELETE: DataGroups/5/Data/6
+    // DELETE: data-groups/5/data/6
     [HttpDelete]
     [Route("{dataGroupId}/data/{dataId}")]
     public async Task<IActionResult> DeleteDataFromDataGroup([FromRoute] Guid dataGroupId, [FromRoute] Guid dataId)

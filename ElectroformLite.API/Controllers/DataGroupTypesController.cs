@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ElectroformLite.API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("data-group-types")]
 public class DataGroupTypesController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -24,7 +24,7 @@ public class DataGroupTypesController : ControllerBase
         _mapper = mapper;
     }
 
-    // GET: DataGroupTypes
+    // GET: data-group-types
     [HttpGet]
     public async Task<ActionResult<List<DataGroupType>>> GetDataGroupTypes()
     {
@@ -34,7 +34,7 @@ public class DataGroupTypesController : ControllerBase
         return Ok(dataGroupTypeDtos);
     }
 
-    // GET: DataGroupTypes/5
+    // GET: data-group-types/5
     [HttpGet("{id}")]
     public async Task<ActionResult<DataGroupType>> GetDataGroupType([FromRoute] Guid id)
     {
@@ -49,7 +49,7 @@ public class DataGroupTypesController : ControllerBase
         return Ok(dataGroupTypeDto);
     }
 
-    // POST: DataGroupTypes
+    // POST: data-group-types
     [HttpPost]
     public async Task<IActionResult> CreateDataGroupType([FromBody] string type)
     {
@@ -58,7 +58,7 @@ public class DataGroupTypesController : ControllerBase
         return CreatedAtAction(nameof(GetDataGroupType), new { dataGroupType.Id }, dataGroupType);
     }
 
-    // DELETE: DataGroupTypes/5
+    // DELETE: data-group-types/5
     [HttpDelete]
     [Route("{id}")]
     public async Task<IActionResult> DeleteDataGroupType([FromRoute] Guid id)
@@ -73,7 +73,7 @@ public class DataGroupTypesController : ControllerBase
         return NoContent();
     }
 
-    // PUT: DataGroupTypes/5
+    // PUT: data-group-types/5
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateDataGroupType([FromRoute] Guid id,[FromBody] DataGroupTypeDto dataGroupTypeDto)
     {

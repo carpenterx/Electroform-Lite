@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ElectroformLite.API.Controllers;
 
-[Route("[controller]")]
+[Route("data-group-templates")]
 [ApiController]
 public class DataGroupTemplatesController : ControllerBase
 {
@@ -24,7 +24,7 @@ public class DataGroupTemplatesController : ControllerBase
         _mapper = mapper;
     }
 
-    // GET: DataGroupTemplates
+    // GET: data-group-templates
     [HttpGet]
     public async Task<ActionResult<List<DataGroupTemplate>>> GetDataGroupTemplates()
     {
@@ -34,7 +34,7 @@ public class DataGroupTemplatesController : ControllerBase
         return Ok(dataGroupTemplateDtos);
     }
 
-    // GET: DataGroupTemplates/5
+    // GET: data-group-templates/5
     [HttpGet("{id}")]
     public async Task<ActionResult<DataGroupTemplate>> GetDataGroupTemplate([FromRoute] Guid id)
     {
@@ -49,7 +49,7 @@ public class DataGroupTemplatesController : ControllerBase
         return Ok(dataGroupTemplateDto);
     }
 
-    // POST: DataGroupTemplates
+    // POST: data-group-templates
     [HttpPost]
     public async Task<IActionResult> CreateDataGroupTemplate([FromBody] DataGroupTemplatePostDto dataGroupTemplateDto)
     {
@@ -65,7 +65,7 @@ public class DataGroupTemplatesController : ControllerBase
         return CreatedAtAction(nameof(GetDataGroupTemplate), new { dtoFromDataGroupTemplate.Id }, dtoFromDataGroupTemplate);
     }
 
-    // DELETE: DataGroupTemplates/5
+    // DELETE: data-group-templates/5
     [HttpDelete]
     [Route("{id}")]
     public async Task<IActionResult> DeleteDataGroupTemplate([FromRoute] Guid id)
@@ -80,7 +80,7 @@ public class DataGroupTemplatesController : ControllerBase
         return NoContent();
     }
 
-    // PUT: DataGroupTemplates/5
+    // PUT: data-group-templates/5
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateDataGroupTemplate([FromRoute] Guid id, [FromBody] DataGroupTemplateGetPutDto dataGroupTemplateDto)
     {

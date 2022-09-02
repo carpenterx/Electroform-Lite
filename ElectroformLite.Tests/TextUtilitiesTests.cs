@@ -4,8 +4,8 @@ namespace ElectroformLite.Tests;
 
 public class TextUtilitiesTests
 {
-    string value = "Cerere 1 Alocare Credentiale Pentru Plata Impozitelor Si Taxelor Locale Pentru Persoane Fizice\n\nSubsemnatul/a [Person.FirstName] [Person.LastName], e-mail [Contact.Email], numar de\ntelefon [Contact.PhoneNumber], solicit a-mi fi atribuit credential in\nvederea platii prin www.ghiseul.ro";
-    Dictionary<string, string> dataDictionary = new();
+    readonly string value = "Cerere 1 Alocare Credentiale Pentru Plata Impozitelor Si Taxelor Locale Pentru Persoane Fizice\n\nSubsemnatul/a [Person.FirstName] [Person.LastName], e-mail [Contact.Email], numar de\ntelefon [Contact.PhoneNumber], solicit a-mi fi atribuit credential in\nvederea platii prin www.ghiseul.ro";
+    readonly Dictionary<string, string> dataDictionary = new();
 
     public TextUtilitiesTests()
     {

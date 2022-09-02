@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ElectroformLite.API.Controllers;
 
-[Route("[controller]")]
+[Route("documents")]
 [ApiController]
 public class DocumentsController : ControllerBase
 {
@@ -26,7 +26,7 @@ public class DocumentsController : ControllerBase
         _mapper = mapper;
     }
 
-    // GET: Documents
+    // GET: documents
     [HttpGet]
     public async Task<ActionResult<List<Document>>> GetDocuments()
     {
@@ -36,7 +36,7 @@ public class DocumentsController : ControllerBase
         return Ok(documentDtos);
     }
 
-    // GET: Documents/5
+    // GET: documents/5
     [HttpGet("{id}")]
     public async Task<ActionResult<Document>> GetDocument([FromRoute] Guid id)
     {
@@ -52,7 +52,7 @@ public class DocumentsController : ControllerBase
         return Ok(documentDto);
     }
 
-    // POST: Documents
+    // POST: documents
     [HttpPost]
     public async Task<IActionResult> CreateDocument([FromBody] DocumentPostDto documentDto)
     {
@@ -68,7 +68,7 @@ public class DocumentsController : ControllerBase
         return CreatedAtAction(nameof(GetDocument), new { dtoFromDocument.Id }, dtoFromDocument);
     }
 
-    // DELETE: Documents/5
+    // DELETE: documents/5
     [HttpDelete]
     [Route("{id}")]
     public async Task<IActionResult> DeleteDocument([FromRoute] Guid id)
@@ -83,7 +83,7 @@ public class DocumentsController : ControllerBase
         return NoContent();
     }
 
-    // PUT: Documents/5
+    // PUT: documents/5
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateDocument([FromRoute] Guid id, [FromBody] DocumentGetPutDto documentDto)
     {
@@ -104,9 +104,9 @@ public class DocumentsController : ControllerBase
         return NoContent();
     }
 
-    // POST: Documents/5/DataGroups/6
+    // POST: documents/5/data-groups/6
     [HttpPost]
-    [Route("{documentId}/datagroups/{dataGroupId}")]
+    [Route("{documentId}/data-groups/{dataGroupId}")]
     public async Task<IActionResult> AddDataGroupToDocument([FromRoute] Guid documentId, [FromRoute] Guid dataGroupId)
     {
         Document? document = await _mediator.Send(new AddDataGroupToDocumentCommand(documentId, dataGroupId));
@@ -121,9 +121,9 @@ public class DocumentsController : ControllerBase
         return CreatedAtAction(nameof(GetDocument), new { dtoFromDocument.Id }, dtoFromDocument);
     }
 
-    // DELETE: Documents/5/DataGroups/6
+    // DELETE: documents/5/data-groups/6
     [HttpDelete]
-    [Route("{documentId}/datagroups/{dataGroupId}")]
+    [Route("{documentId}/data-groups/{dataGroupId}")]
     public async Task<IActionResult> DeleteDataGroupFromDocument([FromRoute] Guid documentId, [FromRoute] Guid dataGroupId)
     {
         Document? document = await _mediator.Send(new DeleteDataGroupFromDocumentCommand(documentId, dataGroupId));

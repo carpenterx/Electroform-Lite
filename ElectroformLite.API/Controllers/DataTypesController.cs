@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ElectroformLite.API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("data-types")]
 public class DataTypesController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -24,7 +24,7 @@ public class DataTypesController : ControllerBase
         _mapper = mapper;
     }
 
-    // GET: DataTypes
+    // GET: data-types
     [HttpGet]
     public async Task<ActionResult<List<DataType>>> GetDataTypes()
     {
@@ -34,7 +34,7 @@ public class DataTypesController : ControllerBase
         return Ok(dataTypeDtos);
     }
 
-    // GET: DataTypes/5
+    // GET: data-types/5
     [HttpGet("{id}")]
     public async Task<ActionResult<DataType>> GetDataType([FromRoute] Guid id)
     {
@@ -49,7 +49,7 @@ public class DataTypesController : ControllerBase
         return Ok(dataTypeDto);
     }
 
-    // POST: DataTypes
+    // POST: data-types
     [HttpPost]
     public async Task<IActionResult> CreateDataType([FromBody] string type)
     {
@@ -58,7 +58,7 @@ public class DataTypesController : ControllerBase
         return CreatedAtAction(nameof(GetDataType), new { dataType.Id }, dataType);
     }
 
-    // DELETE: DataTypes/5
+    // DELETE: data-types/5
     [HttpDelete]
     [Route("{id}")]
     public async Task<IActionResult> DeleteDataType([FromRoute] Guid id)
@@ -73,7 +73,7 @@ public class DataTypesController : ControllerBase
         return NoContent();
     }
 
-    // PUT: DataTypes/5
+    // PUT: data-types/5
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateDataType([FromRoute] Guid id, [FromBody] DataTypeDto dataTypeDto)
     {

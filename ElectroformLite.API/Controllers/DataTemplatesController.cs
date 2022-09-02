@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ElectroformLite.API.Controllers;
 
-[Route("[controller]")]
+[Route("data-templates")]
 [ApiController]
 public class DataTemplatesController : ControllerBase
 {
@@ -24,7 +24,7 @@ public class DataTemplatesController : ControllerBase
         _mapper = mapper;
     }
 
-    // GET: DataTemplates
+    // GET: data-templates
     [HttpGet]
     public async Task<ActionResult<List<DataTemplate>>> GetDataTemplates()
     {
@@ -34,7 +34,7 @@ public class DataTemplatesController : ControllerBase
         return Ok(dataTemplateDtos);
     }
 
-    // GET: DataTemplates/5
+    // GET: data-templates/5
     [HttpGet("{id}")]
     public async Task<ActionResult<DataTemplate>> GetDataTemplate([FromRoute] Guid id)
     {
@@ -49,7 +49,7 @@ public class DataTemplatesController : ControllerBase
         return Ok(dataTemplateDto);
     }
 
-    // POST: DataTemplates
+    // POST: data-templates
     [HttpPost]
     public async Task<IActionResult> CreateDataTemplate([FromBody] DataTemplatePostDto dataTemplateDto)
     {
@@ -64,7 +64,7 @@ public class DataTemplatesController : ControllerBase
         return CreatedAtAction(nameof(GetDataTemplate), new { dtoFromDataTemplate.Id }, dtoFromDataTemplate);
     }
 
-    // DELETE: DataTemplates/5
+    // DELETE: data-templates/5
     [HttpDelete]
     [Route("{id}")]
     public async Task<IActionResult> DeleteDataTemplate([FromRoute] Guid id)
@@ -79,7 +79,7 @@ public class DataTemplatesController : ControllerBase
         return NoContent();
     }
 
-    // PUT: DataTemplates/5
+    // PUT: data-templates/5
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateDataTemplate([FromRoute] Guid id, [FromBody] DataTemplateGetPutDto dataTemplateDto)
     {
