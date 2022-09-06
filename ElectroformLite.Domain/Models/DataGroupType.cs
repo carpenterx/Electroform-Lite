@@ -8,11 +8,9 @@ public class DataGroupType
 
     [Required]
     [StringLength(100)]
-    public string Value { get; set; } = string.Empty;
+    public string Value { get; set; }
 
-    public List<DataGroupTemplate> DataGroupTemplates { get; set; } = new();
-
-    //public ICollection<DataGroup> DataGroups { get; set; }
+    public ICollection<DataGroupTemplate> DataGroupTemplates { get; set; }
 
     public DataGroupType(string value)
     {

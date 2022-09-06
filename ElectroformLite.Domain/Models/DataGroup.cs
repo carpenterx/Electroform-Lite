@@ -7,17 +7,17 @@ public class DataGroup
     public Guid Id { get; set; }
 
     [StringLength(100)]
-    public string Name { get; set; } = string.Empty;
+    public string Name { get; set; }
 
-    public string DataGroupPlaceholder { get; set; } = string.Empty;
+    public string DataGroupPlaceholder { get; set; }
 
     //public DateTime Created { get; set; }
 
     //public DateTime LastModified { get; set; }
 
-    public List<Data> UserData { get; set; } = new();
+    public ICollection<Data> UserData { get; set; }
 
-    public List<Document> Documents { get; set; } = new();
+    public ICollection<Document> Documents { get; set; }
 
     public DataGroup(string name, string dataGroupPlaceholder)
     {

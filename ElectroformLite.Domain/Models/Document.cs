@@ -1,16 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace ElectroformLite.Domain.Models;
+﻿namespace ElectroformLite.Domain.Models;
 
 public class Document
 {
     public Guid Id { get; set; }
 
-    public string Name { get; set; } = string.Empty;
+    public string Name { get; set; }
 
-    public string Content { get; set; } = string.Empty;
+    public string Content { get; set; }
 
-    public List<DataGroup> DataGroups { get; set; } = new();
+    public ICollection<DataGroup> DataGroups { get; set; }
 
     //public DateTime Created { get; set; }
 

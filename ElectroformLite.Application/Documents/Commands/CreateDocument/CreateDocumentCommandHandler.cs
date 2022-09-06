@@ -41,7 +41,8 @@ public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentComman
         string documentContent = TextUtilities.ReplacePlaceholders(template.Content, dataDictionary);
         Document document = new(documentName, documentContent);
         _unitOfWork.DocumentRepository.Create(document);
-        document.DataGroups.AddRange(dataGroups);
+        //document.DataGroups.AddRange(dataGroups);
+        document.DataGroups = dataGroups;
         template.Documents.Add(document);
         await _unitOfWork.Save();
 

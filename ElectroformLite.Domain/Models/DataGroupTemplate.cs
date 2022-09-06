@@ -8,15 +8,14 @@ public class DataGroupTemplate
 
     [Required]
     [StringLength(100)]
-    public string Name { get; set; } = string.Empty;
+    public string Name { get; set; }
 
-    //public string DataGroupType { get; set; } = string.Empty;
+    //public Guid DataGroupTypeId { get; set; }
 
-    public List<DataGroup> DataGroups { get; set; } = new();
-
-    public List<DataTemplate> DataTemplates { get; set; } = new();
-
-    public List<Template> Templates { get; set; } = new();
+    //public DataGroupType DataGroupType { get; set; }
+    public ICollection<DataGroup> DataGroups { get; set; }
+    public ICollection<DataTemplate> DataTemplates { get; set; }
+    public ICollection<Template> Templates { get; set; }
 
     public DataGroupTemplate(string name)
     {
