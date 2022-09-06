@@ -8,17 +8,17 @@ public class DataTemplate
 
     [Required]
     [StringLength(100)]
-    public string Placeholder { get; set; } = string.Empty;
+    public string Placeholder { get; set; }
 
-    public string DataType { get; set; } = string.Empty;
+    public Guid DataTypeId { get; set; }
 
-    public List<Data> UserData { get; set; } = new();
+    public DataType DataType { get; set; }
+    public ICollection<Data> UserData { get; set; }
+    public ICollection<DataGroupTemplate> DataGroupTemplates { get; set; }
 
-    public List<DataGroupTemplate> DataGroupTemplates { get; set; } = new();
-
-    public DataTemplate(string placeholder, string dataType)
+    public DataTemplate(string placeholder, Guid dataTypeId)
     {
         Placeholder = placeholder;
-        DataType = dataType;
+        DataTypeId = dataTypeId;
     }
 }

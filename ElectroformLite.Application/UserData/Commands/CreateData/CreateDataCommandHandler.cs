@@ -21,7 +21,8 @@ public class CreateDataCommandHandler : IRequestHandler<CreateDataCommand, Data?
             return null;
         }
 
-        Data data = new(dataTemplate.Placeholder, request.Value, dataTemplate.DataType);
+        //Data data = new(dataTemplate.Placeholder, request.Value, dataTemplate.DataTypeValue);
+        Data data = new(request.Value, dataTemplate.Id);
         _unitOfWork.DataRepository.Create(data);
         dataTemplate.UserData.Add(data);
         await _unitOfWork.Save();

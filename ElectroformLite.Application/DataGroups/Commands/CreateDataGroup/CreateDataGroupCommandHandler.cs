@@ -33,7 +33,8 @@ public class CreateDataGroupCommandHandler : IRequestHandler<CreateDataGroupComm
                 return null;
             }
 
-            Data data = new(dataTemplate.Placeholder, dataProperty.Value, dataTemplate.DataType);
+            //Data data = new(dataTemplate.Placeholder, dataProperty.Value, dataTemplate.DataTypeValue);
+            Data data = new(dataProperty.Value, dataTemplate.Id);
             _unitOfWork.DataRepository.Create(data);
             dataTemplate.UserData.Add(data);
             dataGroup.UserData.Add(data);

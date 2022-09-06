@@ -22,7 +22,7 @@ public class CreateDataTemplateCommandHandler : IRequestHandler<CreateDataTempla
             return null;
         }
 
-        DataTemplate dataTemplate = new(request.Placeholder, dataType.Value);
+        DataTemplate dataTemplate = new(request.Placeholder, request.DataTypeId);
         _unitOfWork.DataTemplateRepository.Create(dataTemplate);
 
         dataType.DataTemplates.Add(dataTemplate);

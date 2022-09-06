@@ -34,7 +34,7 @@ public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentComman
         {
             foreach (Data data in dataGroup.UserData)
             {
-                dataDictionary.Add($"[{dataGroup.DataGroupPlaceholder}.{data.Placeholder}]", data.Value);
+                dataDictionary.Add($"[{dataGroup.DataGroupPlaceholder}.{data.DataTemplate.Placeholder}]", data.Value);
             }
         }
         string documentName = TextUtilities.ReplacePlaceholders(template.Name, dataDictionary);

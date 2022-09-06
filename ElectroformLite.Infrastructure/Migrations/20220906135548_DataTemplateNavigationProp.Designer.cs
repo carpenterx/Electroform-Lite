@@ -4,6 +4,7 @@ using ElectroformLite.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElectroformLite.Infrastructure.Migrations
 {
     [DbContext(typeof(ElectroformDbContext))]
-    partial class ElectroformDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220906135548_DataTemplateNavigationProp")]
+    partial class DataTemplateNavigationProp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,8 +78,16 @@ namespace ElectroformLite.Infrastructure.Migrations
                     b.Property<Guid?>("DataGroupId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("DataTemplateId")
+                    b.Property<Guid?>("DataTemplateId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DataType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Placeholder")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -173,6 +183,10 @@ namespace ElectroformLite.Infrastructure.Migrations
 
                     b.Property<Guid>("DataTypeId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DataTypeValue")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Placeholder")
                         .IsRequired()
@@ -327,17 +341,13 @@ namespace ElectroformLite.Infrastructure.Migrations
                         .WithMany("UserData")
                         .HasForeignKey("DataGroupId");
 
-                    b.HasOne("ElectroformLite.Domain.Models.DataTemplate", "DataTemplate")
+                    b.HasOne("ElectroformLite.Domain.Models.DataTemplate", null)
                         .WithMany("UserData")
-                        .HasForeignKey("DataTemplateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DataTemplateId");
 
                     b.HasOne("ElectroformLite.Domain.Models.User", null)
                         .WithMany("UserData")
                         .HasForeignKey("UserId");
-
-                    b.Navigation("DataTemplate");
                 });
 
             modelBuilder.Entity("ElectroformLite.Domain.Models.DataGroup", b =>
