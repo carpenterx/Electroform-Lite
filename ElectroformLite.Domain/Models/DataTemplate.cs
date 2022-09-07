@@ -20,5 +20,7 @@ public class DataTemplate
     {
         Placeholder = placeholder;
         DataTypeId = dataTypeId;
+        UserData = new HashSet<Data>();
+        DataGroupTemplates = new HashSet<DataGroupTemplate>();
     }
 }

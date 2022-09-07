@@ -18,5 +18,6 @@ public class Document
     {
         Name = name;
         Content = content;
+        DataGroups = new HashSet<DataGroup>();
     }
 }

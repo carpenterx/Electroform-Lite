@@ -15,5 +15,6 @@ public class DataType
     public DataType(string value)
     {
         Value = value;
+        DataTemplates = new HashSet<DataTemplate>();
     }
 }

@@ -20,5 +20,8 @@ public class DataGroupTemplate
     public DataGroupTemplate(string name)
     {
         Name = name;
+        DataGroups = new HashSet<DataGroup>();
+        DataTemplates = new HashSet<DataTemplate>();
+        Templates = new HashSet<Template>();
     }
 }

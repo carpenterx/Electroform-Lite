@@ -15,5 +15,6 @@ public class DataGroupType
     public DataGroupType(string value)
     {
         Value = value;
+        DataGroupTemplates = new HashSet<DataGroupTemplate>();
     }
 }

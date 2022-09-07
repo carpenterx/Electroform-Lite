@@ -22,5 +22,8 @@ public class User
         Name = name;
         Password = password;
         IsAdmin = isAdmin;
+        UserData = new HashSet<Data>();
+        DataGroups = new HashSet<DataGroup>();
+        Documents = new HashSet<Document>();
     }
 }

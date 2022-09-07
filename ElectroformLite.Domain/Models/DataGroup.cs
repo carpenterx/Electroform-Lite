@@ -16,12 +16,13 @@ public class DataGroup
     //public DateTime LastModified { get; set; }
 
     public ICollection<Data> UserData { get; set; }
-
     public ICollection<Document> Documents { get; set; }
 
     public DataGroup(string name, string dataGroupPlaceholder)
     {
         Name = name;
         DataGroupPlaceholder = dataGroupPlaceholder;
+        UserData = new HashSet<Data>();
+        Documents = new HashSet<Document>();
     }
 }

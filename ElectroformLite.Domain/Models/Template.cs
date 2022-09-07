@@ -20,5 +20,7 @@ public class Template
     {
         Name = name;
         Content = content;
+        Documents = new HashSet<Document>();
+        DataGroupTemplates = new HashSet<DataGroupTemplate>();
     }
 }
