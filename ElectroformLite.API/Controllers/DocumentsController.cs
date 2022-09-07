@@ -104,7 +104,7 @@ public class DocumentsController : ControllerBase
         return NoContent();
     }
 
-    // POST: documents/5/data-groups/6
+    /*// POST: documents/5/data-groups/6
     [HttpPost]
     [Route("{documentId}/data-groups/{dataGroupId}")]
     public async Task<IActionResult> AddDataGroupToDocument([FromRoute] Guid documentId, [FromRoute] Guid dataGroupId)
@@ -119,9 +119,9 @@ public class DocumentsController : ControllerBase
         DocumentGetPutDto dtoFromDocument = _mapper.Map<DocumentGetPutDto>(document);
 
         return CreatedAtAction(nameof(GetDocument), new { dtoFromDocument.Id }, dtoFromDocument);
-    }
+    }*/
 
-    // DELETE: documents/5/data-groups/6
+    /*// DELETE: documents/5/data-groups/6
     [HttpDelete]
     [Route("{documentId}/data-groups/{dataGroupId}")]
     public async Task<IActionResult> DeleteDataGroupFromDocument([FromRoute] Guid documentId, [FromRoute] Guid dataGroupId)
@@ -134,5 +134,5 @@ public class DocumentsController : ControllerBase
         }
 
         return NoContent();
-    }
+    }*/
 }

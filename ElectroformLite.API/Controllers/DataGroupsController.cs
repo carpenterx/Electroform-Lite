@@ -103,7 +103,7 @@ public class DataGroupsController : ControllerBase
         return NoContent();
     }
 
-    // POST: data-groups/5/data/6
+    /*// POST: data-groups/5/data/6
     [HttpPost]
     [Route("{dataGroupId}/data/{dataId}")]
     public async Task<IActionResult> AddDataToDataGroup([FromRoute] Guid dataGroupId, [FromRoute] Guid dataId)
@@ -118,9 +118,9 @@ public class DataGroupsController : ControllerBase
         DataGroupGetPutDto dtoFromDataGroup = _mapper.Map<DataGroupGetPutDto>(dataGroup);
 
         return CreatedAtAction(nameof(GetDataGroup), new { dtoFromDataGroup.Id }, dtoFromDataGroup);
-    }
+    }*/
 
-    // DELETE: data-groups/5/data/6
+    /*// DELETE: data-groups/5/data/6
     [HttpDelete]
     [Route("{dataGroupId}/data/{dataId}")]
     public async Task<IActionResult> DeleteDataFromDataGroup([FromRoute] Guid dataGroupId, [FromRoute] Guid dataId)
@@ -133,5 +133,5 @@ public class DataGroupsController : ControllerBase
         }
 
         return NoContent();
-    }
+    }*/
 }

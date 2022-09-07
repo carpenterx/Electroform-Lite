@@ -7,9 +7,9 @@ public class CreateDataGroupCommand : IRequest<DataGroup?>
 {
     public Guid DataGroupTemplateId { get; set; }
     public string Name { get; set; }
-    public List<KeyValuePair<Guid, string>> DataProperties { get; set; }
+    public Dictionary<Guid, string> DataProperties { get; set; }
 
-    public CreateDataGroupCommand(Guid dataGroupTemplateId, string name, List<KeyValuePair<Guid, string>> dataProperties)
+    public CreateDataGroupCommand(Guid dataGroupTemplateId, string name, Dictionary<Guid, string> dataProperties)
     {
         DataGroupTemplateId = dataGroupTemplateId;
         Name = name;
