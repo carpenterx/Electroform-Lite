@@ -15,6 +15,9 @@ public class DataGroup
 
     //public DateTime LastModified { get; set; }
 
+    public Guid DataGroupTemplateId { get; set; }
+
+    public DataGroupTemplate DataGroupTemplate { get; set; }
     public ICollection<Data> UserData { get; set; }
     public ICollection<Alias> Aliases { get; set; }
     //public ICollection<Document> Documents { get; set; }
