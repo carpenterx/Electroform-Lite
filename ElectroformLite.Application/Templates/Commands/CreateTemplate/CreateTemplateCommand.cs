@@ -7,12 +7,13 @@ public class CreateTemplateCommand : IRequest<Template?>
 {
     public string Name { get; set; }
     public string Content { get; set; }
-    public List<Guid> DataGroupTemplateIds { get; set; }
+    //public List<Guid> DataGroupTemplateIds { get; set; }
+    public Dictionary<Guid, string> AliasTemplateData { get; set; }
 
-    public CreateTemplateCommand(string name, string content, List<Guid> dataGroupTemplateIds)
+    public CreateTemplateCommand(string name, string content, Dictionary<Guid, string> aliasTemplateData)
     {
         Name = name;
         Content = content;
-        DataGroupTemplateIds = dataGroupTemplateIds;
+        AliasTemplateData = aliasTemplateData;
     }
 }

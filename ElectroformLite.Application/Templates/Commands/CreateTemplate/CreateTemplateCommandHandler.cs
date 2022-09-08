@@ -18,7 +18,7 @@ public class CreateTemplateCommandHandler : IRequestHandler<CreateTemplateComman
         Template template = new(request.Name, request.Content);
         _unitOfWork.TemplateRepository.Create(template);
 
-        foreach (Guid dataGroupTemplateId in request.DataGroupTemplateIds)
+        /*foreach (Guid dataGroupTemplateId in request.DataGroupTemplateIds)
         {
             DataGroupTemplate? dataGroupTemplate = await _unitOfWork.DataGroupTemplateRepository.GetDataGroupTemplate(dataGroupTemplateId);
 
@@ -28,6 +28,20 @@ public class CreateTemplateCommandHandler : IRequestHandler<CreateTemplateComman
             }
 
             //template.DataGroupTemplates.Add(dataGroupTemplate);
+        }*/
+        foreach (KeyValuePair<Guid, string> aliasTemplateDataItem in request.AliasTemplateData)
+        {
+            DataGroupTemplate? dataGroupTemplate = await _unitOfWork.DataGroupTemplateRepository.GetDataGroupTemplate(aliasTemplateDataItem.Key);
+
+            if (dataGroupTemplate == null)
+            {
+                return null;
+            }
+
+            AliasTemplate aliasTemplate = new(aliasTemplateDataItem.Value);
+            _unitOfWork.AliasTemplateRepository.Create(aliasTemplate);
+            dataGroupTemplate.AliasTemplates.Add(aliasTemplate);
+            template.AliasTemplates.Add(aliasTemplate);
         }
         await _unitOfWork.Save();
 

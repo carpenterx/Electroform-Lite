@@ -21,6 +21,7 @@ builder.Services.AddScoped<IDataTemplateRepository, DataTemplateRepository>();
 builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
 builder.Services.AddScoped<ITemplateRepository, TemplateRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAliasTemplateRepository, AliasTemplateRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddAutoMapper(typeof(DataGroupTypesController));
 

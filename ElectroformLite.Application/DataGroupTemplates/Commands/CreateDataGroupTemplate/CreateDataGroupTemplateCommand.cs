@@ -6,13 +6,11 @@ namespace ElectroformLite.Application.DataGroupTemplates.Commands.CreateDataGrou
 public class CreateDataGroupTemplateCommand : IRequest<DataGroupTemplate?>
 {
     public Guid DataGroupTypeId { get; set; }
-    public string Name { get; set; }
     public List<Guid> DataTemplateIds { get; set; }
 
-    public CreateDataGroupTemplateCommand(Guid dataGroupTypeId, string name, List<Guid> dataTemplateIds)
+    public CreateDataGroupTemplateCommand(Guid dataGroupTypeId, List<Guid> dataTemplateIds)
     {
         DataGroupTypeId = dataGroupTypeId;
-        Name = name;
         DataTemplateIds = dataTemplateIds;
     }
 }

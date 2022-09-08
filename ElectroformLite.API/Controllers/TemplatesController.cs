@@ -53,7 +53,7 @@ public class TemplatesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateTemplate([FromBody] TemplatePostDto templateDto)
     {
-        Template? template = await _mediator.Send(new CreateTemplateCommand(templateDto.Name, templateDto.Content, templateDto.DataGroupTemplateIds));
+        Template? template = await _mediator.Send(new CreateTemplateCommand(templateDto.Name, templateDto.Content, templateDto.AliasTemplateData));
 
         if (template == null)
         {
