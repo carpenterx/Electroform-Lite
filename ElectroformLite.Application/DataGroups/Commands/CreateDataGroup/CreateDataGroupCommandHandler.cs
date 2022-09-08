@@ -22,7 +22,8 @@ public class CreateDataGroupCommandHandler : IRequestHandler<CreateDataGroupComm
             return null;
         }
 
-        DataGroup dataGroup = new(request.Name,dataGroupTemplate.Name);
+        //DataGroup dataGroup = new(request.Name,dataGroupTemplate.Name);
+        DataGroup dataGroup = new(request.Name);
         _unitOfWork.DataGroupRepository.Create(dataGroup);
 
         foreach (KeyValuePair<Guid, string> dataProperty in request.DataProperties)

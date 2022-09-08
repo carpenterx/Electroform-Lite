@@ -14,13 +14,14 @@ public class Template
     public string Content { get; set; }
 
     public ICollection<Document> Documents { get; set; }
-    public ICollection<DataGroupTemplate> DataGroupTemplates { get; set; }
+    //public ICollection<DataGroupTemplate> DataGroupTemplates { get; set; }
+    public ICollection<AliasTemplate> AliasTemplates { get; set; }
 
     public Template(string name, string content)
     {
         Name = name;
         Content = content;
         Documents = new HashSet<Document>();
-        DataGroupTemplates = new HashSet<DataGroupTemplate>();
+        AliasTemplates = new HashSet<AliasTemplate>();
     }
 }

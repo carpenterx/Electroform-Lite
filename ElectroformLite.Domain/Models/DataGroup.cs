@@ -9,20 +9,22 @@ public class DataGroup
     [StringLength(100)]
     public string Name { get; set; }
 
-    public string DataGroupPlaceholder { get; set; }
+    //public string DataGroupPlaceholder { get; set; }
 
     //public DateTime Created { get; set; }
 
     //public DateTime LastModified { get; set; }
 
     public ICollection<Data> UserData { get; set; }
-    public ICollection<Document> Documents { get; set; }
+    public ICollection<Alias> Aliases { get; set; }
+    //public ICollection<Document> Documents { get; set; }
 
-    public DataGroup(string name, string dataGroupPlaceholder)
+    public DataGroup(string name)
     {
         Name = name;
-        DataGroupPlaceholder = dataGroupPlaceholder;
+        //DataGroupPlaceholder = dataGroupPlaceholder;
         UserData = new HashSet<Data>();
-        Documents = new HashSet<Document>();
+        Aliases = new HashSet<Alias>();
+        //Documents = new HashSet<Document>();
     }
 }

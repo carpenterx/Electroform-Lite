@@ -21,7 +21,7 @@ public class EditDataGroupTemplateCommandHandler : IRequestHandler<EditDataGroup
         {
             return null;
         }
-        dataGroupTemplateToEdit.Name = dataGroupTemplateFromRequest.Name;
+        //dataGroupTemplateToEdit.Name = dataGroupTemplateFromRequest.Name;
         _unitOfWork.DataGroupTemplateRepository.Update(dataGroupTemplateToEdit);
         await _unitOfWork.Save();
 

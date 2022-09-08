@@ -27,7 +27,7 @@ public class DataGroupRepository : IDataGroupRepository
     {
         DataGroup? dataGroup = await _context.DataGroups
             .Include(d => d.UserData)
-            .Include(d => d.Documents)
+            //.Include(d => d.Documents)
             .SingleOrDefaultAsync(d => d.Id == id);
 
         return dataGroup;
@@ -37,6 +37,7 @@ public class DataGroupRepository : IDataGroupRepository
     {
         return await _context.DataGroups
             .Include(d => d.UserData)
+            .ThenInclude(u => u.DataTemplate)
             .Where(d => guids.Contains( d.Id))
             .ToListAsync();
     }

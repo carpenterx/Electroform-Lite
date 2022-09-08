@@ -22,29 +22,29 @@ public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentComman
             return null;
         }
 
-        if (template.DataGroupTemplates.Count != request.DataGroupIds.Count)
+        /*if (template.DataGroupTemplates.Count != request.DataGroupIds.Count)
         {
             return null;
         }
 
-        List<DataGroup> dataGroups = await _unitOfWork.DataGroupRepository.GetDataGroupsWithIds(request.DataGroupIds);
+        List<DataGroup> dataGroups = await _unitOfWork.DataGroupRepository.GetDataGroupsWithIds(request.DataGroupIds);*/
 
         Dictionary<string, string> dataDictionary = new();
-        foreach (DataGroup dataGroup in dataGroups)
+        /*foreach (DataGroup dataGroup in dataGroups)
         {
             foreach (Data data in dataGroup.UserData)
             {
                 dataDictionary.Add($"[{dataGroup.DataGroupPlaceholder}.{data.DataTemplate.Placeholder}]", data.Value);
             }
-        }
+        }*/
         string documentName = TextUtilities.ReplacePlaceholders(template.Name, dataDictionary);
         string documentContent = TextUtilities.ReplacePlaceholders(template.Content, dataDictionary);
         Document document = new(documentName, documentContent);
         _unitOfWork.DocumentRepository.Create(document);
         //document.DataGroups.AddRange(dataGroups);
-        document.DataGroups = dataGroups;
+        /*document.DataGroups = dataGroups;
         template.Documents.Add(document);
-        await _unitOfWork.Save();
+        await _unitOfWork.Save();*/
 
         return document;
     }

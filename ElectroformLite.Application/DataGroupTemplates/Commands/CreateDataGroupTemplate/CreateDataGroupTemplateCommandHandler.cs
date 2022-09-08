@@ -22,7 +22,7 @@ public class CreateDataGroupTemplateCommandHandler : IRequestHandler<CreateDataG
             return null;
         }
 
-        DataGroupTemplate dataGroupTemplate = new(request.Name);
+        DataGroupTemplate dataGroupTemplate = new();
         _unitOfWork.DataGroupTemplateRepository.Create(dataGroupTemplate);
 
         foreach (Guid dataId in request.DataTemplateIds)

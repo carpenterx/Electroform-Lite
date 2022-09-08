@@ -8,7 +8,8 @@ public class Document
 
     public string Content { get; set; }
 
-    public ICollection<DataGroup> DataGroups { get; set; }
+    //public ICollection<DataGroup> DataGroups { get; set; }
+    public ICollection<Alias> Aliases { get; set; }
 
     //public DateTime Created { get; set; }
 
@@ -18,6 +19,6 @@ public class Document
     {
         Name = name;
         Content = content;
-        DataGroups = new HashSet<DataGroup>();
+        Aliases = new HashSet<Alias>();
     }
 }

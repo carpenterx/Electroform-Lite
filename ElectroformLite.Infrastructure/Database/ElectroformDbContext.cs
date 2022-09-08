@@ -16,6 +16,8 @@ public class ElectroformDbContext : DbContext
     public DbSet<DataType> DataTypes { get; set; }
     public DbSet<Document> Documents { get; set; }
     public DbSet<Template> Templates { get; set; }
+    public DbSet<Alias> Aliases { get; set; }
+    public DbSet<AliasTemplate> AliasTemplates { get; set; }
     public DbSet<User> Users { get; set; }
 
     public ElectroformDbContext(DbContextOptions<ElectroformDbContext> dbContextOptions) : base(dbContextOptions)

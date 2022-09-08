@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using ElectroformLite.API.Dto;
-using ElectroformLite.Application.DataGroups.Commands.AddDataToDataGroup;
 using ElectroformLite.Application.DataGroups.Commands.CreateDataGroup;
-using ElectroformLite.Application.DataGroups.Commands.DeleteDataFromDataGroup;
 using ElectroformLite.Application.DataGroups.Commands.DeleteDataGroup;
 using ElectroformLite.Application.DataGroups.Commands.EditDataGroup;
 using ElectroformLite.Application.DataGroups.Queries.GetDataGroup;

@@ -32,8 +32,8 @@ public class TemplateRepository : ITemplateRepository
     {
         Template? template = await _context.Templates
             .Include(t => t.Documents)
-            .Include(t => t.DataGroupTemplates)
-            .ThenInclude(d => d.DataGroups)
+            //.Include(t => t.DataGroupTemplates)
+            //.ThenInclude(d => d.DataGroups)
             .SingleOrDefaultAsync(t => t.Id == id);
 
         return template;

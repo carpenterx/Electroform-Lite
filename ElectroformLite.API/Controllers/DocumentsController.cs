@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using ElectroformLite.API.Dto;
-using ElectroformLite.Application.Documents.Commands.AddDataGroupToDocument;
 using ElectroformLite.Application.Documents.Commands.CreateDocument;
-using ElectroformLite.Application.Documents.Commands.DeleteDataGroupFromDocument;
 using ElectroformLite.Application.Documents.Commands.DeleteDocument;
 using ElectroformLite.Application.Documents.Commands.EditDocument;
 using ElectroformLite.Application.Documents.Queries.GetDocument;

@@ -27,7 +27,7 @@ public class CreateTemplateCommandHandler : IRequestHandler<CreateTemplateComman
                 return null;
             }
 
-            template.DataGroupTemplates.Add(dataGroupTemplate);
+            //template.DataGroupTemplates.Add(dataGroupTemplate);
         }
         await _unitOfWork.Save();
 
