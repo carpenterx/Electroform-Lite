@@ -4,6 +4,7 @@ using ElectroformLite.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElectroformLite.Infrastructure.Migrations
 {
     [DbContext(typeof(ElectroformDbContext))]
-    partial class ElectroformDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220908184011_DataGroupTemplateId")]
+    partial class DataGroupTemplateId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
