@@ -26,8 +26,9 @@ public class DataGroupRepository : IDataGroupRepository
     public async Task<DataGroup?> GetDataGroup(Guid id)
     {
         DataGroup? dataGroup = await _context.DataGroups
-            .Include(d => d.UserData)
             .Include(d => d.Aliases)
+            .Include(d => d.UserData)
+            .ThenInclude(u => u.DataTemplate)
             .SingleOrDefaultAsync(d => d.Id == id);
 
         return dataGroup;
