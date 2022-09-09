@@ -1,5 +1,6 @@
 ﻿using ElectroformLite.Application.Interfaces;
 using ElectroformLite.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ElectroformLite.Infrastructure.Database;
 
@@ -22,22 +23,16 @@ public class AliasTemplateRepository : IAliasTemplateRepository
         throw new NotImplementedException();
     }
 
-    public Task<AliasTemplate?> GetDataGroup(Guid id)
+    public async Task<AliasTemplate?> GetAliasTemplate(Guid id)
     {
-        throw new NotImplementedException();
+        AliasTemplate? aliasTemplate = await _context.AliasTemplates
+            .Include(a => a.Aliases)
+            .SingleOrDefaultAsync(a => a.Id == id);
+
+        return aliasTemplate;
     }
 
-    public Task<List<AliasTemplate>> GetDataGroups()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<List<AliasTemplate>> GetDataGroupsByType(Guid id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<List<AliasTemplate>> GetDataGroupsWithIds(List<Guid> guids)
+    public Task<List<AliasTemplate>> GetAliasTemplates()
     {
         throw new NotImplementedException();
     }

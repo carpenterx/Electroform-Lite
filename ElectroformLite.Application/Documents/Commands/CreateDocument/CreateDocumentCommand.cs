@@ -6,11 +6,12 @@ namespace ElectroformLite.Application.Documents.Commands.CreateDocument;
 public class CreateDocumentCommand : IRequest<Document?>
 {
     public Guid TemplateId { get; set; }
-    public List<Guid> DataGroupIds { get; set; }
+    // alias template guid and data group guid
+    public Dictionary<Guid, Guid> AliasData { get; set; }
 
-    public CreateDocumentCommand(Guid templateId, List<Guid> dataGroupIds)
+    public CreateDocumentCommand(Guid templateId, Dictionary<Guid, Guid> aliasData)
     {
         TemplateId = templateId;
-        DataGroupIds = dataGroupIds;
+        AliasData = aliasData;
     }
 }

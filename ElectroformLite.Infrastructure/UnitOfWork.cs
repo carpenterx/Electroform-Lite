@@ -14,10 +14,11 @@ public class UnitOfWork : IUnitOfWork
     public ITemplateRepository TemplateRepository { get; private set; }
     public IDocumentRepository DocumentRepository { get; private set; }
     public IAliasTemplateRepository AliasTemplateRepository { get; private set; }
+    public IAliasRepository AliasRepository { get; private set; }
 
     private readonly ElectroformDbContext _dbContext;
 
-    public UnitOfWork(ElectroformDbContext dbContext, IDataGroupTypeRepository dataGroupTypeRepository, IDataTypeRepository dataTypeRepository, IDataRepository dataRepository, IDataGroupRepository dataGroupRepository, IDataTemplateRepository dataTemplateRepository, IDataGroupTemplateRepository dataGroupTemplateRepository, ITemplateRepository templateRepository, IDocumentRepository documentRepository, IAliasTemplateRepository aliasTemplateRepository)
+    public UnitOfWork(ElectroformDbContext dbContext, IDataGroupTypeRepository dataGroupTypeRepository, IDataTypeRepository dataTypeRepository, IDataRepository dataRepository, IDataGroupRepository dataGroupRepository, IDataTemplateRepository dataTemplateRepository, IDataGroupTemplateRepository dataGroupTemplateRepository, ITemplateRepository templateRepository, IDocumentRepository documentRepository, IAliasTemplateRepository aliasTemplateRepository, IAliasRepository aliasRepository)
     {
         _dbContext = dbContext;
         DataGroupTypeRepository = dataGroupTypeRepository;
@@ -29,6 +30,7 @@ public class UnitOfWork : IUnitOfWork
         TemplateRepository = templateRepository;
         DocumentRepository = documentRepository;
         AliasTemplateRepository = aliasTemplateRepository;
+        AliasRepository = aliasRepository;
     }
 
     public async Task Save()

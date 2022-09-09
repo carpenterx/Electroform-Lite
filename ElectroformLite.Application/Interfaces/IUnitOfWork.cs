@@ -11,6 +11,7 @@ public interface IUnitOfWork : IDisposable
     public ITemplateRepository TemplateRepository { get; }
     public IDocumentRepository DocumentRepository { get; }
     public IAliasTemplateRepository AliasTemplateRepository { get; }
+    public IAliasRepository AliasRepository { get; }
 
     Task Save();
 }

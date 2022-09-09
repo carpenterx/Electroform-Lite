@@ -29,7 +29,7 @@ public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentComman
 
         List<DataGroup> dataGroups = await _unitOfWork.DataGroupRepository.GetDataGroupsWithIds(request.DataGroupIds);*/
 
-        Dictionary<string, string> dataDictionary = new();
+        //Dictionary<string, string> dataDictionary = new();
         /*foreach (DataGroup dataGroup in dataGroups)
         {
             foreach (Data data in dataGroup.UserData)
@@ -37,10 +37,42 @@ public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentComman
                 dataDictionary.Add($"[{dataGroup.DataGroupPlaceholder}.{data.DataTemplate.Placeholder}]", data.Value);
             }
         }*/
+
+        List<Alias> aliases = new();
+        Dictionary<string, string> dataDictionary = new();
+        foreach (KeyValuePair<Guid, Guid> aliasDataItem in request.AliasData)
+        {
+            AliasTemplate? aliasTemplate = await _unitOfWork.AliasTemplateRepository.GetAliasTemplate(aliasDataItem.Key);
+            if (aliasTemplate == null)
+            {
+                return null;
+            }
+
+            DataGroup? dataGroup = await _unitOfWork.DataGroupRepository.GetDataGroup(aliasDataItem.Value);
+            if (dataGroup == null)
+            {
+                return null;
+            }
+
+            foreach (Data data in dataGroup.UserData)
+            {
+                dataDictionary.Add($"[{aliasTemplate.Name}.{data.DataTemplate.Placeholder}]", data.Value);
+            }
+
+            Alias alias = new();
+            _unitOfWork.AliasRepository.Create(alias);
+            aliasTemplate.Aliases.Add(alias);
+            dataGroup.Aliases.Add(alias);
+            
+            aliases.Add(alias);
+        }
         string documentName = TextUtilities.ReplacePlaceholders(template.Name, dataDictionary);
         string documentContent = TextUtilities.ReplacePlaceholders(template.Content, dataDictionary);
         Document document = new(documentName, documentContent);
         _unitOfWork.DocumentRepository.Create(document);
+        document.Aliases = aliases;
+        template.Documents.Add(document);
+        await _unitOfWork.Save();
         //document.DataGroups.AddRange(dataGroups);
         /*document.DataGroups = dataGroups;
         template.Documents.Add(document);
