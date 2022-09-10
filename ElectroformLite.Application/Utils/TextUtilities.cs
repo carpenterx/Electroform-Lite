@@ -11,4 +11,9 @@ public static class TextUtilities
         }
         return output;
     }
+
+    public static string GeneratePlaceholder(string aliasName, string dataPlaceholder)
+    {
+        return $"[{aliasName}.{dataPlaceholder}]";
+    }
 }

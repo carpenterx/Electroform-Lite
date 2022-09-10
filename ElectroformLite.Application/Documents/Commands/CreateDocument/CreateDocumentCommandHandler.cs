@@ -56,7 +56,8 @@ public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentComman
 
             foreach (Data data in dataGroup.UserData)
             {
-                dataDictionary.Add($"[{aliasTemplate.Name}.{data.DataTemplate.Placeholder}]", data.Value);
+                //dataDictionary.Add($"[{aliasTemplate.Name}.{data.DataTemplate.Placeholder}]", data.Value);
+                dataDictionary.Add(TextUtilities.GeneratePlaceholder(aliasTemplate.Name, data.DataTemplate.Placeholder), data.Value);
             }
 
             Alias alias = new();
