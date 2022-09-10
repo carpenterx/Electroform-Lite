@@ -44,4 +44,18 @@ public class TextUtilitiesTests
         Assert.DoesNotContain("[", result);
         Assert.DoesNotContain("]", result);
     }
+
+    [Fact]
+    public void GeneratePlaceholderShouldGenerateAPlaceholder()
+    {
+        // Arrange
+        string aliasName = "Person";
+        string dataPlaceholder = "LastName";
+
+        // Act
+        string result = TextUtilities.GeneratePlaceholder(aliasName, dataPlaceholder);
+
+        // Assert
+        Assert.Equal("[Person.LastName]", result);
+    }
 }
