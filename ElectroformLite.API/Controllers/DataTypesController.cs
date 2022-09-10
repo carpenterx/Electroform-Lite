@@ -55,7 +55,9 @@ public class DataTypesController : ControllerBase
     {
         DataType dataType = await _mediator.Send(new CreateDataTypeCommand(type));
 
-        return CreatedAtAction(nameof(GetDataType), new { dataType.Id }, dataType);
+        DataTypeDto dataTypeDto = _mapper.Map<DataTypeDto>(dataType);
+
+        return CreatedAtAction(nameof(GetDataType), new { dataTypeDto.Id }, dataTypeDto);
     }
 
     // DELETE: data-types/5
