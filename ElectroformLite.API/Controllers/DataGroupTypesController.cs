@@ -55,7 +55,9 @@ public class DataGroupTypesController : ControllerBase
     {
         DataGroupType dataGroupType = await _mediator.Send(new CreateDataGroupTypeCommand(type));
 
-        return CreatedAtAction(nameof(GetDataGroupType), new { dataGroupType.Id }, dataGroupType);
+        DataGroupTypeDto dataGroupTypeDto = _mapper.Map<DataGroupTypeDto>(dataGroupType);
+
+        return CreatedAtAction(nameof(GetDataGroupType), new { dataGroupTypeDto.Id }, dataGroupTypeDto);
     }
 
     // DELETE: data-group-types/5
