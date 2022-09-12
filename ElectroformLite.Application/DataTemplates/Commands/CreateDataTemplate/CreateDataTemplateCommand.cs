@@ -1,16 +1,16 @@
-﻿using MediatR;
+﻿using ElectroformLite.Domain.Models;
+using MediatR;
 
 namespace ElectroformLite.Application.DataTemplates.Commands.CreateDataTemplate;
 
-public class CreateDataTemplateCommand : IRequest<int>
+public class CreateDataTemplateCommand : IRequest<DataTemplate?>
 {
-    public string TemplatePlaceholder { get; set; }
+    public Guid DataTypeId { get; set; }
+    public string Placeholder { get; set; }
 
-    public int TemplateType { get; set; }
-
-    public CreateDataTemplateCommand(string templatePlaceholder, int templateType)
+    public CreateDataTemplateCommand(Guid dataTypeId, string placeholder)
     {
-        TemplatePlaceholder = templatePlaceholder;
-        TemplateType = templateType;
+        DataTypeId = dataTypeId;
+        Placeholder = placeholder;
     }
 }

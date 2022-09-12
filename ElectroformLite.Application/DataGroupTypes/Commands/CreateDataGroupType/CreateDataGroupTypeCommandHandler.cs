@@ -4,20 +4,22 @@ using MediatR;
 
 namespace ElectroformLite.Application.DataGroupTypes.Commands.CreateDataGroupType;
 
-public class CreateDataGroupTypeCommandHandler : IRequestHandler<CreateDataGroupTypeCommand, int>
+public class CreateDataGroupTypeCommandHandler : IRequestHandler<CreateDataGroupTypeCommand, DataGroupType>
 {
-    private readonly IDataGroupTypeRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public CreateDataGroupTypeCommandHandler(IDataGroupTypeRepository repository)
+    public CreateDataGroupTypeCommandHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<int> Handle(CreateDataGroupTypeCommand request, CancellationToken cancellationToken)
+    public async Task<DataGroupType> Handle(CreateDataGroupTypeCommand request, CancellationToken cancellationToken)
     {
         DataGroupType dataGroupType = new(request.TypeValue);
-        _repository.Create(dataGroupType);
 
-        return Task.FromResult(dataGroupType.Id);
+        _unitOfWork.DataGroupTypeRepository.Create(dataGroupType);
+        await _unitOfWork.Save();
+
+        return dataGroupType;
     }
 }

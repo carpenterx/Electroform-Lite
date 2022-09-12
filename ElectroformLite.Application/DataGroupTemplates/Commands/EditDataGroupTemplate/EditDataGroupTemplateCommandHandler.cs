@@ -1,21 +1,30 @@
 ﻿using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Domain.Models;
 using MediatR;
 
 namespace ElectroformLite.Application.DataGroupTemplates.Commands.EditDataGroupTemplate;
 
-public class EditDataGroupTemplateCommandHandler : IRequestHandler<EditDataGroupTemplateCommand>
+public class EditDataGroupTemplateCommandHandler : IRequestHandler<EditDataGroupTemplateCommand, DataGroupTemplate?>
 {
-    private readonly IDataGroupTemplateRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public EditDataGroupTemplateCommandHandler(IDataGroupTemplateRepository repository)
+    public EditDataGroupTemplateCommandHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<Unit> Handle(EditDataGroupTemplateCommand request, CancellationToken cancellationToken)
+    public async Task<DataGroupTemplate?> Handle(EditDataGroupTemplateCommand request, CancellationToken cancellationToken)
     {
-        _repository.Update(request.DataGroupTemplate);
+        DataGroupTemplate dataGroupTemplateFromRequest = request.DataGroupTemplate;
+        DataGroupTemplate? dataGroupTemplateToEdit = await _unitOfWork.DataGroupTemplateRepository.GetDataGroupTemplate(dataGroupTemplateFromRequest.Id);
+        if (dataGroupTemplateToEdit == null)
+        {
+            return null;
+        }
+        //dataGroupTemplateToEdit.Name = dataGroupTemplateFromRequest.Name;
+        _unitOfWork.DataGroupTemplateRepository.Update(dataGroupTemplateToEdit);
+        await _unitOfWork.Save();
 
-        return Task.FromResult(Unit.Value);
+        return dataGroupTemplateToEdit;
     }
 }

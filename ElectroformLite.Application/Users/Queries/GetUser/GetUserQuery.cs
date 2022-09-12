@@ -5,9 +5,9 @@ namespace ElectroformLite.Application.Users.Queries.GetUser;
 
 public class GetUserQuery : IRequest<User>
 {
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
 
-    public GetUserQuery(int userId)
+    public GetUserQuery(Guid userId)
     {
         UserId = userId;
     }

@@ -5,8 +5,8 @@ namespace ElectroformLite.Application.Interfaces;
 public interface IDataGroupTypeRepository
 {
     void Create(DataGroupType dataGroupType);
-    void Delete(int id);
+    void Delete(DataGroupType dataGroupType);
     void Update(DataGroupType dataGroupType);
-    DataGroupType GetDataGroupType(int id);
-    List<DataGroupType> GetDataGroupTypes();
+    Task<DataGroupType?> GetDataGroupType(Guid id);
+    Task<List<DataGroupType>> GetDataGroupTypes();
 }

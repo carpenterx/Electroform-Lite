@@ -6,17 +6,15 @@ namespace ElectroformLite.Application.UserData.Queries.GetDataList;
 
 public class GetDataListQueryHandler : IRequestHandler<GetDataListQuery, List<Data>>
 {
-    private readonly IDataRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetDataListQueryHandler(IDataRepository repository)
+    public GetDataListQueryHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<List<Data>> Handle(GetDataListQuery request, CancellationToken cancellationToken)
+    public async Task<List<Data>> Handle(GetDataListQuery request, CancellationToken cancellationToken)
     {
-        var result = _repository.GetAllData();
-
-        return Task.FromResult(result);
+        return await _unitOfWork.DataRepository.GetAllData();
     }
 }

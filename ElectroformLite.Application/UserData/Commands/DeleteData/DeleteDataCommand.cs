@@ -1,12 +1,13 @@
-﻿using MediatR;
+﻿using ElectroformLite.Domain.Models;
+using MediatR;
 
 namespace ElectroformLite.Application.UserData.Commands.DeleteData;
 
-public class DeleteDataCommand : IRequest
+public class DeleteDataCommand : IRequest<Data?>
 {
-    public int DataId { get; set; }
+    public Guid DataId { get; set; }
 
-    public DeleteDataCommand(int dataId)
+    public DeleteDataCommand(Guid dataId)
     {
         DataId = dataId;
     }

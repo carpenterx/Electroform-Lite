@@ -6,17 +6,15 @@ namespace ElectroformLite.Application.Documents.Queries.GetDocuments;
 
 public class GetDocumentsQueryHandler : IRequestHandler<GetDocumentsQuery, List<Document>>
 {
-    private readonly IDocumentRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetDocumentsQueryHandler(IDocumentRepository repository)
+    public GetDocumentsQueryHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<List<Document>> Handle(GetDocumentsQuery request, CancellationToken cancellationToken)
+    public async Task<List<Document>> Handle(GetDocumentsQuery request, CancellationToken cancellationToken)
     {
-        var result = _repository.GetDocuments();
-
-        return Task.FromResult(result);
+        return await _unitOfWork.DocumentRepository.GetDocuments();
     }
 }

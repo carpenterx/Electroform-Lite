@@ -5,9 +5,9 @@ namespace ElectroformLite.Application.Interfaces;
 public interface ITemplateRepository
 {
     void Create(Template template);
-    void Delete(int id);
+    void Delete(Template template);
     void Update(Template template);
-    Template GetTemplate(int id);
-    List<Template> FindTemplates(string searchTerm);
-    List<Template> GetTemplates();
+    Task<Template?> GetTemplate(Guid id);
+    Task<List<Template>> FindTemplates(string searchTerm);
+    Task<List<Template>> GetTemplates();
 }

@@ -3,12 +3,15 @@ using MediatR;
 
 namespace ElectroformLite.Application.Documents.Commands.CreateDocument;
 
-public class CreateDocumentCommand : IRequest<int>
+public class CreateDocumentCommand : IRequest<Document?>
 {
-    public Document Document { get; set; }
+    public Guid TemplateId { get; set; }
+    // alias template guid and data group guid
+    public Dictionary<Guid, Guid> AliasData { get; set; }
 
-    public CreateDocumentCommand(Document document)
+    public CreateDocumentCommand(Guid templateId, Dictionary<Guid, Guid> aliasData)
     {
-        Document = document;
+        TemplateId = templateId;
+        AliasData = aliasData;
     }
 }

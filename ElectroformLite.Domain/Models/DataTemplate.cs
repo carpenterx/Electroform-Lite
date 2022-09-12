@@ -1,16 +1,26 @@
-﻿namespace ElectroformLite.Domain.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ElectroformLite.Domain.Models;
 
 public class DataTemplate
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
+    [Required]
+    [StringLength(100)]
     public string Placeholder { get; set; }
 
-    public int Type { get; set; }
+    public Guid DataTypeId { get; set; }
 
-    public DataTemplate(string placeholder, int type)
+    public DataType DataType { get; set; }
+    public ICollection<Data> UserData { get; set; }
+    public ICollection<DataGroupTemplate> DataGroupTemplates { get; set; }
+
+    public DataTemplate(string placeholder, Guid dataTypeId)
     {
         Placeholder = placeholder;
-        Type = type;
+        DataTypeId = dataTypeId;
+        UserData = new HashSet<Data>();
+        DataGroupTemplates = new HashSet<DataGroupTemplate>();
     }
 }

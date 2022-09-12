@@ -1,12 +1,13 @@
-﻿using MediatR;
+﻿using ElectroformLite.Domain.Models;
+using MediatR;
 
 namespace ElectroformLite.Application.DataGroupTypes.Commands.DeleteDataGroupType;
 
-public class DeleteDataGroupTypeCommand : IRequest
+public class DeleteDataGroupTypeCommand : IRequest<DataGroupType?>
 {
-    public int DataGroupTypeId { get; set; }
+    public Guid DataGroupTypeId { get; set; }
 
-    public DeleteDataGroupTypeCommand(int dataGroupTypeId)
+    public DeleteDataGroupTypeCommand(Guid dataGroupTypeId)
     {
         DataGroupTypeId = dataGroupTypeId;
     }

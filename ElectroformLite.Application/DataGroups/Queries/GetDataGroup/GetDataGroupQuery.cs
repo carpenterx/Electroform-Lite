@@ -3,11 +3,11 @@ using ElectroformLite.Domain.Models;
 
 namespace ElectroformLite.Application.DataGroups.Queries.GetDataGroup;
 
-public class GetDataGroupQuery : IRequest<DataGroup>
+public class GetDataGroupQuery : IRequest<DataGroup?>
 {
-    public int DataGroupId { get; set; }
+    public Guid DataGroupId { get; set; }
 
-    public GetDataGroupQuery(int dataGroupId)
+    public GetDataGroupQuery(Guid dataGroupId)
     {
         DataGroupId = dataGroupId;
     }

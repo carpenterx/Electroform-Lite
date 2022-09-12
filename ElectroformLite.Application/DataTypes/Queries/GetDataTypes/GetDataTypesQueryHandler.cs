@@ -6,17 +6,15 @@ namespace ElectroformLite.Application.DataTypes.Queries.GetDataTypes;
 
 public class GetDataTypesQueryHandler : IRequestHandler<GetDataTypesQuery, List<DataType>>
 {
-    private readonly IDataTypeRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetDataTypesQueryHandler(IDataTypeRepository repository)
+    public GetDataTypesQueryHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<List<DataType>> Handle(GetDataTypesQuery request, CancellationToken cancellationToken)
+    public async Task<List<DataType>> Handle(GetDataTypesQuery request, CancellationToken cancellationToken)
     {
-        var result = _repository.GetDataTypes();
-
-        return Task.FromResult(result);
+        return await _unitOfWork.DataTypeRepository.GetDataTypes();
     }
 }
