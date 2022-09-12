@@ -4,7 +4,7 @@ using MediatR;
 
 namespace ElectroformLite.Application.Users.Commands.CreateUser;
 
-public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
+public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Guid>
 {
     private readonly IUserRepository _repository;
 
@@ -13,7 +13,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
         _repository = repository;
     }
 
-    public Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public Task<Guid> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         User user = request.User;
         _repository.Create(user);

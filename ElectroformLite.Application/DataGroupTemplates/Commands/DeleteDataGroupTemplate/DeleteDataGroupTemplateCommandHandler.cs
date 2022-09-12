@@ -1,21 +1,29 @@
 ﻿using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Domain.Models;
 using MediatR;
 
 namespace ElectroformLite.Application.DataGroupTemplates.Commands.DeleteDataGroupTemplate;
 
-public class DeleteDataGroupTemplateCommandHandler : IRequestHandler<DeleteDataGroupTemplateCommand>
+public class DeleteDataGroupTemplateCommandHandler : IRequestHandler<DeleteDataGroupTemplateCommand, DataGroupTemplate?>
 {
-    private readonly IDataGroupTemplateRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public DeleteDataGroupTemplateCommandHandler(IDataGroupTemplateRepository repository)
+    public DeleteDataGroupTemplateCommandHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<Unit> Handle(DeleteDataGroupTemplateCommand request, CancellationToken cancellationToken)
+    public async Task<DataGroupTemplate?> Handle(DeleteDataGroupTemplateCommand request, CancellationToken cancellationToken)
     {
-        _repository.Delete(request.DataGroupTemplateId);
+        DataGroupTemplate? dataGroupTemplate = await _unitOfWork.DataGroupTemplateRepository.GetDataGroupTemplate(request.DataGroupTemplateId);
+        if (dataGroupTemplate == null)
+        {
+            return null;
+        }
 
-        return Task.FromResult(Unit.Value);
+        _unitOfWork.DataGroupTemplateRepository.Delete(dataGroupTemplate);
+        await _unitOfWork.Save();
+
+        return dataGroupTemplate;
     }
 }

@@ -1,21 +1,30 @@
 ﻿using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Domain.Models;
 using MediatR;
 
 namespace ElectroformLite.Application.DataTypes.Commands.EditDataType;
 
-public class EditDataTypeCommandHandler : IRequestHandler<EditDataTypeCommand>
+public class EditDataTypeCommandHandler : IRequestHandler<EditDataTypeCommand, DataType?>
 {
-    private readonly IDataTypeRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public EditDataTypeCommandHandler(IDataTypeRepository repository)
+    public EditDataTypeCommandHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<Unit> Handle(EditDataTypeCommand request, CancellationToken cancellationToken)
+    public async Task<DataType?> Handle(EditDataTypeCommand request, CancellationToken cancellationToken)
     {
-        _repository.Update(request.DataType);
+        DataType dataTypeFromRequest = request.DataType;
+        DataType? dataTypeToEdit = await _unitOfWork.DataTypeRepository.GetDataType(dataTypeFromRequest.Id);
+        if (dataTypeToEdit == null)
+        {
+            return null;
+        }
+        dataTypeToEdit.Value = dataTypeFromRequest.Value;
+        _unitOfWork.DataTypeRepository.Update(dataTypeToEdit);
+        await _unitOfWork.Save();
 
-        return Task.FromResult(Unit.Value);
+        return dataTypeToEdit;
     }
 }

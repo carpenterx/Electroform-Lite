@@ -1,23 +1,33 @@
-﻿namespace ElectroformLite.Domain.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ElectroformLite.Domain.Models;
 
 public class DataGroup
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
+    [StringLength(100)]
     public string Name { get; set; }
 
-    public int Type { get; set; }
+    //public string DataGroupPlaceholder { get; set; }
 
     //public DateTime Created { get; set; }
 
     //public DateTime LastModified { get; set; }
 
-    public List<int> Data { get; set; } = new();
+    public Guid DataGroupTemplateId { get; set; }
 
-    public DataGroup(DataGroupTemplate dataGroupTemplate, string name, List<int> data)
+    public DataGroupTemplate DataGroupTemplate { get; set; }
+    public ICollection<Data> UserData { get; set; }
+    public ICollection<Alias> Aliases { get; set; }
+    //public ICollection<Document> Documents { get; set; }
+
+    public DataGroup(string name)
     {
         Name = name;
-        Type = dataGroupTemplate.Type;
-        Data = data;
+        //DataGroupPlaceholder = dataGroupPlaceholder;
+        UserData = new HashSet<Data>();
+        Aliases = new HashSet<Alias>();
+        //Documents = new HashSet<Document>();
     }
 }

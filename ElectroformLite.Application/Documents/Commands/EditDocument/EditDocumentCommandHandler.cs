@@ -1,21 +1,31 @@
 ﻿using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Domain.Models;
 using MediatR;
 
 namespace ElectroformLite.Application.Documents.Commands.EditDocument;
 
-public class EditDocumentCommandHandler : IRequestHandler<EditDocumentCommand>
+public class EditDocumentCommandHandler : IRequestHandler<EditDocumentCommand, Document?>
 {
-    private readonly IDocumentRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public EditDocumentCommandHandler(IDocumentRepository repository)
+    public EditDocumentCommandHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<Unit> Handle(EditDocumentCommand request, CancellationToken cancellationToken)
+    public async Task<Document?> Handle(EditDocumentCommand request, CancellationToken cancellationToken)
     {
-        _repository.Update(request.Document);
+        Document documentFromRequest = request.Document;
+        Document? documentToEdit = await _unitOfWork.DocumentRepository.GetDocument(documentFromRequest.Id);
+        if (documentToEdit == null)
+        {
+            return null;
+        }
+        documentToEdit.Name = documentFromRequest.Name;
+        documentToEdit.Content = documentFromRequest.Content;
+        _unitOfWork.DocumentRepository.Update(documentToEdit);
+        await _unitOfWork.Save();
 
-        return Task.FromResult(Unit.Value);
+        return documentToEdit;
     }
 }

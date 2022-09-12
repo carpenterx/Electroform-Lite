@@ -3,11 +3,11 @@ using MediatR;
 
 namespace ElectroformLite.Application.Documents.Commands.DeleteDocument;
 
-public class DeleteDocumentCommand : IRequest
+public class DeleteDocumentCommand : IRequest<Document?>
 {
-    public int DocumentId { get; set; }
+    public Guid DocumentId { get; set; }
 
-    public DeleteDocumentCommand(int documentId)
+    public DeleteDocumentCommand(Guid documentId)
     {
         DocumentId = documentId;
     }

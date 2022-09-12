@@ -1,24 +1,45 @@
-﻿using ElectroformLite.Application.DataTemplates.Commands.CreateDataTemplate;
-using ElectroformLite.Application.Interfaces;
+﻿using ElectroformLite.Application.Interfaces;
 using ElectroformLite.Domain.Models;
 using MediatR;
 
 namespace ElectroformLite.Application.DataGroupTemplates.Commands.CreateDataGroupTemplate;
 
-public class CreateDataGroupTemplateCommandHandler : IRequestHandler<CreateDataGroupTemplateCommand, int>
+public class CreateDataGroupTemplateCommandHandler : IRequestHandler<CreateDataGroupTemplateCommand, DataGroupTemplate?>
 {
-    private readonly IDataGroupTemplateRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public CreateDataGroupTemplateCommandHandler(IDataGroupTemplateRepository repository)
+    public CreateDataGroupTemplateCommandHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<int> Handle(CreateDataGroupTemplateCommand request, CancellationToken cancellationToken)
+    public async Task<DataGroupTemplate?> Handle(CreateDataGroupTemplateCommand request, CancellationToken cancellationToken)
     {
-        DataGroupTemplate dataGroupTemplate = new(request.TemplateName, request.TemplateType, request.DataTemplates);
-        _repository.Create(dataGroupTemplate);
+        DataGroupType? dataGroupType = await _unitOfWork.DataGroupTypeRepository.GetDataGroupType(request.DataGroupTypeId);
 
-        return Task.FromResult(dataGroupTemplate.Id);
+        if (dataGroupType is null)
+        {
+            return null;
+        }
+
+        DataGroupTemplate dataGroupTemplate = new();
+        _unitOfWork.DataGroupTemplateRepository.Create(dataGroupTemplate);
+
+        foreach (Guid dataId in request.DataTemplateIds)
+        {
+            DataTemplate? dataTemplate = await _unitOfWork.DataTemplateRepository.GetDataTemplate(dataId);
+
+            if (dataTemplate is null)
+            {
+                return null;
+            }
+
+            dataGroupTemplate.DataTemplates.Add(dataTemplate);
+        }
+
+        dataGroupType.DataGroupTemplates.Add(dataGroupTemplate);
+        await _unitOfWork.Save();
+
+        return dataGroupTemplate;
     }
 }

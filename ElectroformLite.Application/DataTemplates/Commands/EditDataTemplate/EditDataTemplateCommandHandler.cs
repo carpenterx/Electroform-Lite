@@ -1,21 +1,30 @@
 ﻿using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Domain.Models;
 using MediatR;
 
 namespace ElectroformLite.Application.DataTemplates.Commands.EditDataTemplate;
 
-public class EditDataTemplateCommandHandler : IRequestHandler<EditDataTemplateCommand>
+public class EditDataTemplateCommandHandler : IRequestHandler<EditDataTemplateCommand, DataTemplate?>
 {
-    private readonly IDataTemplateRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public EditDataTemplateCommandHandler(IDataTemplateRepository repository)
+    public EditDataTemplateCommandHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<Unit> Handle(EditDataTemplateCommand request, CancellationToken cancellationToken)
+    public async Task<DataTemplate?> Handle(EditDataTemplateCommand request, CancellationToken cancellationToken)
     {
-        _repository.Update(request.DataTemplate);
+        DataTemplate dataTemplateFromRequest = request.DataTemplate;
+        DataTemplate? dataTemplateToEdit = await _unitOfWork.DataTemplateRepository.GetDataTemplate(dataTemplateFromRequest.Id);
+        if (dataTemplateToEdit == null)
+        {
+            return null;
+        }
+        dataTemplateToEdit.Placeholder = dataTemplateFromRequest.Placeholder;
+        _unitOfWork.DataTemplateRepository.Update(dataTemplateToEdit);
+        await _unitOfWork.Save();
 
-        return Task.FromResult(Unit.Value);
+        return dataTemplateToEdit;
     }
 }

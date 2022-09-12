@@ -6,17 +6,15 @@ namespace ElectroformLite.Application.DataGroupTemplates.Queries.GetDataGroupTem
 
 public class GetDataGroupTemplatesQueryHandler : IRequestHandler<GetDataGroupTemplatesQuery, List<DataGroupTemplate>>
 {
-    private readonly IDataGroupTemplateRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetDataGroupTemplatesQueryHandler(IDataGroupTemplateRepository repository)
+    public GetDataGroupTemplatesQueryHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<List<DataGroupTemplate>> Handle(GetDataGroupTemplatesQuery request, CancellationToken cancellationToken)
+    public async Task<List<DataGroupTemplate>> Handle(GetDataGroupTemplatesQuery request, CancellationToken cancellationToken)
     {
-        var result = _repository.GetDataGroupTemplates();
-
-        return Task.FromResult(result);
+        return await _unitOfWork.DataGroupTemplateRepository.GetDataGroupTemplates();
     }
 }

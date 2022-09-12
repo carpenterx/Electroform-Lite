@@ -1,19 +1,16 @@
-﻿using MediatR;
+﻿using ElectroformLite.Domain.Models;
+using MediatR;
 
 namespace ElectroformLite.Application.DataGroupTemplates.Commands.CreateDataGroupTemplate;
 
-public class CreateDataGroupTemplateCommand : IRequest<int>
+public class CreateDataGroupTemplateCommand : IRequest<DataGroupTemplate?>
 {
-    public string TemplateName { get; set; }
+    public Guid DataGroupTypeId { get; set; }
+    public List<Guid> DataTemplateIds { get; set; }
 
-    public int TemplateType { get; set; }
-
-    public List<int> DataTemplates { get; set; }
-
-    public CreateDataGroupTemplateCommand(string templateName, int templateType, List<int> dataTemplates)
+    public CreateDataGroupTemplateCommand(Guid dataGroupTypeId, List<Guid> dataTemplateIds)
     {
-        TemplateName = templateName;
-        TemplateType = templateType;
-        DataTemplates = dataTemplates;
+        DataGroupTypeId = dataGroupTypeId;
+        DataTemplateIds = dataTemplateIds;
     }
 }

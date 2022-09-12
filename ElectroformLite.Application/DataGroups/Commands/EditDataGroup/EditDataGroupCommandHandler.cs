@@ -4,20 +4,27 @@ using MediatR;
 
 namespace ElectroformLite.Application.DataGroups.Commands.EditDataGroup;
 
-public class EditDataGroupCommandHandler : IRequestHandler<EditDataGroupCommand>
+public class EditDataGroupCommandHandler : IRequestHandler<EditDataGroupCommand, DataGroup?>
 {
-    private readonly IDataGroupRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public EditDataGroupCommandHandler(IDataGroupRepository repository)
+    public EditDataGroupCommandHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
 
-    public Task<Unit> Handle(EditDataGroupCommand request, CancellationToken cancellationToken)
+    public async Task<DataGroup?> Handle(EditDataGroupCommand request, CancellationToken cancellationToken)
     {
-        DataGroup dataGroup = request.DataGroup;
-        _repository.Update(dataGroup);
+        DataGroup dataGroupFromRequest = request.DataGroup;
+        DataGroup? dataGroupToEdit = await _unitOfWork.DataGroupRepository.GetDataGroup(dataGroupFromRequest.Id);
+        if (dataGroupToEdit == null)
+        {
+            return null;
+        }
+        dataGroupToEdit.Name = dataGroupFromRequest.Name;
+        _unitOfWork.DataGroupRepository.Update(dataGroupToEdit);
+        await _unitOfWork.Save();
 
-        return Task.FromResult(Unit.Value);
+        return dataGroupToEdit;
     }
 }

@@ -5,8 +5,8 @@ namespace ElectroformLite.Application.Interfaces;
 public interface IDataTemplateRepository
 {
     void Create(DataTemplate dataTemplate);
-    void Delete(int id);
+    void Delete(DataTemplate dataTemplate);
     void Update(DataTemplate dataTemplate);
-    DataTemplate GetDataTemplate(int id);
-    List<DataTemplate> GetDataTemplates();
+    Task<DataTemplate?> GetDataTemplate(Guid id);
+    Task<List<DataTemplate>> GetDataTemplates();
 }

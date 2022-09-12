@@ -5,9 +5,9 @@ namespace ElectroformLite.Application.Interfaces;
 public interface IUserRepository
 {
     void Create(User user);
-    void Delete(int id);
+    void Delete(Guid id);
     void Update(User user);
-    User GetUser(int id);
+    User GetUser(Guid id);
     User GetUserByName(string name);
     List<User> GetUsers();
 }

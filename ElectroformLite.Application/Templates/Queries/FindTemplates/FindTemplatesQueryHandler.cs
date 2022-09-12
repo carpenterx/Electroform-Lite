@@ -17,6 +17,6 @@ public class FindTemplatesQueryHandler : IRequestHandler<FindTemplatesQuery, Lis
     {
         var result = _repository.FindTemplates(request.SearchTerm);
 
-        return Task.FromResult(result);
+        return result;
     }
 }

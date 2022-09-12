@@ -4,9 +4,9 @@ namespace ElectroformLite.Application.Users.Commands.DeleteUser;
 
 public class DeleteUserCommand : IRequest
 {
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
 
-    public DeleteUserCommand(int userId)
+    public DeleteUserCommand(Guid userId)
     {
         UserId = userId;
     }

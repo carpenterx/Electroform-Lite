@@ -2,18 +2,25 @@
 
 public class DataGroupTemplate
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
-    public string Name { get; set; }
+    /*[Required]
+    [StringLength(100)]
+    public string Name { get; set; }*/
 
-    public int Type { get; set; }
+    //public Guid DataGroupTypeId { get; set; }
 
-    public List<int> DataTemplates { get; set; } = new();
+    //public DataGroupType DataGroupType { get; set; }
+    public ICollection<DataGroup> DataGroups { get; set; }
+    public ICollection<DataTemplate> DataTemplates { get; set; }
+    public ICollection<AliasTemplate> AliasTemplates { get; set; }
+    //public ICollection<Template> Templates { get; set; }
 
-    public DataGroupTemplate(string name, int type, List<int> dataTemplates)
+    public DataGroupTemplate()
     {
-        Name = name;
-        Type = type;
-        DataTemplates = dataTemplates;
+        DataGroups = new HashSet<DataGroup>();
+        DataTemplates = new HashSet<DataTemplate>();
+        AliasTemplates = new HashSet<AliasTemplate>();
+        //Templates = new HashSet<Template>();
     }
 }
