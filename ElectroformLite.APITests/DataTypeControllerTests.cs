@@ -8,6 +8,8 @@ using ElectroformLite.Application.DataTypes.Queries.GetDataType;
 using ElectroformLite.Application.DataTypes.Queries.GetDataTypes;
 using ElectroformLite.Domain.Models;
 using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 
 namespace ElectroformLite.APITests;
@@ -87,5 +89,29 @@ public class DataTypeControllerTests
 
         // Assert
         _mockMediator.Verify(m => m.Send(It.IsAny<EditDataTypeCommand>(), It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Fact]
+    public async void CreateDataType_ReturnsCreatedAtAction()
+    {
+        // Arrange
+        string type = "Type";
+        DataType dataType = new(type);
+        Guid dataTypeId = Guid.NewGuid();
+        DataTypeDto dataTypeDto = new() { Id = dataTypeId, Value = type };
+        CreateDataTypeCommand createDataTypeCommand = new(type);
+        _mockMediator
+            .Setup(m => m.Send(It.Is<CreateDataTypeCommand>(c => c.TypeValue == type), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(dataType);
+        _mockMapper.Setup(m => m.Map<DataTypeDto>(It.Is<DataType>(d => d == dataType))).Returns(dataTypeDto);
+        DataTypesController controller = new(_mockMediator.Object, _mockMapper.Object);
+
+        // Act
+        CreatedAtActionResult createdAtActionResult = (CreatedAtActionResult)await controller.CreateDataType(type);
+
+        // Assert
+        Assert.Equal(dataTypeDto, createdAtActionResult.Value);
+        Assert.Equal(dataTypeDto.Id, createdAtActionResult.RouteValues[nameof(dataTypeDto.Id)]);
+        Assert.Equal(StatusCodes.Status201Created, createdAtActionResult.StatusCode);
     }
 }
