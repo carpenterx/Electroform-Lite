@@ -114,4 +114,40 @@ public class DataTypeControllerTests
         Assert.Equal(dataTypeDto.Id, createdAtActionResult.RouteValues[nameof(dataTypeDto.Id)]);
         Assert.Equal(StatusCodes.Status201Created, createdAtActionResult.StatusCode);
     }
+
+    [Fact]
+    public async void GetDataType_GetDataTypeQueryWithCorrectId_IsCalled()
+    {
+        // Arrange
+        Guid expectedId = Guid.NewGuid();
+        Guid actualId = Guid.Empty;
+        _mockMediator
+            .Setup(m => m.Send(It.IsAny<GetDataTypeQuery>(), It.IsAny<CancellationToken>()))
+            .Returns<GetDataTypeQuery, CancellationToken>( async (q, t) =>
+            {
+                actualId = q.DataTypeId;
+                DataType dataType = new("Type")
+                {
+                    Id = q.DataTypeId
+                };
+                return await Task.FromResult(dataType);
+            });
+        _mockMapper
+            .Setup(m => m.Map<DataTypeDto>(It.Is<DataType>(d => d.Id == expectedId)))
+            .Returns(new DataTypeDto
+            {
+                Id = expectedId,
+                Value = "Type"
+            });
+
+        DataTypesController controller = new(_mockMediator.Object, _mockMapper.Object);
+
+        // Act
+        var response = await controller.GetDataType(expectedId);
+        var result = response.Result as OkObjectResult;
+
+        // Assert
+        Assert.Equal(expectedId, ((DataTypeDto)result.Value).Id);
+        Assert.Equal(expectedId, actualId);
+    }
 }
