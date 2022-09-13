@@ -92,7 +92,21 @@ public class DataTypeControllerTests
     }
 
     [Fact]
-    public async void CreateDataType_ReturnsCreatedAtAction()
+    public async void DeleteDataType_Returns_NoContent()
+    {
+        // Arrange
+        _mockMediator.Setup(m => m.Send(It.IsAny<DeleteDataTypeCommand>(), It.IsAny<CancellationToken>())).ReturnsAsync(new DataType("Type"));
+        DataTypesController controller = new(_mockMediator.Object, _mockMapper.Object);
+
+        // Act
+        NoContentResult noContentResult = (NoContentResult)await controller.DeleteDataType(Guid.Empty);
+
+        // Assert
+        Assert.Equal(StatusCodes.Status204NoContent, noContentResult.StatusCode);
+    }
+
+    [Fact]
+    public async void CreateDataType_Returns_CreatedAtAction()
     {
         // Arrange
         string type = "Type";
@@ -116,7 +130,7 @@ public class DataTypeControllerTests
     }
 
     [Fact]
-    public async void GetDataType_GetDataTypeQueryWithCorrectId_IsCalled()
+    public async void GetDataType_GetDataTypeQuery_WithCorrectId_IsCalled()
     {
         // Arrange
         Guid expectedId = Guid.NewGuid();
