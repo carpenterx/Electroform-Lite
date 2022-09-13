@@ -28,6 +28,7 @@ public class DataGroupTemplatesController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<DataGroupTemplate>>> GetDataGroupTemplates()
     {
+        throw new Exception("Custom exception from GetDataGroupTemplates");
         List<DataGroupTemplate> dataGroupTemplates = await _mediator.Send(new GetDataGroupTemplatesQuery());
         List<DataGroupTemplateGetDto> dataGroupTemplateDtos = _mapper.Map<List<DataGroupTemplateGetDto>>(dataGroupTemplates);
 
