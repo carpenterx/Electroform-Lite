@@ -15,13 +15,23 @@ public class EditDataGroupTemplateCommandHandler : IRequestHandler<EditDataGroup
 
     public async Task<DataGroupTemplate?> Handle(EditDataGroupTemplateCommand request, CancellationToken cancellationToken)
     {
-        DataGroupTemplate dataGroupTemplateFromRequest = request.DataGroupTemplate;
-        DataGroupTemplate? dataGroupTemplateToEdit = await _unitOfWork.DataGroupTemplateRepository.GetDataGroupTemplate(dataGroupTemplateFromRequest.Id);
+        DataGroupTemplate? dataGroupTemplateToEdit = await _unitOfWork.DataGroupTemplateRepository.GetDataGroupTemplate(request.DataGroupTemplateId);
         if (dataGroupTemplateToEdit == null)
         {
             return null;
         }
-        //dataGroupTemplateToEdit.Name = dataGroupTemplateFromRequest.Name;
+        dataGroupTemplateToEdit.DataTemplates.Clear();
+        foreach (Guid dataTemplateId in request.DataTemplateIds)
+        {
+            DataTemplate? dataTemplate = await _unitOfWork.DataTemplateRepository.GetDataTemplate(dataTemplateId);
+
+            if (dataTemplate == null)
+            {
+                return null;
+            }
+
+            dataGroupTemplateToEdit.DataTemplates.Add(dataTemplate);
+        }
         _unitOfWork.DataGroupTemplateRepository.Update(dataGroupTemplateToEdit);
         await _unitOfWork.Save();
 

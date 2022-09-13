@@ -35,7 +35,9 @@ public class DataGroupTemplateRepository : IDataGroupTemplateRepository
 
     public async Task<List<DataGroupTemplate>> GetDataGroupTemplates()
     {
-        return await _context.DataGroupTemplates.ToListAsync();
+        return await _context.DataGroupTemplates
+            .Include(d => d.DataTemplates)
+            .ToListAsync();
     }
 
     public void Update(DataGroupTemplate dataGroupTemplate)

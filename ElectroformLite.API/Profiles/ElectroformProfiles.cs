@@ -16,7 +16,7 @@ public class ElectroformProfiles : Profile
         //CreateMap<DataGroupPostDto, DataGroup>();
         CreateMap<DataTemplate, DataTemplateGetPutDto>().ReverseMap();
         //CreateMap<DataTemplatePostDto, DataTemplate>();
-        CreateMap<DataGroupTemplate, DataGroupTemplateGetPutDto>().ReverseMap();
+        CreateMap<DataGroupTemplate, DataGroupTemplateGetDto>().ReverseMap();
         //CreateMap<DataGroupTemplatePostDto, DataGroupTemplate>();
         CreateMap<Template, TemplateGetPutDto>().ReverseMap();
         //CreateMap<TemplatePostDto, Template>();
