@@ -5,10 +5,13 @@ namespace ElectroformLite.Application.Documents.Commands.EditDocument;
 
 public class EditDocumentCommand : IRequest<Document?>
 {
-    public Document Document { get; set; }
+    public Guid DocumentId { get; set; }
 
-    public EditDocumentCommand(Document document)
+    public string NewDocumentName { get; set; }
+
+    public EditDocumentCommand(Guid documentId, string newDocumentName)
     {
-        Document = document;
+        DocumentId = documentId;
+        NewDocumentName = newDocumentName;
     }
 }
