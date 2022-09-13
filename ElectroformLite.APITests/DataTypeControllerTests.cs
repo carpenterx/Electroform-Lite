@@ -92,6 +92,22 @@ public class DataTypeControllerTests
     }
 
     [Fact]
+    public async void GetDataType_Returns_Ok()
+    {
+        // Arrange
+        _mockMediator.Setup(m => m.Send(It.IsAny<GetDataTypeQuery>(), It.IsAny<CancellationToken>())).ReturnsAsync(new DataType("Type"));
+        _mockMapper.Setup(m => m.Map<DataTypeDto>(It.IsAny<DataType>())).Returns(new DataTypeDto());
+        DataTypesController controller = new(_mockMediator.Object, _mockMapper.Object);
+
+        // Act
+        var response = await controller.GetDataType(Guid.Empty);
+        var result = response.Result as OkObjectResult;
+
+        // Assert
+        Assert.Equal(StatusCodes.Status200OK, result?.StatusCode);
+    }
+
+    [Fact]
     public async void DeleteDataType_Returns_NoContent()
     {
         // Arrange
