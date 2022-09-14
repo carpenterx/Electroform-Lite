@@ -65,12 +65,7 @@ public class DataTypesController : ControllerBase
     [Route("{id}")]
     public async Task<IActionResult> DeleteDataType([FromRoute] Guid id)
     {
-        DataType? dataType = await _mediator.Send(new DeleteDataTypeCommand(id));
-
-        if (dataType == null)
-        {
-            return NotFound();
-        }
+        await _mediator.Send(new DeleteDataTypeCommand(id));
 
         return NoContent();
     }

@@ -1,4 +1,8 @@
-﻿namespace ElectroformLite.API.Middleware;
+﻿using ElectroformLite.Application.Exceptions;
+using MediatR;
+using System.Net;
+
+namespace ElectroformLite.API.Middleware;
 
 public class ErrorLoggingMiddleware
 {
@@ -17,10 +21,17 @@ public class ErrorLoggingMiddleware
         {
             await _next(context);
         }
-        catch (Exception ex)
+        catch (NotFoundHttpResponseException ex)
         {
-            _logger.LogError("Error: {message}", ex.Message);
-            throw;
+            _logger.LogError("[ERROR]: {message}", ex.Response.ReasonPhrase);
+            context.Response.StatusCode = StatusCodes.Status404NotFound;
+            context.Response.Headers.Add("reason",ex.Response.ReasonPhrase);
+        }
+        catch (CantDeleteHttpResponseException ex)
+        {
+            _logger.LogError("[ERROR]: {message}", ex.Response.ReasonPhrase);
+            context.Response.StatusCode = StatusCodes.Status405MethodNotAllowed;
+            context.Response.Headers.Add("reason", ex.Response.ReasonPhrase);
         }
         finally
         {
