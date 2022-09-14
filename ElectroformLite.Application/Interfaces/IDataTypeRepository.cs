@@ -8,5 +8,6 @@ public interface IDataTypeRepository
     void Delete(DataType dataType);
     void Update(DataType dataType);
     Task<DataType?> GetDataType(Guid id);
+    Task<DataType?> GetFullDataType(Guid id);
     Task<List<DataType>> GetDataTypes();
 }

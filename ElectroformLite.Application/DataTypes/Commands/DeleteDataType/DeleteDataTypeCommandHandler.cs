@@ -17,7 +17,7 @@ public class DeleteDataTypeCommandHandler : IRequestHandler<DeleteDataTypeComman
 
     public async Task<Unit> Handle(DeleteDataTypeCommand request, CancellationToken cancellationToken)
     {
-        DataType? dataType = await _unitOfWork.DataTypeRepository.GetDataType(request.DataTypeId);
+        DataType? dataType = await _unitOfWork.DataTypeRepository.GetFullDataType(request.DataTypeId);
         if (dataType == null)
         {
             var response = new HttpResponseMessage(HttpStatusCode.NotFound)

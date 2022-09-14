@@ -111,7 +111,7 @@ public class DataTypeControllerTests
     public async void DeleteDataType_Returns_NoContent()
     {
         // Arrange
-        _mockMediator.Setup(m => m.Send(It.IsAny<DeleteDataTypeCommand>(), It.IsAny<CancellationToken>())).ReturnsAsync(new DataType("Type"));
+        _mockMediator.Setup(m => m.Send(It.IsAny<DeleteDataTypeCommand>(), It.IsAny<CancellationToken>()));
         DataTypesController controller = new(_mockMediator.Object, _mockMapper.Object);
 
         // Act
