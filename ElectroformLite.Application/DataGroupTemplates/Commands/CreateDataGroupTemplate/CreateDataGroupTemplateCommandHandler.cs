@@ -15,7 +15,7 @@ public class CreateDataGroupTemplateCommandHandler : IRequestHandler<CreateDataG
 
     public async Task<DataGroupTemplate?> Handle(CreateDataGroupTemplateCommand request, CancellationToken cancellationToken)
     {
-        DataGroupType? dataGroupType = await _unitOfWork.DataGroupTypeRepository.GetDataGroupType(request.DataGroupTypeId);
+        DataGroupType? dataGroupType = await _unitOfWork.DataGroupTypeRepository.GetFullDataGroupType(request.DataGroupTypeId);
 
         if (dataGroupType is null)
         {

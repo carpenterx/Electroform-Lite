@@ -24,13 +24,13 @@ public class ErrorLoggingMiddleware
         catch (NotFoundHttpResponseException ex)
         {
             _logger.LogError("[ERROR]: {message}", ex.Response.ReasonPhrase);
-            context.Response.StatusCode = StatusCodes.Status404NotFound;
+            context.Response.StatusCode = (int)ex.Response.StatusCode;
             context.Response.Headers.Add("reason",ex.Response.ReasonPhrase);
         }
         catch (CantDeleteHttpResponseException ex)
         {
             _logger.LogError("[ERROR]: {message}", ex.Response.ReasonPhrase);
-            context.Response.StatusCode = StatusCodes.Status405MethodNotAllowed;
+            context.Response.StatusCode = (int)ex.Response.StatusCode;
             context.Response.Headers.Add("reason", ex.Response.ReasonPhrase);
         }
         finally

@@ -29,7 +29,7 @@ public class DeleteDataTypeCommandHandler : IRequestHandler<DeleteDataTypeComman
 
         if (dataType.DataTemplates.Count > 0)
         {
-            var response = new HttpResponseMessage(HttpStatusCode.NotFound)
+            var response = new HttpResponseMessage(HttpStatusCode.Forbidden)
             {
                 ReasonPhrase = "Data Type Cannot Be Deleted"
             };
