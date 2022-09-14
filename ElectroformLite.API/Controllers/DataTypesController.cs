@@ -40,10 +40,6 @@ public class DataTypesController : ControllerBase
     {
         DataType? dataType = await _mediator.Send(new GetDataTypeQuery(id));
 
-        if (dataType == null)
-        {
-            return NotFound();
-        }
         DataTypeDto dataTypeDto = _mapper.Map<DataTypeDto>(dataType);
 
         return Ok(dataTypeDto);
@@ -79,14 +75,7 @@ public class DataTypesController : ControllerBase
             return BadRequest();
         }
 
-        DataType dataTypeFromDto = _mapper.Map<DataType>(dataTypeDto);
-
-        DataType? editedDataType = await _mediator.Send(new EditDataTypeCommand(dataTypeFromDto));
-
-        if (editedDataType == null)
-        {
-            return NotFound();
-        }
+        await _mediator.Send(new EditDataTypeCommand(dataTypeDto.Id, dataTypeDto.Value));
 
         return NoContent();
     }
