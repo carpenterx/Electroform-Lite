@@ -8,5 +8,7 @@ public interface IDataTemplateRepository
     void Delete(DataTemplate dataTemplate);
     void Update(DataTemplate dataTemplate);
     Task<DataTemplate?> GetDataTemplate(Guid id);
+    Task<DataTemplate?> GetDataTemplateAndData(Guid id);
+    Task<DataTemplate?> GetDataTemplateAndDataAndDataGroupTemplates(Guid id);
     Task<List<DataTemplate>> GetDataTemplates();
 }

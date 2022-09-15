@@ -26,6 +26,14 @@ public class DataTypeRepository : IDataTypeRepository
     public async Task<DataType?> GetDataType(Guid id)
     {
         DataType? dataType = await _context.DataTypes
+            .SingleOrDefaultAsync(d => d.Id == id);
+
+        return dataType;
+    }
+
+    public async Task<DataType?> GetFullDataType(Guid id)
+    {
+        DataType? dataType = await _context.DataTypes
             .Include(d => d.DataTemplates)
             .SingleOrDefaultAsync(d => d.Id == id);
 

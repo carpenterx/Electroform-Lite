@@ -38,12 +38,7 @@ public class DataGroupTypesController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<DataGroupType>> GetDataGroupType([FromRoute] Guid id)
     {
-        DataGroupType? dataGroupType = await _mediator.Send(new GetDataGroupTypeQuery(id));
-
-        if (dataGroupType == null)
-        {
-            return NotFound();
-        }
+        DataGroupType dataGroupType = await _mediator.Send(new GetDataGroupTypeQuery(id));
         DataGroupTypeDto dataGroupTypeDto = _mapper.Map<DataGroupTypeDto>(dataGroupType);
 
         return Ok(dataGroupTypeDto);
@@ -54,7 +49,6 @@ public class DataGroupTypesController : ControllerBase
     public async Task<IActionResult> CreateDataGroupType([FromBody] string type)
     {
         DataGroupType dataGroupType = await _mediator.Send(new CreateDataGroupTypeCommand(type));
-
         DataGroupTypeDto dataGroupTypeDto = _mapper.Map<DataGroupTypeDto>(dataGroupType);
 
         return CreatedAtAction(nameof(GetDataGroupType), new { dataGroupTypeDto.Id }, dataGroupTypeDto);
@@ -65,12 +59,7 @@ public class DataGroupTypesController : ControllerBase
     [Route("{id}")]
     public async Task<IActionResult> DeleteDataGroupType([FromRoute] Guid id)
     {
-        DataGroupType? dataGroupType = await _mediator.Send(new DeleteDataGroupTypeCommand(id));
-
-        if (dataGroupType == null)
-        {
-            return NotFound();
-        }
+        await _mediator.Send(new DeleteDataGroupTypeCommand(id));
 
         return NoContent();
     }
@@ -84,14 +73,7 @@ public class DataGroupTypesController : ControllerBase
             return BadRequest();
         }
 
-        DataGroupType dataGroupTypeFromDto = _mapper.Map<DataGroupType>(dataGroupTypeDto);
-
-        DataGroupType? editedDataGroupType = await _mediator.Send(new EditDataGroupTypeCommand(dataGroupTypeFromDto));
-
-        if (editedDataGroupType == null)
-        {
-            return NotFound();
-        }
+        await _mediator.Send(new EditDataGroupTypeCommand(dataGroupTypeDto.Id, dataGroupTypeDto.Value));
 
         return NoContent();
     }

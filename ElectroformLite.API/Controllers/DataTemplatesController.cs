@@ -38,12 +38,7 @@ public class DataTemplatesController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<DataTemplate>> GetDataTemplate([FromRoute] Guid id)
     {
-        DataTemplate? dataTemplate = await _mediator.Send(new GetDataTemplateQuery(id));
-
-        if (dataTemplate == null)
-        {
-            return NotFound();
-        }
+        DataTemplate dataTemplate = await _mediator.Send(new GetDataTemplateQuery(id));
         DataTemplateGetPutDto dataTemplateDto = _mapper.Map<DataTemplateGetPutDto>(dataTemplate);
 
         return Ok(dataTemplateDto);
@@ -53,12 +48,7 @@ public class DataTemplatesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateDataTemplate([FromBody] DataTemplatePostDto dataTemplateDto)
     {
-        DataTemplate? dataTemplate = await _mediator.Send(new CreateDataTemplateCommand(dataTemplateDto.DataTypeId, dataTemplateDto.Placeholder));
-
-        if (dataTemplate == null)
-        {
-            return NotFound();
-        }
+        DataTemplate dataTemplate = await _mediator.Send(new CreateDataTemplateCommand(dataTemplateDto.DataTypeId, dataTemplateDto.Placeholder));
         DataTemplateGetPutDto dtoFromDataTemplate = _mapper.Map<DataTemplateGetPutDto>(dataTemplate);
 
         return CreatedAtAction(nameof(GetDataTemplate), new { dtoFromDataTemplate.Id }, dtoFromDataTemplate);
@@ -69,12 +59,7 @@ public class DataTemplatesController : ControllerBase
     [Route("{id}")]
     public async Task<IActionResult> DeleteDataTemplate([FromRoute] Guid id)
     {
-        DataTemplate? dataTemplate = await _mediator.Send(new DeleteDataTemplateCommand(id));
-
-        if (dataTemplate == null)
-        {
-            return NotFound();
-        }
+        await _mediator.Send(new DeleteDataTemplateCommand(id));
 
         return NoContent();
     }
@@ -88,14 +73,7 @@ public class DataTemplatesController : ControllerBase
             return BadRequest();
         }
 
-        DataTemplate dataTemplateFromDto = _mapper.Map<DataTemplate>(dataTemplateDto);
-
-        DataTemplate? editedDataTemplate = await _mediator.Send(new EditDataTemplateCommand(dataTemplateFromDto));
-
-        if (editedDataTemplate == null)
-        {
-            return NotFound();
-        }
+        await _mediator.Send(new EditDataTemplateCommand(dataTemplateDto.Id, dataTemplateDto.Placeholder));
 
         return NoContent();
     }

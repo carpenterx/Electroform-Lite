@@ -38,12 +38,7 @@ public class DataTypesController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<DataType>> GetDataType([FromRoute] Guid id)
     {
-        DataType? dataType = await _mediator.Send(new GetDataTypeQuery(id));
-
-        if (dataType == null)
-        {
-            return NotFound();
-        }
+        DataType dataType = await _mediator.Send(new GetDataTypeQuery(id));
         DataTypeDto dataTypeDto = _mapper.Map<DataTypeDto>(dataType);
 
         return Ok(dataTypeDto);
@@ -54,7 +49,6 @@ public class DataTypesController : ControllerBase
     public async Task<IActionResult> CreateDataType([FromBody] string type)
     {
         DataType dataType = await _mediator.Send(new CreateDataTypeCommand(type));
-
         DataTypeDto dataTypeDto = _mapper.Map<DataTypeDto>(dataType);
 
         return CreatedAtAction(nameof(GetDataType), new { dataTypeDto.Id }, dataTypeDto);
@@ -65,12 +59,7 @@ public class DataTypesController : ControllerBase
     [Route("{id}")]
     public async Task<IActionResult> DeleteDataType([FromRoute] Guid id)
     {
-        DataType? dataType = await _mediator.Send(new DeleteDataTypeCommand(id));
-
-        if (dataType == null)
-        {
-            return NotFound();
-        }
+        await _mediator.Send(new DeleteDataTypeCommand(id));
 
         return NoContent();
     }
@@ -84,14 +73,7 @@ public class DataTypesController : ControllerBase
             return BadRequest();
         }
 
-        DataType dataTypeFromDto = _mapper.Map<DataType>(dataTypeDto);
-
-        DataType? editedDataType = await _mediator.Send(new EditDataTypeCommand(dataTypeFromDto));
-
-        if (editedDataType == null)
-        {
-            return NotFound();
-        }
+        await _mediator.Send(new EditDataTypeCommand(dataTypeDto.Id, dataTypeDto.Value));
 
         return NoContent();
     }

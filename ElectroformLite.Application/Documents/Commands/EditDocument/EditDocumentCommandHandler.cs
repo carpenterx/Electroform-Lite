@@ -15,14 +15,12 @@ public class EditDocumentCommandHandler : IRequestHandler<EditDocumentCommand, D
 
     public async Task<Document?> Handle(EditDocumentCommand request, CancellationToken cancellationToken)
     {
-        Document documentFromRequest = request.Document;
-        Document? documentToEdit = await _unitOfWork.DocumentRepository.GetDocument(documentFromRequest.Id);
+        Document? documentToEdit = await _unitOfWork.DocumentRepository.GetDocument(request.DocumentId);
         if (documentToEdit == null)
         {
             return null;
         }
-        documentToEdit.Name = documentFromRequest.Name;
-        documentToEdit.Content = documentFromRequest.Content;
+        documentToEdit.Name = request.NewDocumentName;
         _unitOfWork.DocumentRepository.Update(documentToEdit);
         await _unitOfWork.Save();
 

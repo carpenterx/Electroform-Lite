@@ -1,14 +1,15 @@
-﻿using ElectroformLite.Domain.Models;
-using MediatR;
+﻿using MediatR;
 
 namespace ElectroformLite.Application.DataGroupTypes.Commands.EditDataGroupType;
 
-public class EditDataGroupTypeCommand : IRequest<DataGroupType?>
+public class EditDataGroupTypeCommand : IRequest
 {
-    public DataGroupType DataGroupType { get; set; }
+    public Guid DataGroupTypeId { get; set; }
+    public string DataGroupTypeValue { get; set; }
 
-    public EditDataGroupTypeCommand(DataGroupType dataGroupType)
+    public EditDataGroupTypeCommand(Guid dataGroupTypeId, string dataGroupTypeValue)
     {
-        DataGroupType = dataGroupType;
+        DataGroupTypeId = dataGroupTypeId;
+        DataGroupTypeValue = dataGroupTypeValue;
     }
 }

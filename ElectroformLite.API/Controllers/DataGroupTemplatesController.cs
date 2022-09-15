@@ -29,7 +29,7 @@ public class DataGroupTemplatesController : ControllerBase
     public async Task<ActionResult<List<DataGroupTemplate>>> GetDataGroupTemplates()
     {
         List<DataGroupTemplate> dataGroupTemplates = await _mediator.Send(new GetDataGroupTemplatesQuery());
-        List<DataGroupTemplateGetPutDto> dataGroupTemplateDtos = _mapper.Map<List<DataGroupTemplateGetPutDto>>(dataGroupTemplates);
+        List<DataGroupTemplateGetDto> dataGroupTemplateDtos = _mapper.Map<List<DataGroupTemplateGetDto>>(dataGroupTemplates);
 
         return Ok(dataGroupTemplateDtos);
     }
@@ -44,7 +44,7 @@ public class DataGroupTemplatesController : ControllerBase
         {
             return NotFound();
         }
-        DataGroupTemplateGetPutDto dataGroupTemplateDto = _mapper.Map<DataGroupTemplateGetPutDto>(dataGroupTemplate);
+        DataGroupTemplateGetDto dataGroupTemplateDto = _mapper.Map<DataGroupTemplateGetDto>(dataGroupTemplate);
 
         return Ok(dataGroupTemplateDto);
     }
@@ -60,7 +60,7 @@ public class DataGroupTemplatesController : ControllerBase
             return NotFound();
         }
 
-        DataGroupTemplateGetPutDto dtoFromDataGroupTemplate = _mapper.Map<DataGroupTemplateGetPutDto>(dataGroupTemplate);
+        DataGroupTemplateGetDto dtoFromDataGroupTemplate = _mapper.Map<DataGroupTemplateGetDto>(dataGroupTemplate);
 
         return CreatedAtAction(nameof(GetDataGroupTemplate), new { dtoFromDataGroupTemplate.Id }, dtoFromDataGroupTemplate);
     }
@@ -82,16 +82,14 @@ public class DataGroupTemplatesController : ControllerBase
 
     // PUT: data-group-templates/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateDataGroupTemplate([FromRoute] Guid id, [FromBody] DataGroupTemplateGetPutDto dataGroupTemplateDto)
+    public async Task<IActionResult> UpdateDataGroupTemplate([FromRoute] Guid id, [FromBody] DataGroupTemplatePutDto dataGroupTemplateDto)
     {
         if (id != dataGroupTemplateDto.Id)
         {
             return BadRequest();
         }
 
-        DataGroupTemplate dataGroupTemplateFromDto = _mapper.Map<DataGroupTemplate>(dataGroupTemplateDto);
-
-        DataGroupTemplate? editedDataGroupTemplate = await _mediator.Send(new EditDataGroupTemplateCommand(dataGroupTemplateFromDto));
+        DataGroupTemplate? editedDataGroupTemplate = await _mediator.Send(new EditDataGroupTemplateCommand(dataGroupTemplateDto.Id, dataGroupTemplateDto.DataTemplateIds));
 
         if (editedDataGroupTemplate == null)
         {
