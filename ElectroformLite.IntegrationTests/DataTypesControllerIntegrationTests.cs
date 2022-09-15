@@ -55,6 +55,16 @@ public class DataTypesControllerIntegrationTests
         Assert.AreEqual(Utilities.TextDataTypeId, dataType?.Id);
     }
 
+    [TestMethod]
+    public async Task CreateDataType_ShouldReturn_CreatedAtResponse()
+    {
+        var client = _factory.CreateClient();
+        string json = "{'Type'}";
+        var response = await client.PostAsJsonAsync("data-types", json);
+
+        Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
+    }
+
     [ClassCleanup]
     public static void ClassCleanup()
     {
