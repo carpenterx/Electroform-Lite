@@ -4,6 +4,9 @@ using ElectroformLite.IntegrationTests.Helpers;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using System.Net;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Text;
+using System.Net.Http;
 
 namespace ElectroformLite.IntegrationTests;
 
@@ -39,7 +42,7 @@ public class DataTypesControllerIntegrationTests
         var dataTypeDtos = JsonConvert.DeserializeObject<List<DataTypeDto>>(result);
 
         DataTypeDto dataTypeDto = dataTypeDtos.First(d => d.Id == Utilities.TextDataTypeId);
-        Assert.AreEqual("TextLite", dataTypeDto.Value);
+        Assert.AreEqual(Utilities.TextTypeValue, dataTypeDto.Value);
     }
 
     [TestMethod]
@@ -49,10 +52,10 @@ public class DataTypesControllerIntegrationTests
         var response = await client.GetAsync($"data-types/{Utilities.TextDataTypeId}");
 
         var result = await response.Content.ReadAsStringAsync();
-        var dataType = JsonConvert.DeserializeObject<DataTypeDto>(result);
+        DataTypeDto? dataTypeDto = JsonConvert.DeserializeObject<DataTypeDto>(result);
 
-        Assert.AreEqual("TextLite", dataType?.Value);
-        Assert.AreEqual(Utilities.TextDataTypeId, dataType?.Id);
+        Assert.AreEqual(Utilities.TextTypeValue, dataTypeDto?.Value);
+        Assert.AreEqual(Utilities.TextDataTypeId, dataTypeDto?.Id);
     }
 
     [TestMethod]
@@ -75,6 +78,28 @@ public class DataTypesControllerIntegrationTests
         DataTypeDto? dataTypeDto = JsonConvert.DeserializeObject<DataTypeDto>(result);
 
         Assert.AreEqual(typeValue, dataTypeDto?.Value);
+    }
+
+    [TestMethod]
+    public async Task UpdateDataType_Should_UpdatedDataType()
+    {
+        var client = _factory.CreateClient();
+        string newValue = "Phone Edited";
+        DataTypeDto editedDataTypeDto = new()
+        {
+            Id = Utilities.PhoneDataTypeId,
+            Value = newValue
+        };
+        await client.PutAsync($"data-types/{Utilities.PhoneDataTypeId}",
+               new StringContent(JsonConvert.SerializeObject(editedDataTypeDto), Encoding.UTF8, "application/json"));
+
+        var response = await client.GetAsync($"data-types/{Utilities.PhoneDataTypeId}");
+
+        var result = await response.Content.ReadAsStringAsync();
+        DataTypeDto? dataTypeDto = JsonConvert.DeserializeObject<DataTypeDto>(result);
+
+        Assert.AreEqual(Utilities.PhoneDataTypeId, dataTypeDto?.Id);
+        Assert.AreEqual(newValue, dataTypeDto?.Value);
     }
 
     [TestMethod]
