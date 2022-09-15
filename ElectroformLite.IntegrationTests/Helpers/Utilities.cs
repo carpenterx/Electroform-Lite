@@ -23,8 +23,18 @@ public static class Utilities
 
         db.SaveChanges();
 
-        TextDataTypeId = db.DataTypes.First(x => x.Value == TextTypeValue).Id;
+        DataType textDatatype = db.DataTypes.First(x => x.Value == TextTypeValue);
+
+        TextDataTypeId = textDatatype.Id;
         EmailDataTypeId = db.DataTypes.First(x => x.Value == EmailTypeValue).Id;
         PhoneDataTypeId = db.DataTypes.First(x => x.Value == PhoneTypeValue).Id;
+
+        DataTemplate dataTemplate = new("FirstName", TextDataTypeId);
+
+        db.DataTemplates.Add(dataTemplate);
+
+        textDatatype.DataTemplates.Add(dataTemplate);
+
+        db.SaveChanges();
     }
 }

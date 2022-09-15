@@ -134,6 +134,15 @@ public class DataTypesControllerIntegrationTests
         Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
     }
 
+    [TestMethod]
+    public async Task DeleteDataType_ForDataTypeWithDataTemplates_ShouldReturn_ForbiddenResponse()
+    {
+        var client = _factory.CreateClient();
+        var response = await client.DeleteAsync($"data-types/{Utilities.TextDataTypeId}");
+
+        Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
+    }
+
     [ClassCleanup]
     public static void ClassCleanup()
     {
