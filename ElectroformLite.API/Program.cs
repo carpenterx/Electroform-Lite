@@ -1,4 +1,5 @@
 using ElectroformLite.API.Controllers;
+using ElectroformLite.API.Middleware;
 using ElectroformLite.Application.Interfaces;
 using ElectroformLite.Infrastructure;
 using ElectroformLite.Infrastructure.Database;
@@ -45,6 +46,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<ErrorLoggingMiddleware>();
 
 app.MapControllers();
 

@@ -25,9 +25,17 @@ namespace ElectroformLite.Infrastructure.Database
 
         public async Task<DataGroupType?> GetDataGroupType(Guid id)
         {
-            DataGroupType? dataGroupType = await _context.DataGroupTypes.
-                Include(d => d.DataGroupTemplates).
-                SingleOrDefaultAsync(d => d.Id == id);
+            DataGroupType? dataGroupType = await _context.DataGroupTypes
+                .SingleOrDefaultAsync(d => d.Id == id);
+
+            return dataGroupType;
+        }
+
+        public async Task<DataGroupType?> GetFullDataGroupType(Guid id)
+        {
+            DataGroupType? dataGroupType = await _context.DataGroupTypes
+                .Include(d => d.DataGroupTemplates)
+                .SingleOrDefaultAsync(d => d.Id == id);
 
             return dataGroupType;
         }

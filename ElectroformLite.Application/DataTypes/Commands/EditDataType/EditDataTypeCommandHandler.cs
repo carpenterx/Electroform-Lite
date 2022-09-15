@@ -1,10 +1,12 @@
-﻿using ElectroformLite.Application.Interfaces;
+﻿using ElectroformLite.Application.Exceptions;
+using ElectroformLite.Application.Interfaces;
 using ElectroformLite.Domain.Models;
 using MediatR;
+using System.Net;
 
 namespace ElectroformLite.Application.DataTypes.Commands.EditDataType;
 
-public class EditDataTypeCommandHandler : IRequestHandler<EditDataTypeCommand, DataType?>
+public class EditDataTypeCommandHandler : IRequestHandler<EditDataTypeCommand>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -13,18 +15,21 @@ public class EditDataTypeCommandHandler : IRequestHandler<EditDataTypeCommand, D
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<DataType?> Handle(EditDataTypeCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(EditDataTypeCommand request, CancellationToken cancellationToken)
     {
-        DataType dataTypeFromRequest = request.DataType;
-        DataType? dataTypeToEdit = await _unitOfWork.DataTypeRepository.GetDataType(dataTypeFromRequest.Id);
+        DataType? dataTypeToEdit = await _unitOfWork.DataTypeRepository.GetDataType(request.DataTypeId);
         if (dataTypeToEdit == null)
         {
-            return null;
+            var response = new HttpResponseMessage(HttpStatusCode.NotFound)
+            {
+                ReasonPhrase = "Data Type Not Found"
+            };
+            throw new NotFoundHttpResponseException(response);
         }
-        dataTypeToEdit.Value = dataTypeFromRequest.Value;
+        dataTypeToEdit.Value = request.NewDataTypeValue;
         _unitOfWork.DataTypeRepository.Update(dataTypeToEdit);
         await _unitOfWork.Save();
 
-        return dataTypeToEdit;
+        return Unit.Value;
     }
 }

@@ -29,7 +29,7 @@ public class DocumentsController : ControllerBase
     public async Task<ActionResult<List<Document>>> GetDocuments()
     {
         List<Document> documents = await _mediator.Send(new GetDocumentsQuery());
-        List<DocumentGetPutDto> documentDtos = _mapper.Map<List<DocumentGetPutDto>>(documents);
+        List<DocumentGetDto> documentDtos = _mapper.Map<List<DocumentGetDto>>(documents);
 
         return Ok(documentDtos);
     }
@@ -45,7 +45,7 @@ public class DocumentsController : ControllerBase
             return NotFound();
         }
 
-        DocumentGetPutDto documentDto = _mapper.Map<DocumentGetPutDto>(document);
+        DocumentGetDto documentDto = _mapper.Map<DocumentGetDto>(document);
 
         return Ok(documentDto);
     }
@@ -61,7 +61,7 @@ public class DocumentsController : ControllerBase
             return NotFound();
         }
 
-        DocumentGetPutDto dtoFromDocument = _mapper.Map<DocumentGetPutDto>(document);
+        DocumentGetDto dtoFromDocument = _mapper.Map<DocumentGetDto>(document);
 
         return CreatedAtAction(nameof(GetDocument), new { dtoFromDocument.Id }, dtoFromDocument);
     }
@@ -81,18 +81,16 @@ public class DocumentsController : ControllerBase
         return NoContent();
     }
 
-    // PUT: documents/5
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateDocument([FromRoute] Guid id, [FromBody] DocumentGetPutDto documentDto)
+    // PATCH: documents/5
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> UpdateDocumentName([FromRoute] Guid id, [FromBody] DocumentPatchDto documentDto)
     {
         if (id != documentDto.Id)
         {
             return BadRequest();
         }
 
-        Document documentFromDto = _mapper.Map<Document>(documentDto);
-
-        Document? editedDocument = await _mediator.Send(new EditDocumentCommand(documentFromDto));
+        Document? editedDocument = await _mediator.Send(new EditDocumentCommand(documentDto.Id, documentDto.Name));
 
         if (editedDocument == null)
         {

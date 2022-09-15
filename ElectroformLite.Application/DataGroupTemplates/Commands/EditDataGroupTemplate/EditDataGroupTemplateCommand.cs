@@ -5,10 +5,13 @@ namespace ElectroformLite.Application.DataGroupTemplates.Commands.EditDataGroupT
 
 public class EditDataGroupTemplateCommand : IRequest<DataGroupTemplate?>
 {
-    public DataGroupTemplate DataGroupTemplate { get; set; }
+    public Guid DataGroupTemplateId { get; set; }
 
-    public EditDataGroupTemplateCommand(DataGroupTemplate dataGroupTemplate)
+    public List<Guid> DataTemplateIds { get; set; }
+
+    public EditDataGroupTemplateCommand(Guid dataGroupTemplateId, List<Guid> dataTemplateIds)
     {
-        DataGroupTemplate = dataGroupTemplate;
+        DataGroupTemplateId = dataGroupTemplateId;
+        DataTemplateIds = dataTemplateIds;
     }
 }

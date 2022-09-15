@@ -3,7 +3,7 @@ using MediatR;
 
 namespace ElectroformLite.Application.DataTypes.Commands.DeleteDataType;
 
-public class DeleteDataTypeCommand : IRequest<DataType?>
+public class DeleteDataTypeCommand : IRequest
 {
     public Guid DataTypeId { get; set; }
 

@@ -1,10 +1,12 @@
-﻿using ElectroformLite.Application.Interfaces;
+﻿using ElectroformLite.Application.Exceptions;
+using ElectroformLite.Application.Interfaces;
 using ElectroformLite.Domain.Models;
 using MediatR;
+using System.Net;
 
 namespace ElectroformLite.Application.DataTemplates.Commands.CreateDataTemplate;
 
-public class CreateDataTemplateCommandHandler : IRequestHandler<CreateDataTemplateCommand, DataTemplate?>
+public class CreateDataTemplateCommandHandler : IRequestHandler<CreateDataTemplateCommand, DataTemplate>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -13,13 +15,17 @@ public class CreateDataTemplateCommandHandler : IRequestHandler<CreateDataTempla
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<DataTemplate?> Handle(CreateDataTemplateCommand request, CancellationToken cancellationToken)
+    public async Task<DataTemplate> Handle(CreateDataTemplateCommand request, CancellationToken cancellationToken)
     {
-        DataType? dataType = await _unitOfWork.DataTypeRepository.GetDataType(request.DataTypeId);
+        DataType? dataType = await _unitOfWork.DataTypeRepository.GetFullDataType(request.DataTypeId);
 
         if (dataType is null)
         {
-            return null;
+            var response = new HttpResponseMessage(HttpStatusCode.NotFound)
+            {
+                ReasonPhrase = "Data Type Not Found"
+            };
+            throw new NotFoundHttpResponseException(response);
         }
 
         DataTemplate dataTemplate = new(request.Placeholder, request.DataTypeId);

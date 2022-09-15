@@ -1,8 +1,10 @@
 ﻿namespace ElectroformLite.API.Dto;
 
-public class DataGroupTemplateGetPutDto
+public class DocumentGetDto
 {
     public Guid Id { get; set; }
 
     public string Name { get; set; }
+
+    public string Content { get; set; }
 }
