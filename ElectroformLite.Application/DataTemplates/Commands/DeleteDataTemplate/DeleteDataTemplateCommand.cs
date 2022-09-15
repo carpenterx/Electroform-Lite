@@ -1,9 +1,8 @@
-﻿using ElectroformLite.Domain.Models;
-using MediatR;
+﻿using MediatR;
 
 namespace ElectroformLite.Application.DataTemplates.Commands.DeleteDataTemplate;
 
-public class DeleteDataTemplateCommand : IRequest<DataTemplate?>
+public class DeleteDataTemplateCommand : IRequest
 {
     public Guid DataTemplateId { get; set; }
 

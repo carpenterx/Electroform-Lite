@@ -3,12 +3,15 @@ using MediatR;
 
 namespace ElectroformLite.Application.DataTemplates.Commands.EditDataTemplate;
 
-public class EditDataTemplateCommand : IRequest<DataTemplate?>
+public class EditDataTemplateCommand : IRequest
 {
-    public DataTemplate DataTemplate { get; set; }
+    public Guid DataTemplateId { get; set; }
 
-    public EditDataTemplateCommand(DataTemplate dataTemplate)
+    public string DataTemplatePlaceholder { get; set; }
+
+    public EditDataTemplateCommand(Guid dataTemplateId, string dataTemplatePlaceholder)
     {
-        DataTemplate = dataTemplate;
+        DataTemplateId = dataTemplateId;
+        DataTemplatePlaceholder = dataTemplatePlaceholder;
     }
 }

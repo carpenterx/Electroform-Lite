@@ -15,7 +15,7 @@ public class CreateDataCommandHandler : IRequestHandler<CreateDataCommand, Data?
 
     public async Task<Data?> Handle(CreateDataCommand request, CancellationToken cancellationToken)
     {
-        DataTemplate? dataTemplate = await _unitOfWork.DataTemplateRepository.GetDataTemplate(request.DataTemplateId);
+        DataTemplate? dataTemplate = await _unitOfWork.DataTemplateRepository.GetDataTemplateAndData(request.DataTemplateId);
         if (dataTemplate is null)
         {
             return null;

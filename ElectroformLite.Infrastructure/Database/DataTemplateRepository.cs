@@ -26,7 +26,25 @@ public class DataTemplateRepository : IDataTemplateRepository
     public async Task<DataTemplate?> GetDataTemplate(Guid id)
     {
         DataTemplate? dataTemplate = await _context.DataTemplates
-            .Include(d => d.DataType)
+            .SingleOrDefaultAsync(d => d.Id == id);
+
+        return dataTemplate;
+    }
+
+    public async Task<DataTemplate?> GetDataTemplateAndData(Guid id)
+    {
+        DataTemplate? dataTemplate = await _context.DataTemplates
+            .Include(d => d.UserData)
+            .SingleOrDefaultAsync(d => d.Id == id);
+
+        return dataTemplate;
+    }
+
+    public async Task<DataTemplate?> GetDataTemplateAndDataAndDataGroupTemplates(Guid id)
+    {
+        DataTemplate? dataTemplate = await _context.DataTemplates
+            .Include(d => d.UserData)
+            .Include(d => d.DataGroupTemplates)
             .SingleOrDefaultAsync(d => d.Id == id);
 
         return dataTemplate;

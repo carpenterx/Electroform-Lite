@@ -1,10 +1,12 @@
-﻿using ElectroformLite.Application.Interfaces;
+﻿using ElectroformLite.Application.Exceptions;
+using ElectroformLite.Application.Interfaces;
 using ElectroformLite.Domain.Models;
 using MediatR;
+using System.Net;
 
 namespace ElectroformLite.Application.DataTemplates.Commands.EditDataTemplate;
 
-public class EditDataTemplateCommandHandler : IRequestHandler<EditDataTemplateCommand, DataTemplate?>
+public class EditDataTemplateCommandHandler : IRequestHandler<EditDataTemplateCommand>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -13,18 +15,23 @@ public class EditDataTemplateCommandHandler : IRequestHandler<EditDataTemplateCo
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<DataTemplate?> Handle(EditDataTemplateCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(EditDataTemplateCommand request, CancellationToken cancellationToken)
     {
-        DataTemplate dataTemplateFromRequest = request.DataTemplate;
-        DataTemplate? dataTemplateToEdit = await _unitOfWork.DataTemplateRepository.GetDataTemplate(dataTemplateFromRequest.Id);
+        DataTemplate? dataTemplateToEdit = await _unitOfWork.DataTemplateRepository.GetDataTemplate(request.DataTemplateId);
+
         if (dataTemplateToEdit == null)
         {
-            return null;
+            var response = new HttpResponseMessage(HttpStatusCode.NotFound)
+            {
+                ReasonPhrase = "Data Template Not Found"
+            };
+            throw new NotFoundHttpResponseException(response);
         }
-        dataTemplateToEdit.Placeholder = dataTemplateFromRequest.Placeholder;
+
+        dataTemplateToEdit.Placeholder = request.DataTemplatePlaceholder;
         _unitOfWork.DataTemplateRepository.Update(dataTemplateToEdit);
         await _unitOfWork.Save();
 
-        return dataTemplateToEdit;
+        return Unit.Value;
     }
 }
