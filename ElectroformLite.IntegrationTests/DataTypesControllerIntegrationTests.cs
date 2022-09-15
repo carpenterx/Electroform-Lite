@@ -4,9 +4,7 @@ using ElectroformLite.IntegrationTests.Helpers;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using System.Net;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using System.Text;
-using System.Net.Http;
 
 namespace ElectroformLite.IntegrationTests;
 
@@ -81,7 +79,7 @@ public class DataTypesControllerIntegrationTests
     }
 
     [TestMethod]
-    public async Task UpdateDataType_Should_UpdatedDataType()
+    public async Task UpdateDataType_ShouldReturn_UpdatedDataType()
     {
         var client = _factory.CreateClient();
         string newValue = "Phone Edited";
@@ -103,12 +101,37 @@ public class DataTypesControllerIntegrationTests
     }
 
     [TestMethod]
+    public async Task UpdateDataType_WithWrongId_ShouldReturn_BadRequest()
+    {
+        var client = _factory.CreateClient();
+        string newValue = "Phone Edited";
+        DataTypeDto editedDataTypeDto = new()
+        {
+            Id = Utilities.PhoneDataTypeId,
+            Value = newValue
+        };
+        var response = await client.PutAsync($"data-types/{Guid.Empty}",
+               new StringContent(JsonConvert.SerializeObject(editedDataTypeDto), Encoding.UTF8, "application/json"));
+
+        Assert.AreEqual(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [TestMethod]
     public async Task DeleteDataType_ShouldReturn_NoContentResponse()
     {
         var client = _factory.CreateClient();
         var response = await client.DeleteAsync($"data-types/{Utilities.EmailDataTypeId}");
 
         Assert.AreEqual(HttpStatusCode.NoContent, response.StatusCode);
+    }
+
+    [TestMethod]
+    public async Task DeleteDataType_WithNotFoundId_ShouldReturn_NotFound()
+    {
+        var client = _factory.CreateClient();
+        var response = await client.DeleteAsync($"data-types/{Guid.Empty}");
+
+        Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
     }
 
     [ClassCleanup]
