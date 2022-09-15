@@ -6,6 +6,7 @@ namespace ElectroformLite.IntegrationTests.Helpers;
 public static class Utilities
 {
     public static Guid TextDataTypeId { get; set; }
+    public static Guid EmailDataTypeId { get; set; }
 
     public static void InitializeDbForTests(ElectroformDbContext db)
     {
@@ -18,5 +19,6 @@ public static class Utilities
         db.SaveChanges();
 
         TextDataTypeId = db.DataTypes.First(x => x.Value == "TextLite").Id;
+        EmailDataTypeId = db.DataTypes.First(x => x.Value == "EmailLite").Id;
     }
 }

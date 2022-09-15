@@ -56,13 +56,21 @@ public class DataTypesControllerIntegrationTests
     }
 
     [TestMethod]
-    public async Task CreateDataType_ShouldReturn_CreatedAtResponse()
+    public async Task CreateDataType_ShouldReturn_CreatedResponse()
     {
         var client = _factory.CreateClient();
-        string json = "{'Type'}";
-        var response = await client.PostAsJsonAsync("data-types", json);
+        var response = await client.PostAsJsonAsync("data-types", "New Type");
 
         Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
+    }
+
+    [TestMethod]
+    public async Task DeleteDataType_ShouldReturn_NoContentResponse()
+    {
+        var client = _factory.CreateClient();
+        var response = await client.DeleteAsync($"data-types/{Utilities.EmailDataTypeId}");
+
+        Assert.AreEqual(HttpStatusCode.NoContent, response.StatusCode);
     }
 
     [ClassCleanup]
