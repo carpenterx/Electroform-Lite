@@ -1,8 +1,6 @@
-﻿using ElectroformLite.Application.Exceptions;
-using ElectroformLite.Application.Interfaces;
+﻿using ElectroformLite.Application.Interfaces;
 using ElectroformLite.Domain.Models;
 using MediatR;
-using System.Net;
 
 namespace ElectroformLite.Application.DataTypes.Queries.GetDataTypes;
 

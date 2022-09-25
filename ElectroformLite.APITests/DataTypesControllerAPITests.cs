@@ -14,7 +14,7 @@ using Moq;
 
 namespace ElectroformLite.APITests;
 
-public class DataTypeControllerTests
+public class DataTypesControllerAPITests
 {
     private readonly Mock<IMediator> _mockMediator = new();
     private readonly Mock<IMapper> _mockMapper = new();
