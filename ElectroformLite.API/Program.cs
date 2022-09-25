@@ -1,10 +1,15 @@
 using ElectroformLite.API.Controllers;
 using ElectroformLite.API.Middleware;
 using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Domain.Models;
 using ElectroformLite.Infrastructure;
 using ElectroformLite.Infrastructure.Database;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +26,26 @@ builder.Services.AddCors(options =>
 builder.Services.AddDbContext<ElectroformDbContext>(o =>
     o.UseSqlServer(builder.Configuration.GetConnectionString("Local")));
 builder.Services.AddMediatR(typeof(IDataRepository));
+
+builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ElectroformDbContext>();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidAudience = "http://localhost:4200",
+        ValidIssuer = "https://localhost:7188",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>("SecurityKey")))
+    };
+});
 
 builder.Services.AddScoped<IDataRepository, DataRepository>();
 builder.Services.AddScoped<IDataTypeRepository, DataTypeRepository>();
