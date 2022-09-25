@@ -20,9 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectroformLite.Tests", "El
 		{189049BA-3C30-4672-A4B0-5A0B34661D4F} = {189049BA-3C30-4672-A4B0-5A0B34661D4F}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectroformLite.APITests", "ElectroformLite.APITests\ElectroformLite.APITests.csproj", "{85CC8B0C-81AA-4442-B97E-4A12BFEB5BA1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectroformLite.IntegrationTests", "ElectroformLite.IntegrationTests\ElectroformLite.IntegrationTests.csproj", "{1EC3C2B4-A3EC-43D3-8B40-2BED7108ACFD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectroformLite.APITests", "ElectroformLite.APITests\ElectroformLite.APITests.csproj", "{85CC8B0C-81AA-4442-B97E-4A12BFEB5BA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,10 +52,6 @@ Global
 		{85CC8B0C-81AA-4442-B97E-4A12BFEB5BA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85CC8B0C-81AA-4442-B97E-4A12BFEB5BA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85CC8B0C-81AA-4442-B97E-4A12BFEB5BA1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1EC3C2B4-A3EC-43D3-8B40-2BED7108ACFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1EC3C2B4-A3EC-43D3-8B40-2BED7108ACFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1EC3C2B4-A3EC-43D3-8B40-2BED7108ACFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1EC3C2B4-A3EC-43D3-8B40-2BED7108ACFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
