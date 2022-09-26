@@ -7,11 +7,13 @@ using ElectroformLite.Application.DataTypes.Queries.GetDataType;
 using ElectroformLite.Application.DataTypes.Queries.GetDataTypes;
 using ElectroformLite.Domain.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ElectroformLite.API.Controllers;
 
 [ApiController]
+//[Authorize]
 [Route("data-types")]
 public class DataTypesController : ControllerBase
 {

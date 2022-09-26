@@ -44,7 +44,7 @@ public class DataGroupsController : ControllerBase
         {
             return NotFound();
         }
-        DataGroupGetPutDto dataGroupDto = _mapper.Map<DataGroupGetPutDto>(dataGroup);
+        DataGroupGetDto dataGroupDto = _mapper.Map<DataGroupGetDto>(dataGroup);
 
         return Ok(dataGroupDto);
     }
