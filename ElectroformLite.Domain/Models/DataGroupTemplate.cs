@@ -8,9 +8,9 @@ public class DataGroupTemplate
     [StringLength(100)]
     public string Name { get; set; }*/
 
-    //public Guid DataGroupTypeId { get; set; }
+    public Guid DataGroupTypeId { get; set; }
 
-    //public DataGroupType DataGroupType { get; set; }
+    public DataGroupType DataGroupType { get; set; }
     public ICollection<DataGroup> DataGroups { get; set; }
     public ICollection<DataTemplate> DataTemplates { get; set; }
     public ICollection<AliasTemplate> AliasTemplates { get; set; }

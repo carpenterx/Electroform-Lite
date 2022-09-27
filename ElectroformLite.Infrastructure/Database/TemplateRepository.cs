@@ -50,6 +50,7 @@ public class TemplateRepository : ITemplateRepository
         Template? template = await _context.Templates
             .Include(t => t.AliasTemplates)
             .ThenInclude(a => a.DataGroupTemplate)
+            .ThenInclude(d => d.DataGroupType)
             //.Include(t => t.DataGroupTemplates)
             //.ThenInclude(d => d.DataGroups)
             .SingleOrDefaultAsync(t => t.Id == id);
