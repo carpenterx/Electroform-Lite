@@ -28,7 +28,7 @@ public class CreateDataGroupCommandHandler : IRequestHandler<CreateDataGroupComm
 
         foreach (KeyValuePair<Guid, string> dataProperty in request.DataProperties)
         {
-            DataTemplate? dataTemplate = await _unitOfWork.DataTemplateRepository.GetDataTemplateAndData(dataProperty.Key);
+            DataTemplate? dataTemplate = await _unitOfWork.DataTemplateRepository.GetDataTemplateWithData(dataProperty.Key);
             if (dataTemplate is null)
             {
                 return null;

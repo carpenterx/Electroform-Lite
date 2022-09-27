@@ -18,7 +18,7 @@ public class DeleteDataTemplateCommandHandler : IRequestHandler<DeleteDataTempla
 
     public async Task<Unit> Handle(DeleteDataTemplateCommand request, CancellationToken cancellationToken)
     {
-        DataTemplate? dataTemplate = await _unitOfWork.DataTemplateRepository.GetDataTemplateAndDataAndDataGroupTemplates(request.DataTemplateId);
+        DataTemplate? dataTemplate = await _unitOfWork.DataTemplateRepository.GetDataTemplateWithDataAndDataGroupTemplates(request.DataTemplateId);
 
         if (dataTemplate == null)
         {

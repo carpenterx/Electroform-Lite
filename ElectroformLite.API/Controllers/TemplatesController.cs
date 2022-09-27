@@ -44,7 +44,7 @@ public class TemplatesController : ControllerBase
         {
             return NotFound();
         }
-        TemplateGetPutDto templateDto = _mapper.Map<TemplateGetPutDto>(template);
+        TemplateGetDto templateDto = _mapper.Map<TemplateGetDto>(template);
 
         return Ok(templateDto);
     }

@@ -16,7 +16,7 @@ public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentComman
 
     public async Task<Document?> Handle(CreateDocumentCommand request, CancellationToken cancellationToken)
     {
-        Template? template = await _unitOfWork.TemplateRepository.GetTemplate(request.TemplateId);
+        Template? template = await _unitOfWork.TemplateRepository.GetTemplateWithDocuments(request.TemplateId);
         if (template == null)
         {
             return null;

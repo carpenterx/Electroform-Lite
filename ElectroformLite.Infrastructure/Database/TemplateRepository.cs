@@ -31,7 +31,25 @@ public class TemplateRepository : ITemplateRepository
     public async Task<Template?> GetTemplate(Guid id)
     {
         Template? template = await _context.Templates
+            .SingleOrDefaultAsync(t => t.Id == id);
+
+        return template;
+    }
+
+    public async Task<Template?> GetTemplateWithDocuments(Guid id)
+    {
+        Template? template = await _context.Templates
             .Include(t => t.Documents)
+            .SingleOrDefaultAsync(t => t.Id == id);
+
+        return template;
+    }
+
+    public async Task<Template?> GetTemplateWithAliasTemplates(Guid id)
+    {
+        Template? template = await _context.Templates
+            .Include(t => t.AliasTemplates)
+            .ThenInclude(a => a.DataGroupTemplate)
             //.Include(t => t.DataGroupTemplates)
             //.ThenInclude(d => d.DataGroups)
             .SingleOrDefaultAsync(t => t.Id == id);

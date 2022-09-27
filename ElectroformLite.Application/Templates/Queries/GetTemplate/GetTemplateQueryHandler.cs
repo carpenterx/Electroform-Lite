@@ -15,7 +15,7 @@ public class GetTemplateQueryHandler : IRequestHandler<GetTemplateQuery, Templat
 
     public async Task<Template?> Handle(GetTemplateQuery request, CancellationToken cancellationToken)
     {
-        Template? template = await _unitOfWork.TemplateRepository.GetTemplate(request.TemplateId);
+        Template? template = await _unitOfWork.TemplateRepository.GetTemplateWithAliasTemplates(request.TemplateId);
 
         return template;
     }
