@@ -5,6 +5,7 @@ using ElectroformLite.Application.DataGroups.Commands.DeleteDataGroup;
 using ElectroformLite.Application.DataGroups.Commands.EditDataGroup;
 using ElectroformLite.Application.DataGroups.Queries.GetDataGroup;
 using ElectroformLite.Application.DataGroups.Queries.GetDataGroups;
+using ElectroformLite.Application.DataGroups.Queries.GetDataGroupsByType;
 using ElectroformLite.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -47,6 +48,16 @@ public class DataGroupsController : ControllerBase
         DataGroupGetDto dataGroupDto = _mapper.Map<DataGroupGetDto>(dataGroup);
 
         return Ok(dataGroupDto);
+    }
+
+    // GET: data-groups/type/5
+    [HttpGet("type/{dataGroupTypeId}")]
+    public async Task<ActionResult<DataGroup>> GetDataGroupOfType([FromRoute] Guid dataGroupTypeId)
+    {
+        List<DataGroup> dataGroups = await _mediator.Send(new GetDataGroupsByTypeQuery(dataGroupTypeId));
+        List<DataGroupGetPutDto> dataGroupDtos = _mapper.Map<List<DataGroupGetPutDto>>(dataGroups);
+
+        return Ok(dataGroupDtos);
     }
 
     // POST: data-groups

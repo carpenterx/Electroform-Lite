@@ -8,7 +8,7 @@ public interface IDataGroupRepository
     void Delete(DataGroup dataGroup);
     void Update(DataGroup dataGroup);
     Task<DataGroup?> GetDataGroup(Guid id);
-    Task<List<DataGroup>> GetDataGroupsByType(Guid id);
+    Task<List<DataGroup>> GetDataGroupsByType(Guid dataGroupTypeId);
     Task<List<DataGroup>> GetDataGroups();
     Task<List<DataGroup>> GetDataGroupsWithIds(List<Guid> guids);
 }
