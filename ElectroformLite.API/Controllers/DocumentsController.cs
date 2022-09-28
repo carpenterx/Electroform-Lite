@@ -54,7 +54,7 @@ public class DocumentsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateDocument([FromBody] DocumentPostDto documentDto)
     {
-        Document? document = await _mediator.Send(new CreateDocumentCommand(documentDto.TemplateId, documentDto.AliasData));
+        Document? document = await _mediator.Send(new CreateDocumentCommand(documentDto.DocumentName, documentDto.TemplateId, documentDto.AliasData));
 
         if (document == null)
         {
