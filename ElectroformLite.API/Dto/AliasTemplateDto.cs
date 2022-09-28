@@ -6,5 +6,5 @@ public class AliasTemplateDto
 
     public string Name { get; set; }
 
-    public DataGroupTemplateDto DataGroupTemplate { get; set; }
+    public DataGroupTemplateGetDto DataGroupTemplate { get; set; }
 }

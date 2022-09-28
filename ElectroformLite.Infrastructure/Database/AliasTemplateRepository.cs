@@ -32,9 +32,13 @@ public class AliasTemplateRepository : IAliasTemplateRepository
         return aliasTemplate;
     }
 
-    public Task<List<AliasTemplate>> GetAliasTemplates()
+    public async Task<List<AliasTemplate>> GetAliasTemplates()
     {
-        throw new NotImplementedException();
+        return await _context.AliasTemplates
+            .Include(a => a.DataGroupTemplate)
+            .ThenInclude(d => d.DataTemplates)
+            //.ThenInclude(d => d.DataGroupType)
+            .ToListAsync();
     }
 
     public void Update(AliasTemplate aliasTemplate)
