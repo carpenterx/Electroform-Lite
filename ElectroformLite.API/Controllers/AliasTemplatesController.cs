@@ -26,7 +26,7 @@ public class AliasTemplatesController : ControllerBase
     public async Task<ActionResult<List<AliasTemplate>>> GetAliasTemplates()
     {
         List<AliasTemplate> aliasTemplates = await _mediator.Send(new GetAliasTemplatesQuery());
-        List<AliasTemplateDto> aliasTemplatesDtos = _mapper.Map<List<AliasTemplateDto>>(aliasTemplates);
+        List<AliasTemplateGetDto> aliasTemplatesDtos = _mapper.Map<List<AliasTemplateGetDto>>(aliasTemplates);
 
         return Ok(aliasTemplatesDtos);
     }
@@ -42,7 +42,7 @@ public class AliasTemplatesController : ControllerBase
             return NotFound();
         }
 
-        AliasTemplateDto aliasTemplateDto = _mapper.Map<AliasTemplateDto>(aliasTemplate);
+        AliasTemplateGetDto aliasTemplateDto = _mapper.Map<AliasTemplateGetDto>(aliasTemplate);
 
         return Ok(aliasTemplateDto);
     }

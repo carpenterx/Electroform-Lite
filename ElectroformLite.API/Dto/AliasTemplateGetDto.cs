@@ -1,10 +1,10 @@
 ﻿namespace ElectroformLite.API.Dto;
 
-public class AliasTemplateDto
+public class AliasTemplateGetDto
 {
     public Guid Id { get; set; }
 
     public string Name { get; set; }
 
-    public DataGroupTemplateDto DataGroupTemplate { get; set; }
+    public DataGroupTemplateGetDto DataGroupTemplate { get; set; }
 }
