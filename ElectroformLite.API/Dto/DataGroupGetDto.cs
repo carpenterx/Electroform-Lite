@@ -6,5 +6,5 @@ public class DataGroupGetDto
 
     public string Name { get; set; }
 
-    public List<DataGetPutDto> UserData { get; set; }
+    public List<DataGetDto> UserData { get; set; }
 }

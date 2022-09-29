@@ -42,7 +42,7 @@ public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentComman
         Dictionary<string, string> dataDictionary = new();
         foreach (KeyValuePair<Guid, Guid> aliasDataItem in request.AliasData)
         {
-            AliasTemplate? aliasTemplate = await _unitOfWork.AliasTemplateRepository.GetAliasTemplate(aliasDataItem.Key);
+            AliasTemplate? aliasTemplate = await _unitOfWork.AliasTemplateRepository.GetAliasTemplateWithAliases(aliasDataItem.Key);
             if (aliasTemplate == null)
             {
                 return null;

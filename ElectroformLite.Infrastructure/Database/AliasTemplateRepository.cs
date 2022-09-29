@@ -23,10 +23,29 @@ public class AliasTemplateRepository : IAliasTemplateRepository
         throw new NotImplementedException();
     }
 
-    public async Task<AliasTemplate?> GetAliasTemplate(Guid id)
+    /*public async Task<AliasTemplate?> GetAliasTemplate(Guid id)
+    {
+        AliasTemplate? aliasTemplate = await _context.AliasTemplates
+            //.Include(a => a.Aliases)
+            .SingleOrDefaultAsync(a => a.Id == id);
+
+        return aliasTemplate;
+    }*/
+
+    public async Task<AliasTemplate?> GetAliasTemplateWithAliases(Guid id)
     {
         AliasTemplate? aliasTemplate = await _context.AliasTemplates
             .Include(a => a.Aliases)
+            .SingleOrDefaultAsync(a => a.Id == id);
+
+        return aliasTemplate;
+    }
+
+    public async Task<AliasTemplate?> GetAliasTemplateWithDataGroupTemplate(Guid id)
+    {
+        AliasTemplate? aliasTemplate = await _context.AliasTemplates
+            .Include(a => a.DataGroupTemplate)
+            .ThenInclude(d => d.DataTemplates)
             .SingleOrDefaultAsync(a => a.Id == id);
 
         return aliasTemplate;

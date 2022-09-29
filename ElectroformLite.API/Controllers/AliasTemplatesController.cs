@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ElectroformLite.API.Dto;
+using ElectroformLite.Application.AliasTemplates.Queries.GetAliasTemplate;
 using ElectroformLite.Application.AliasTemplates.Queries.GetAliasTemplates;
 using ElectroformLite.Domain.Models;
 using MediatR;
@@ -28,5 +29,21 @@ public class AliasTemplatesController : ControllerBase
         List<AliasTemplateDto> aliasTemplatesDtos = _mapper.Map<List<AliasTemplateDto>>(aliasTemplates);
 
         return Ok(aliasTemplatesDtos);
+    }
+
+    // GET: alias-templates/5
+    [HttpGet("{id}")]
+    public async Task<ActionResult<AliasTemplate>> GetAliasTemplate([FromRoute] Guid id)
+    {
+        AliasTemplate? aliasTemplate = await _mediator.Send(new GetAliasTemplateQuery(id));
+
+        if (aliasTemplate == null)
+        {
+            return NotFound();
+        }
+
+        AliasTemplateDto aliasTemplateDto = _mapper.Map<AliasTemplateDto>(aliasTemplate);
+
+        return Ok(aliasTemplateDto);
     }
 }
