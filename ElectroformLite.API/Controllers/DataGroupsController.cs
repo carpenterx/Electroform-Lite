@@ -30,7 +30,7 @@ public class DataGroupsController : ControllerBase
     public async Task<ActionResult<List<DataGroup>>> GetDataGroups()
     {
         List<DataGroup> dataGroups = await _mediator.Send(new GetDataGroupsQuery());
-        List<DataGroupGetPutDto> dataGroupDtos = _mapper.Map<List<DataGroupGetPutDto>>(dataGroups);
+        List<DataGroupGetDto> dataGroupDtos = _mapper.Map<List<DataGroupGetDto>>(dataGroups);
 
         return Ok(dataGroupDtos);
     }

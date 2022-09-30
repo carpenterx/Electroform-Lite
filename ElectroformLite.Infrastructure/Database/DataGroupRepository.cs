@@ -46,7 +46,12 @@ public class DataGroupRepository : IDataGroupRepository
 
     public async Task<List<DataGroup>> GetDataGroups()
     {
-        return await _context.DataGroups.Include(d => d.UserData).ToListAsync();
+        return await _context.DataGroups
+            .Include(d => d.UserData)
+            .ThenInclude(u => u.DataTemplate)
+            .Include(d => d.DataGroupTemplate)
+            .ThenInclude(t => t.DataGroupType)
+            .ToListAsync();
     }
 
     public async Task<List<DataGroup>> GetDataGroupsByType(Guid dataGroupTypeId)

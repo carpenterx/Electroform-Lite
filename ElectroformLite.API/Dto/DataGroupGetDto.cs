@@ -1,4 +1,6 @@
-﻿namespace ElectroformLite.API.Dto;
+﻿using ElectroformLite.Domain.Models;
+
+namespace ElectroformLite.API.Dto;
 
 public class DataGroupGetDto
 {
@@ -7,4 +9,6 @@ public class DataGroupGetDto
     public string Name { get; set; }
 
     public List<DataGetDto> UserData { get; set; }
+
+    public DataGroupTemplateDto DataGroupTemplate { get; set; }
 }
