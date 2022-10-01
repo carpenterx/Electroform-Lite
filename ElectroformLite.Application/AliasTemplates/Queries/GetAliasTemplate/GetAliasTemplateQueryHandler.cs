@@ -1,5 +1,6 @@
 ﻿using ElectroformLite.Application.Exceptions;
 using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Application.Utils;
 using ElectroformLite.Domain.Models;
 using MediatR;
 using System.Net;
@@ -21,10 +22,11 @@ public class GetAliasTemplateQueryHandler : IRequestHandler<GetAliasTemplateQuer
 
         if (aliasTemplate == null)
         {
-            var response = new HttpResponseMessage(HttpStatusCode.NotFound)
+            /*var response = new HttpResponseMessage(HttpStatusCode.NotFound)
             {
                 ReasonPhrase = "Alias Template Not Found"
-            };
+            };*/
+            HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Alias Template Not Found");
             throw new NotFoundHttpResponseException(response);
         }
 
