@@ -83,11 +83,6 @@ public class DataGroupsController : ControllerBase
     {
         DataGroup? dataGroup = await _mediator.Send(new DeleteDataGroupCommand(id));
 
-        if (dataGroup == null)
-        {
-            return NotFound();
-        }
-
         return NoContent();
     }
 
