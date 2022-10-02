@@ -4,6 +4,7 @@ using ElectroformLite.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ElectroformLite.Infrastructure.Migrations
 {
     [DbContext(typeof(ElectroformDbContext))]
-    partial class ElectroformDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221002071911_DataGroupNavigationProp")]
+    partial class DataGroupNavigationProp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +36,7 @@ namespace ElectroformLite.Infrastructure.Migrations
 
                     b.HasIndex("TemplatesId");
 
-                    b.ToTable("AliasTemplateTemplate", (string)null);
+                    b.ToTable("AliasTemplateTemplate");
                 });
 
             modelBuilder.Entity("DataGroupTemplateDataTemplate", b =>
@@ -49,7 +51,7 @@ namespace ElectroformLite.Infrastructure.Migrations
 
                     b.HasIndex("DataTemplatesId");
 
-                    b.ToTable("DataGroupTemplateDataTemplate", (string)null);
+                    b.ToTable("DataGroupTemplateDataTemplate");
                 });
 
             modelBuilder.Entity("ElectroformLite.Domain.Models.Alias", b =>
@@ -75,7 +77,7 @@ namespace ElectroformLite.Infrastructure.Migrations
 
                     b.HasIndex("DocumentId");
 
-                    b.ToTable("Aliases", (string)null);
+                    b.ToTable("Aliases");
                 });
 
             modelBuilder.Entity("ElectroformLite.Domain.Models.AliasTemplate", b =>
@@ -96,7 +98,7 @@ namespace ElectroformLite.Infrastructure.Migrations
 
                     b.HasIndex("DataGroupTemplateId");
 
-                    b.ToTable("AliasTemplates", (string)null);
+                    b.ToTable("AliasTemplates");
                 });
 
             modelBuilder.Entity("ElectroformLite.Domain.Models.Data", b =>
@@ -127,7 +129,7 @@ namespace ElectroformLite.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserData", (string)null);
+                    b.ToTable("UserData");
                 });
 
             modelBuilder.Entity("ElectroformLite.Domain.Models.DataGroup", b =>
@@ -153,7 +155,7 @@ namespace ElectroformLite.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("DataGroups", (string)null);
+                    b.ToTable("DataGroups");
                 });
 
             modelBuilder.Entity("ElectroformLite.Domain.Models.DataGroupTemplate", b =>
@@ -169,7 +171,7 @@ namespace ElectroformLite.Infrastructure.Migrations
 
                     b.HasIndex("DataGroupTypeId");
 
-                    b.ToTable("DataGroupTemplates", (string)null);
+                    b.ToTable("DataGroupTemplates");
                 });
 
             modelBuilder.Entity("ElectroformLite.Domain.Models.DataGroupType", b =>
@@ -185,7 +187,7 @@ namespace ElectroformLite.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DataGroupTypes", (string)null);
+                    b.ToTable("DataGroupTypes");
                 });
 
             modelBuilder.Entity("ElectroformLite.Domain.Models.DataTemplate", b =>
@@ -206,7 +208,7 @@ namespace ElectroformLite.Infrastructure.Migrations
 
                     b.HasIndex("DataTypeId");
 
-                    b.ToTable("DataTemplates", (string)null);
+                    b.ToTable("DataTemplates");
                 });
 
             modelBuilder.Entity("ElectroformLite.Domain.Models.DataType", b =>
@@ -222,7 +224,7 @@ namespace ElectroformLite.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DataTypes", (string)null);
+                    b.ToTable("DataTypes");
                 });
 
             modelBuilder.Entity("ElectroformLite.Domain.Models.Document", b =>
@@ -252,7 +254,7 @@ namespace ElectroformLite.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Documents", (string)null);
+                    b.ToTable("Documents");
                 });
 
             modelBuilder.Entity("ElectroformLite.Domain.Models.Template", b =>
@@ -272,7 +274,7 @@ namespace ElectroformLite.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Templates", (string)null);
+                    b.ToTable("Templates");
                 });
 
             modelBuilder.Entity("ElectroformLite.Domain.Models.User", b =>

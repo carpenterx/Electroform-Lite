@@ -32,6 +32,7 @@ public class ElectroformDbContext : IdentityDbContext<User>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new DocumentConfiguration());
+        //modelBuilder.ApplyConfiguration(new DataConfiguration());
         //modelBuilder.ApplyConfiguration(new UserConfiguration());
         base.OnModelCreating(modelBuilder);
     }
