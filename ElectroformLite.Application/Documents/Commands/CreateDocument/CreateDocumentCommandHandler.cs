@@ -48,7 +48,7 @@ public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentComman
                 return null;
             }
 
-            DataGroup? dataGroup = await _unitOfWork.DataGroupRepository.GetDataGroup(aliasDataItem.Value);
+            DataGroup? dataGroup = await _unitOfWork.DataGroupRepository.GetDataGroupWithDataAndAliases(aliasDataItem.Value);
             if (dataGroup == null)
             {
                 return null;

@@ -6,6 +6,7 @@ using ElectroformLite.Application.DataGroups.Commands.EditDataGroup;
 using ElectroformLite.Application.DataGroups.Queries.GetDataGroup;
 using ElectroformLite.Application.DataGroups.Queries.GetDataGroups;
 using ElectroformLite.Application.DataGroups.Queries.GetDataGroupsByType;
+using ElectroformLite.Application.Dto;
 using ElectroformLite.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -41,10 +42,6 @@ public class DataGroupsController : ControllerBase
     {
         DataGroup? dataGroup = await _mediator.Send(new GetDataGroupQuery(id));
 
-        if (dataGroup == null)
-        {
-            return NotFound();
-        }
         DataGroupGetDto dataGroupDto = _mapper.Map<DataGroupGetDto>(dataGroup);
 
         return Ok(dataGroupDto);
@@ -66,11 +63,6 @@ public class DataGroupsController : ControllerBase
     {
         DataGroup? dataGroup = await _mediator.Send(new CreateDataGroupCommand(dataGroupDto.DataGroupTemplateId, dataGroupDto.Name, dataGroupDto.DataProperties));
 
-        if (dataGroup == null)
-        {
-            return NotFound();
-        }
-
         DataGroupGetPutDto dtoFromDataGroup = _mapper.Map<DataGroupGetPutDto>(dataGroup);
 
         return CreatedAtAction(nameof(GetDataGroup), new { dtoFromDataGroup.Id }, dtoFromDataGroup);
@@ -81,28 +73,21 @@ public class DataGroupsController : ControllerBase
     [Route("{id}")]
     public async Task<IActionResult> DeleteDataGroup([FromRoute] Guid id)
     {
-        DataGroup? dataGroup = await _mediator.Send(new DeleteDataGroupCommand(id));
+        await _mediator.Send(new DeleteDataGroupCommand(id));
 
         return NoContent();
     }
 
     // PUT: data-groups/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateDataGroup([FromRoute] Guid id, [FromBody] DataGroupGetPutDto dataGroupDto)
+    public async Task<IActionResult> UpdateDataGroup([FromRoute] Guid id, [FromBody] DataGroupPutDto dataGroupDto)
     {
         if (id != dataGroupDto.Id)
         {
             return BadRequest();
         }
 
-        DataGroup dataGroupFromDto = _mapper.Map<DataGroup>(dataGroupDto);
-
-        DataGroup? editedDataGroup = await _mediator.Send(new EditDataGroupCommand(dataGroupFromDto));
-
-        if (editedDataGroup == null)
-        {
-            return NotFound();
-        }
+        await _mediator.Send(new EditDataGroupCommand(dataGroupDto));
 
         return NoContent();
     }

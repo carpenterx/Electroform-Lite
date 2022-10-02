@@ -1,10 +1,12 @@
-﻿using ElectroformLite.Application.Interfaces;
+﻿using ElectroformLite.Application.Exceptions;
+using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Application.Utils;
 using ElectroformLite.Domain.Models;
 using MediatR;
 
 namespace ElectroformLite.Application.DataGroups.Commands.CreateDataGroup;
 
-public class CreateDataGroupCommandHandler : IRequestHandler<CreateDataGroupCommand, DataGroup?>
+public class CreateDataGroupCommandHandler : IRequestHandler<CreateDataGroupCommand, DataGroup>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -13,13 +15,14 @@ public class CreateDataGroupCommandHandler : IRequestHandler<CreateDataGroupComm
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<DataGroup?> Handle(CreateDataGroupCommand request, CancellationToken cancellationToken)
+    public async Task<DataGroup> Handle(CreateDataGroupCommand request, CancellationToken cancellationToken)
     {
         DataGroupTemplate? dataGroupTemplate = await _unitOfWork.DataGroupTemplateRepository.GetDataGroupTemplate(request.DataGroupTemplateId);
 
         if (dataGroupTemplate is null)
         {
-            return null;
+            HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Data Group Template Not Found");
+            throw new NotFoundHttpResponseException(response);
         }
 
         //DataGroup dataGroup = new(request.Name,dataGroupTemplate.Name);
@@ -31,7 +34,8 @@ public class CreateDataGroupCommandHandler : IRequestHandler<CreateDataGroupComm
             DataTemplate? dataTemplate = await _unitOfWork.DataTemplateRepository.GetDataTemplateWithData(dataProperty.Key);
             if (dataTemplate is null)
             {
-                return null;
+                HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Data Template Not Found");
+                throw new NotFoundHttpResponseException(response);
             }
 
             //Data data = new(dataTemplate.Placeholder, dataProperty.Value, dataTemplate.DataTypeValue);

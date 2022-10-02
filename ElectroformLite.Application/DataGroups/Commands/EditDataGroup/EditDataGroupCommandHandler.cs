@@ -1,10 +1,13 @@
-﻿using ElectroformLite.Application.Interfaces;
+﻿using ElectroformLite.Application.Exceptions;
+using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Application.Utils;
 using ElectroformLite.Domain.Models;
 using MediatR;
+using System.ComponentModel.DataAnnotations;
 
 namespace ElectroformLite.Application.DataGroups.Commands.EditDataGroup;
 
-public class EditDataGroupCommandHandler : IRequestHandler<EditDataGroupCommand, DataGroup?>
+public class EditDataGroupCommandHandler : IRequestHandler<EditDataGroupCommand>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -13,18 +16,36 @@ public class EditDataGroupCommandHandler : IRequestHandler<EditDataGroupCommand,
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<DataGroup?> Handle(EditDataGroupCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(EditDataGroupCommand request, CancellationToken cancellationToken)
     {
-        DataGroup dataGroupFromRequest = request.DataGroup;
-        DataGroup? dataGroupToEdit = await _unitOfWork.DataGroupRepository.GetDataGroup(dataGroupFromRequest.Id);
+        DataGroup? dataGroupToEdit = await _unitOfWork.DataGroupRepository.GetDataGroupWithData(request.DataGroupPutDto.Id);
+
         if (dataGroupToEdit == null)
         {
-            return null;
+            HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Data Group Not Found");
+            throw new NotFoundHttpResponseException(response);
         }
-        dataGroupToEdit.Name = dataGroupFromRequest.Name;
+
+        dataGroupToEdit.Name = request.DataGroupPutDto.Name;
+        /*foreach (KeyValuePair<Guid, string> dataProperty in request.DataGroupPutDto.UserData)
+        {
+            dataGroupToEdit.UserData.First(d => d.Id == dataProperty.Key).Value = dataProperty.Value;
+        }*/
+        Dictionary<Guid, string> dataDictionary = request.DataGroupPutDto.UserData;
+        foreach (var data in dataGroupToEdit.UserData)
+        {
+            if (dataDictionary.ContainsKey(data.Id))
+            {
+                data.Value = request.DataGroupPutDto.UserData[data.Id];
+            }
+            /*else
+            {
+                data.Value = "";
+            }*/
+        }
         _unitOfWork.DataGroupRepository.Update(dataGroupToEdit);
         await _unitOfWork.Save();
 
-        return dataGroupToEdit;
+        return Unit.Value;
     }
 }

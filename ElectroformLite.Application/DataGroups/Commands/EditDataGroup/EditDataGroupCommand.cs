@@ -1,14 +1,14 @@
-﻿using ElectroformLite.Domain.Models;
+﻿using ElectroformLite.Application.Dto;
 using MediatR;
 
 namespace ElectroformLite.Application.DataGroups.Commands.EditDataGroup;
 
-public class EditDataGroupCommand : IRequest<DataGroup?>
+public class EditDataGroupCommand : IRequest
 {
-    public DataGroup DataGroup { get; set; }
+    public DataGroupPutDto DataGroupPutDto { get; set; }
 
-    public EditDataGroupCommand(DataGroup dataGroup)
+    public EditDataGroupCommand(DataGroupPutDto dataGroupPutDto)
     {
-        DataGroup = dataGroup;
+        DataGroupPutDto = dataGroupPutDto;
     }
 }
