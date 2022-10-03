@@ -1,11 +1,12 @@
-﻿using ElectroformLite.Application.Interfaces;
+﻿using ElectroformLite.Application.Exceptions;
+using ElectroformLite.Application.Interfaces;
 using ElectroformLite.Application.Utils;
 using ElectroformLite.Domain.Models;
 using MediatR;
 
 namespace ElectroformLite.Application.Documents.Commands.CreateDocument;
 
-public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentCommand, Document?>
+public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentCommand, Document>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -14,12 +15,13 @@ public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentComman
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Document?> Handle(CreateDocumentCommand request, CancellationToken cancellationToken)
+    public async Task<Document> Handle(CreateDocumentCommand request, CancellationToken cancellationToken)
     {
         Template? template = await _unitOfWork.TemplateRepository.GetTemplateWithDocuments(request.TemplateId);
         if (template == null)
         {
-            return null;
+            HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Template Not Found");
+            throw new NotFoundHttpResponseException(response);
         }
 
         /*if (template.DataGroupTemplates.Count != request.DataGroupIds.Count)
@@ -45,13 +47,15 @@ public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentComman
             AliasTemplate? aliasTemplate = await _unitOfWork.AliasTemplateRepository.GetAliasTemplateWithAliases(aliasDataItem.Key);
             if (aliasTemplate == null)
             {
-                return null;
+                HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Alias Template Not Found");
+                throw new NotFoundHttpResponseException(response);
             }
 
             DataGroup? dataGroup = await _unitOfWork.DataGroupRepository.GetDataGroupWithDataAndAliases(aliasDataItem.Value);
             if (dataGroup == null)
             {
-                return null;
+                HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Data Group Not Found");
+                throw new NotFoundHttpResponseException(response);
             }
 
             foreach (Data data in dataGroup.UserData)

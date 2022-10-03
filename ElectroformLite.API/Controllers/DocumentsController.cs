@@ -38,12 +38,7 @@ public class DocumentsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Document>> GetDocument([FromRoute] Guid id)
     {
-        Document? document = await _mediator.Send(new GetDocumentQuery(id));
-
-        if (document == null)
-        {
-            return NotFound();
-        }
+        Document document = await _mediator.Send(new GetDocumentQuery(id));
 
         DocumentGetDto documentDto = _mapper.Map<DocumentGetDto>(document);
 
@@ -56,11 +51,6 @@ public class DocumentsController : ControllerBase
     {
         Document? document = await _mediator.Send(new CreateDocumentCommand(documentDto.DocumentName, documentDto.TemplateId, documentDto.AliasData));
 
-        if (document == null)
-        {
-            return NotFound();
-        }
-
         DocumentGetDto dtoFromDocument = _mapper.Map<DocumentGetDto>(document);
 
         return CreatedAtAction(nameof(GetDocument), new { dtoFromDocument.Id }, dtoFromDocument);
@@ -71,12 +61,7 @@ public class DocumentsController : ControllerBase
     [Route("{id}")]
     public async Task<IActionResult> DeleteDocument([FromRoute] Guid id)
     {
-        Document? document = await _mediator.Send(new DeleteDocumentCommand(id));
-
-        if (document == null)
-        {
-            return NotFound();
-        }
+        await _mediator.Send(new DeleteDocumentCommand(id));
 
         return NoContent();
     }
@@ -90,12 +75,7 @@ public class DocumentsController : ControllerBase
             return BadRequest();
         }
 
-        Document? editedDocument = await _mediator.Send(new EditDocumentCommand(documentDto.Id, documentDto.Name));
-
-        if (editedDocument == null)
-        {
-            return NotFound();
-        }
+        await _mediator.Send(new EditDocumentCommand(documentDto.Id, documentDto.Name));
 
         return NoContent();
     }
