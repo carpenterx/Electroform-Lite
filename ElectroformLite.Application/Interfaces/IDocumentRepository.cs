@@ -8,5 +8,5 @@ public interface IDocumentRepository
     void Delete(Document document);
     void Update(Document document);
     Task<Document?> GetDocument(Guid id);
-    Task<List<Document>> GetDocuments();
+    Task<List<Document>> GetDocuments(int pageNumber, int pageSize);
 }

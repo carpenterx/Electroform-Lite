@@ -5,6 +5,7 @@ using ElectroformLite.Application.Documents.Commands.DeleteDocument;
 using ElectroformLite.Application.Documents.Commands.EditDocument;
 using ElectroformLite.Application.Documents.Queries.GetDocument;
 using ElectroformLite.Application.Documents.Queries.GetDocuments;
+using ElectroformLite.Application.Utils;
 using ElectroformLite.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -26,12 +27,13 @@ public class DocumentsController : ControllerBase
 
     // GET: documents
     [HttpGet]
-    public async Task<ActionResult<List<Document>>> GetDocuments()
+    public async Task<ActionResult> GetDocuments()
     {
-        List<Document> documents = await _mediator.Send(new GetDocumentsQuery());
-        List<DocumentGetDto> documentDtos = _mapper.Map<List<DocumentGetDto>>(documents);
+        PaginatedResponse<List<Document>> documentsPage = await _mediator.Send(new GetDocumentsQuery());
+        List<DocumentGetDto> documentDtos = _mapper.Map<List<DocumentGetDto>>(documentsPage.Data);
+        PaginatedResponse<List<DocumentGetDto>> documentDtosPage = new(documentDtos, documentsPage.PageNumber, documentsPage.PageSize);
 
-        return Ok(documentDtos);
+        return Ok(documentDtosPage);
     }
 
     // GET: documents/5

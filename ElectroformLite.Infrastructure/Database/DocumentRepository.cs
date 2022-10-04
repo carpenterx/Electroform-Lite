@@ -30,9 +30,18 @@ public class DocumentRepository : IDocumentRepository
         return document;
     }
 
-    public async Task<List<Document>> GetDocuments()
+    /*public async Task<List<Document>> GetDocuments()
     {
         return await _context.Documents.Include(d => d.Aliases).ToListAsync();
+    }*/
+
+    public async Task<List<Document>> GetDocuments(int pageNumber, int pageSize)
+    {
+        return await _context.Documents
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .Include(d => d.Aliases)
+            .ToListAsync();
     }
 
     public void Update(Document document)
