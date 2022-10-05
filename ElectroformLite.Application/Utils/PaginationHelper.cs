@@ -17,7 +17,10 @@ public static class PaginationHelper
             ? uriService.GetPageUri(route, pageNumber - 1, pageSize)
             : null,
             FirstPage = uriService.GetPageUri(route, 1, pageSize),
-            LastPage = uriService.GetPageUri(route, totalPages, pageSize),
+            LastPage =
+            totalPages > 1
+            ? uriService.GetPageUri(route, totalPages, pageSize)
+            : null,
             TotalPages = totalPages,
             Count = count
         };

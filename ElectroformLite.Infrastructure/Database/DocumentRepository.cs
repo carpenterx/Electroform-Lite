@@ -25,7 +25,9 @@ public class DocumentRepository : IDocumentRepository
 
     public async Task<Document?> GetDocument(Guid id)
     {
-        Document? document = await _context.Documents.Include(d => d.Aliases).SingleOrDefaultAsync(d => d.Id == id);
+        Document? document = await _context.Documents
+            .Include(d => d.Aliases)
+            .SingleOrDefaultAsync(d => d.Id == id);
 
         return document;
     }

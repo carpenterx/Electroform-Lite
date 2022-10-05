@@ -27,12 +27,20 @@ public class DocumentsController : ControllerBase
 
     // GET: documents
     [HttpGet]
-    public async Task<ActionResult> GetDocuments()
+    public async Task<ActionResult> GetDocuments([FromQuery] int pageNumber, [FromQuery] int pageSize)
     {
         string? route = Request.Path.Value;
-        if(route is not null)
+        if (Request.Query.ContainsKey(nameof(pageNumber)) == false)
         {
-            PaginatedResponse<List<DocumentGetDto>> documentDtosPage = await _mediator.Send(new GetDocumentsQuery(route));
+            pageNumber = PaginationValidator.DEFAULT_PAGE_NUMBER;
+        }
+        if (Request.Query.ContainsKey(nameof(pageSize)) == false)
+        {
+            pageSize = PaginationValidator.DEFAULT_PAGE_SIZE;
+        }
+        if (route is not null)
+        {
+            PaginatedResponse<List<DocumentGetDto>> documentDtosPage = await _mediator.Send(new GetDocumentsQuery(route, pageNumber, pageSize));
 
             return Ok(documentDtosPage);
         }
