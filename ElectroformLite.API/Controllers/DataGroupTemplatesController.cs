@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using ElectroformLite.API.Dto;
 using ElectroformLite.Application.DataGroupTemplates.Commands.CreateDataGroupTemplate;
 using ElectroformLite.Application.DataGroupTemplates.Commands.DeleteDataGroupTemplate;
 using ElectroformLite.Application.DataGroupTemplates.Commands.EditDataGroupTemplate;
 using ElectroformLite.Application.DataGroupTemplates.Queries.GetDataGroupTemplate;
 using ElectroformLite.Application.DataGroupTemplates.Queries.GetDataGroupTemplates;
+using ElectroformLite.Application.Dto;
 using ElectroformLite.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

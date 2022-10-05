@@ -1,6 +1,4 @@
-﻿using ElectroformLite.Domain.Models;
-
-namespace ElectroformLite.API.Dto;
+﻿namespace ElectroformLite.Application.Dto;
 
 public class DataGroupGetDto
 {

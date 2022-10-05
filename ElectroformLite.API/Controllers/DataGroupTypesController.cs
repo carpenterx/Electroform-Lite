@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using ElectroformLite.API.Dto;
 using ElectroformLite.Application.DataGroupTypes.Commands.CreateDataGroupType;
 using ElectroformLite.Application.DataGroupTypes.Commands.DeleteDataGroupType;
 using ElectroformLite.Application.DataGroupTypes.Commands.EditDataGroupType;
 using ElectroformLite.Application.DataGroupTypes.Queries.GetDataGroupType;
 using ElectroformLite.Application.DataGroupTypes.Queries.GetDataGroupTypes;
+using ElectroformLite.Application.Dto;
 using ElectroformLite.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using ElectroformLite.API.Dto;
 using ElectroformLite.Application.Documents.Commands.CreateDocument;
 using ElectroformLite.Application.Documents.Commands.DeleteDocument;
 using ElectroformLite.Application.Documents.Commands.EditDocument;

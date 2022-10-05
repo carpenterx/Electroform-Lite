@@ -1,11 +1,11 @@
 using AutoMapper;
 using ElectroformLite.API.Controllers;
-using ElectroformLite.API.Dto;
 using ElectroformLite.Application.DataTypes.Commands.CreateDataType;
 using ElectroformLite.Application.DataTypes.Commands.DeleteDataType;
 using ElectroformLite.Application.DataTypes.Commands.EditDataType;
 using ElectroformLite.Application.DataTypes.Queries.GetDataType;
 using ElectroformLite.Application.DataTypes.Queries.GetDataTypes;
+using ElectroformLite.Application.Dto;
 using ElectroformLite.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Http;

@@ -1,6 +1,6 @@
-﻿namespace ElectroformLite.API.Dto;
+﻿namespace ElectroformLite.Application.Dto;
 
-public class DataTypeDto
+public class DataGetPutDto
 {
     public Guid Id { get; set; }
 

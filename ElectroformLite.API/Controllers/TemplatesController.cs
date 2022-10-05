@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ElectroformLite.API.Dto;
+using ElectroformLite.Application.Dto;
 using ElectroformLite.Application.Templates.Commands.CreateTemplate;
 using ElectroformLite.Application.Templates.Commands.DeleteTemplate;
 using ElectroformLite.Application.Templates.Commands.EditTemplate;

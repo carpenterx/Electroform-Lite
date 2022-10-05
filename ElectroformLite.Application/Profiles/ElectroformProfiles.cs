@@ -8,7 +8,7 @@ public class ElectroformProfiles : Profile
 {
     public ElectroformProfiles()
     {
-        /*CreateMap<DataGroupTypeDto, DataGroupType>().ReverseMap();
+        CreateMap<DataGroupTypeDto, DataGroupType>().ReverseMap();
         CreateMap<DataTypeDto, DataType>().ReverseMap();
         CreateMap<Data, DataGetPutDto>().ReverseMap();
         CreateMap<Data, DataGetDto>().ReverseMap();
@@ -24,7 +24,7 @@ public class ElectroformProfiles : Profile
         CreateMap<Template, TemplateGetPutDto>().ReverseMap();
         CreateMap<Template, TemplateGetDto>().ReverseMap();
         CreateMap<AliasTemplate, AliasTemplateDto>().ReverseMap();
-        CreateMap<AliasTemplate, AliasTemplateGetDto>().ReverseMap();*/
+        CreateMap<AliasTemplate, AliasTemplateGetDto>().ReverseMap();
         //CreateMap<TemplatePostDto, Template>();
         CreateMap<Document, DocumentGetDto>().ReverseMap();
         //CreateMap<DocumentPostDto, Document>();

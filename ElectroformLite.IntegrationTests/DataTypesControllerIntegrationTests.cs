@@ -1,5 +1,5 @@
 using ElectroformLite.API;
-using ElectroformLite.API.Dto;
+using ElectroformLite.Application.Dto;
 using ElectroformLite.IntegrationTests.Helpers;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;

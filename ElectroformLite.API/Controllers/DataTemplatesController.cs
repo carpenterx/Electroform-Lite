@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using ElectroformLite.API.Dto;
 using ElectroformLite.Application.DataTemplates.Commands.CreateDataTemplate;
 using ElectroformLite.Application.DataTemplates.Commands.DeleteDataTemplate;
 using ElectroformLite.Application.DataTemplates.Commands.EditDataTemplate;
 using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplate;
 using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplates;
+using ElectroformLite.Application.Dto;
 using ElectroformLite.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
