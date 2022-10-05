@@ -4,14 +4,15 @@ public class PaginationValidator
 {
     public int PageNumber { get; private set; }
     public int PageSize { get; private set; }
+    public int TotalPages { get; private set; }
 
     private static readonly int DEFAULT_PAGE_NUMBER = 1;
     private static readonly int DEFAULT_PAGE_SIZE = 10;
     
     public PaginationValidator(int pageNumber, int pageSize, int totalCount)
     {
-        int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
-        if (pageNumber >= 1 && pageNumber <= totalPages)
+        TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+        if (pageNumber >= 1 && pageNumber <= TotalPages)
         {
             PageNumber = pageNumber;
         }

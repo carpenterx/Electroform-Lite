@@ -24,14 +24,14 @@ public class GetDocumentsQueryHandler : IRequestHandler<GetDocumentsQuery, Pagin
     {
         int pageNumber = -1;
         int pageSize = 4;
-        int totalCount = await _unitOfWork.DocumentRepository.GetCount();
+        int count = await _unitOfWork.DocumentRepository.GetCount();
 
-        PaginationValidator pagination = new(pageNumber, pageSize, totalCount);
+        PaginationValidator pagination = new(pageNumber, pageSize, count);
 
         List<Document> documents = await _unitOfWork.DocumentRepository.GetDocuments(pagination.PageNumber, pagination.PageSize);
         List<DocumentGetDto> documentDtos = _mapper.Map<List<DocumentGetDto>>(documents);
 
-        var paginatedResponse = PaginationHelper.CreatePaginatedReponse<List<DocumentGetDto>>(documentDtos, pagination.PageNumber, pagination.PageSize, totalCount, _uriService, request.Route);
+        var paginatedResponse = PaginationHelper.CreatePaginatedReponse<List<DocumentGetDto>>(documentDtos, pagination.PageNumber, pagination.PageSize, pagination.TotalPages , count, _uriService, request.Route);
         //return new PaginatedResponse<List<DocumentGetDto>>(documentDtos, pagination.PageNumber, pagination.PageSize);
         return paginatedResponse;
     }

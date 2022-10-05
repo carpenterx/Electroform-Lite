@@ -5,7 +5,7 @@ public class PaginatedResponse<T>
     public int PageNumber { get; private set; }
     public int PageSize { get; private set; }
     public int TotalPages { get; set; }
-    public int TotalRecords { get; set; }
+    public int Count { get; set; }
 
     public T Data { get; set; }
 
