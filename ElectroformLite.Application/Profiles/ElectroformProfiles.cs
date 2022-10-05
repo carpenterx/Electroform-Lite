@@ -1,18 +1,18 @@
 ﻿using AutoMapper;
-using ElectroformLite.API.Dto;
+using ElectroformLite.Application.Dto;
 using ElectroformLite.Domain.Models;
 
-namespace ElectroformLite.API.Profiles;
+namespace ElectroformLite.Application.Profiles;
 
 public class ElectroformProfiles : Profile
 {
-	public ElectroformProfiles()
-	{
-		CreateMap<DataGroupTypeDto, DataGroupType>().ReverseMap();
-		CreateMap<DataTypeDto, DataType>().ReverseMap();
-		CreateMap<Data, DataGetPutDto>().ReverseMap();
-		CreateMap<Data, DataGetDto>().ReverseMap();
-		//CreateMap<DataPostDto, Data>();
+    public ElectroformProfiles()
+    {
+        /*CreateMap<DataGroupTypeDto, DataGroupType>().ReverseMap();
+        CreateMap<DataTypeDto, DataType>().ReverseMap();
+        CreateMap<Data, DataGetPutDto>().ReverseMap();
+        CreateMap<Data, DataGetDto>().ReverseMap();
+        //CreateMap<DataPostDto, Data>();
         CreateMap<DataGroup, DataGroupGetPutDto>().ReverseMap();
         CreateMap<DataGroup, DataGroupGetDto>().ReverseMap();
         //CreateMap<DataGroupPostDto, DataGroup>();
@@ -24,9 +24,9 @@ public class ElectroformProfiles : Profile
         CreateMap<Template, TemplateGetPutDto>().ReverseMap();
         CreateMap<Template, TemplateGetDto>().ReverseMap();
         CreateMap<AliasTemplate, AliasTemplateDto>().ReverseMap();
-        CreateMap<AliasTemplate, AliasTemplateGetDto>().ReverseMap();
+        CreateMap<AliasTemplate, AliasTemplateGetDto>().ReverseMap();*/
         //CreateMap<TemplatePostDto, Template>();
-        //CreateMap<Document, DocumentGetDto>().ReverseMap();
+        CreateMap<Document, DocumentGetDto>().ReverseMap();
         //CreateMap<DocumentPostDto, Document>();
     }
 }

@@ -5,6 +5,7 @@ using ElectroformLite.Application.Documents.Commands.DeleteDocument;
 using ElectroformLite.Application.Documents.Commands.EditDocument;
 using ElectroformLite.Application.Documents.Queries.GetDocument;
 using ElectroformLite.Application.Documents.Queries.GetDocuments;
+using ElectroformLite.Application.Dto;
 using ElectroformLite.Application.Utils;
 using ElectroformLite.Domain.Models;
 using MediatR;
@@ -29,11 +30,16 @@ public class DocumentsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> GetDocuments()
     {
-        PaginatedResponse<List<Document>> documentsPage = await _mediator.Send(new GetDocumentsQuery());
-        List<DocumentGetDto> documentDtos = _mapper.Map<List<DocumentGetDto>>(documentsPage.Data);
-        PaginatedResponse<List<DocumentGetDto>> documentDtosPage = new(documentDtos, documentsPage.PageNumber, documentsPage.PageSize);
+        string? route = Request.Path.Value;
+        if(route is not null)
+        {
+            PaginatedResponse<List<DocumentGetDto>> documentDtosPage = await _mediator.Send(new GetDocumentsQuery(route));
 
-        return Ok(documentDtosPage);
+            return Ok(documentDtosPage);
+        }
+        
+
+        return BadRequest("Invalid route");
     }
 
     // GET: documents/5

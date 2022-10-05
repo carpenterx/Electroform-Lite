@@ -30,6 +30,11 @@ public class DocumentRepository : IDocumentRepository
         return document;
     }
 
+    public async Task<int> GetCount()
+    {
+        return await _context.Documents.CountAsync();
+    }
+
     /*public async Task<List<Document>> GetDocuments()
     {
         return await _context.Documents.Include(d => d.Aliases).ToListAsync();

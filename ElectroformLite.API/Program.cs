@@ -1,6 +1,7 @@
-using ElectroformLite.API.Controllers;
 using ElectroformLite.API.Middleware;
 using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Application.Profiles;
+using ElectroformLite.Application.Utils;
 using ElectroformLite.Domain.Models;
 using ElectroformLite.Infrastructure;
 using ElectroformLite.Infrastructure.Database;
@@ -59,7 +60,16 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAliasTemplateRepository, AliasTemplateRepository>();
 builder.Services.AddScoped<IAliasRepository, AliasRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddAutoMapper(typeof(DataGroupTypesController));
+builder.Services.AddAutoMapper(typeof(ElectroformProfiles));
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton<IUriService>(o =>
+{
+    var accessor = o.GetRequiredService<IHttpContextAccessor>();
+    var request = accessor.HttpContext.Request;
+    var uri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
+    return new UriService(uri);
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
