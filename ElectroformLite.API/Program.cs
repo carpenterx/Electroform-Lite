@@ -1,4 +1,5 @@
 using ElectroformLite.API.Middleware;
+using ElectroformLite.API.Utils;
 using ElectroformLite.Application.Interfaces;
 using ElectroformLite.Application.Profiles;
 using ElectroformLite.Application.Utils;
@@ -76,8 +77,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -85,6 +84,16 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<ElectroformDbContext>();
+    context.Database.EnsureCreated();
+    //DatabaseHelper.Initialize(context);
+    //await DatabaseHelper.FixTemplatesContent(context);
 }
 
 app.UseHttpsRedirection();
