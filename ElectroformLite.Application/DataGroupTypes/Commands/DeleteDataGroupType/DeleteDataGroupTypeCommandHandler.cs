@@ -37,7 +37,7 @@ public class DeleteDataGroupTypeCommandHandler : IRequestHandler<DeleteDataGroup
             {
                 ReasonPhrase = "Data Group Type Cannot Be Deleted"
             };*/
-            HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Data Group Type Cannot Be Deleted");
+            HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Data Group Type Cannot Be Deleted", HttpStatusCode.Forbidden);
             throw new CantDeleteHttpResponseException(response);
         }
 

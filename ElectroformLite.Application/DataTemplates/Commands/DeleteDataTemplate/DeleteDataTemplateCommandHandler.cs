@@ -37,7 +37,7 @@ public class DeleteDataTemplateCommandHandler : IRequestHandler<DeleteDataTempla
             {
                 ReasonPhrase = "Data Template Cannot Be Deleted"
             };*/
-            HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Data Template Cannot Be Deleted");
+            HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Data Template Cannot Be Deleted", HttpStatusCode.Forbidden);
             throw new CantDeleteHttpResponseException(response);
         }
 

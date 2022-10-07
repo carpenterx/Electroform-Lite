@@ -35,7 +35,7 @@ public class DeleteDataTypeCommandHandler : IRequestHandler<DeleteDataTypeComman
             {
                 ReasonPhrase = "Data Type Cannot Be Deleted"
             };*/
-            HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Data Type Cannot Be Deleted");
+            HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Data Type Cannot Be Deleted", HttpStatusCode.Forbidden);
             throw new CantDeleteHttpResponseException(response);
         }
 
