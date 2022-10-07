@@ -28,7 +28,7 @@ public class DataTypesController : ControllerBase
 
     // GET: data-types
     [HttpGet]
-    public async Task<ActionResult<List<DataType>>> GetDataTypes()
+    public async Task<ActionResult> GetDataTypes()
     {
         List<DataType> dataTypes = await _mediator.Send(new GetDataTypesQuery());
         List<DataTypeDto> dataTypeDtos = _mapper.Map<List<DataTypeDto>>(dataTypes);
@@ -38,7 +38,7 @@ public class DataTypesController : ControllerBase
 
     // GET: data-types/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<DataType>> GetDataType([FromRoute] Guid id)
+    public async Task<ActionResult> GetDataType([FromRoute] Guid id)
     {
         DataType dataType = await _mediator.Send(new GetDataTypeQuery(id));
         DataTypeDto dataTypeDto = _mapper.Map<DataTypeDto>(dataType);
@@ -48,7 +48,7 @@ public class DataTypesController : ControllerBase
 
     // POST: data-types
     [HttpPost]
-    public async Task<IActionResult> CreateDataType([FromBody] string type)
+    public async Task<ActionResult> CreateDataType([FromBody] string type)
     {
         DataType dataType = await _mediator.Send(new CreateDataTypeCommand(type));
         DataTypeDto dataTypeDto = _mapper.Map<DataTypeDto>(dataType);
@@ -59,7 +59,7 @@ public class DataTypesController : ControllerBase
     // DELETE: data-types/5
     [HttpDelete]
     [Route("{id}")]
-    public async Task<IActionResult> DeleteDataType([FromRoute] Guid id)
+    public async Task<ActionResult> DeleteDataType([FromRoute] Guid id)
     {
         await _mediator.Send(new DeleteDataTypeCommand(id));
 
@@ -68,7 +68,7 @@ public class DataTypesController : ControllerBase
 
     // PUT: data-types/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateDataType([FromRoute] Guid id, [FromBody] DataTypeDto dataTypeDto)
+    public async Task<ActionResult> UpdateDataType([FromRoute] Guid id, [FromBody] DataTypeDto dataTypeDto)
     {
         if (id != dataTypeDto.Id)
         {

@@ -25,7 +25,7 @@ public class UsersController : ControllerBase
 
     [HttpPost]
     [Route("login")]
-    public async Task<IActionResult> Login(string userName, string password)
+    public async Task<ActionResult> Login(string userName, string password)
     {
         var user = await _userManager.FindByNameAsync(userName);
 
@@ -65,7 +65,7 @@ public class UsersController : ControllerBase
 
     [HttpPost]
     [Route("register")]
-    public async Task<IActionResult> Register(string userName, string password)
+    public async Task<ActionResult> Register(string userName, string password)
     {
         var userExists = await _userManager.FindByNameAsync(userName);
 
@@ -91,7 +91,7 @@ public class UsersController : ControllerBase
 
     [HttpPost]
     [Route("assign-role")]
-    public async Task<IActionResult> AssignRole(string userName, string roleName)
+    public async Task<ActionResult> AssignRole(string userName, string roleName)
     {
         var userExists = await _userManager.FindByNameAsync(userName);
 

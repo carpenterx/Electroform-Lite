@@ -24,7 +24,7 @@ public class AliasTemplatesController : ControllerBase
 
     // GET: alias-templates
     [HttpGet]
-    public async Task<ActionResult<List<AliasTemplate>>> GetAliasTemplates()
+    public async Task<ActionResult> GetAliasTemplates()
     {
         List<AliasTemplate> aliasTemplates = await _mediator.Send(new GetAliasTemplatesQuery());
         List<AliasTemplateGetDto> aliasTemplatesDtos = _mapper.Map<List<AliasTemplateGetDto>>(aliasTemplates);
@@ -34,7 +34,7 @@ public class AliasTemplatesController : ControllerBase
 
     // GET: alias-templates/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<AliasTemplate>> GetAliasTemplate([FromRoute] Guid id)
+    public async Task<ActionResult> GetAliasTemplate([FromRoute] Guid id)
     {
         AliasTemplate? aliasTemplate = await _mediator.Send(new GetAliasTemplateQuery(id));
 
@@ -45,7 +45,7 @@ public class AliasTemplatesController : ControllerBase
 
     // GET: alias-templates/get-id/5
     [HttpGet("get-id/{dataGroupTemplateId}")]
-    public async Task<ActionResult<Guid>> GetAliasTemplateId([FromRoute] Guid dataGroupTemplateId)
+    public async Task<ActionResult> GetAliasTemplateId([FromRoute] Guid dataGroupTemplateId)
     {
         Guid aliasTemplateId = await _mediator.Send(new GetAliasTemplateIdQuery(dataGroupTemplateId));
 

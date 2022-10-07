@@ -26,7 +26,7 @@ public class DataController : ControllerBase
 
     // GET: data
     [HttpGet]
-    public async Task<ActionResult<List<Data>>> GetData()
+    public async Task<ActionResult> GetData()
     {
         List<Data> data = await _mediator.Send(new GetDataListQuery());
         List<DataGetPutDto> dataDtos = _mapper.Map<List<DataGetPutDto>>(data);
@@ -36,7 +36,7 @@ public class DataController : ControllerBase
 
     // GET: data/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Data>> GetData([FromRoute] Guid id)
+    public async Task<ActionResult> GetData([FromRoute] Guid id)
     {
         Data? data = await _mediator.Send(new GetDataQuery(id));
 
@@ -51,7 +51,7 @@ public class DataController : ControllerBase
 
     // POST: data
     [HttpPost]
-    public async Task<IActionResult> CreateData([FromBody] DataPostDto dataDto)
+    public async Task<ActionResult> CreateData([FromBody] DataPostDto dataDto)
     {
         //Data dataFromDto = _mapper.Map<Data>(dataDto);
         Data? data = await _mediator.Send(new CreateDataCommand(dataDto.DataTemplateId, dataDto.Value));
@@ -69,7 +69,7 @@ public class DataController : ControllerBase
     // DELETE: data/5
     [HttpDelete]
     [Route("{id}")]
-    public async Task<IActionResult> DeleteData([FromRoute] Guid id)
+    public async Task<ActionResult> DeleteData([FromRoute] Guid id)
     {
         Data? data = await _mediator.Send(new DeleteDataCommand(id));
 
@@ -83,7 +83,7 @@ public class DataController : ControllerBase
 
     // PUT: data/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateData([FromRoute] Guid id, [FromBody] DataGetPutDto dataDto)
+    public async Task<ActionResult> UpdateData([FromRoute] Guid id, [FromBody] DataGetPutDto dataDto)
     {
         if (id != dataDto.Id)
         {

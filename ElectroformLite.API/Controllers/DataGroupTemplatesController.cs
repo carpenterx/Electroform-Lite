@@ -26,7 +26,7 @@ public class DataGroupTemplatesController : ControllerBase
 
     // GET: data-group-templates
     [HttpGet]
-    public async Task<ActionResult<List<DataGroupTemplate>>> GetDataGroupTemplates()
+    public async Task<ActionResult> GetDataGroupTemplates()
     {
         List<DataGroupTemplate> dataGroupTemplates = await _mediator.Send(new GetDataGroupTemplatesQuery());
         List<DataGroupTemplateGetDto> dataGroupTemplateDtos = _mapper.Map<List<DataGroupTemplateGetDto>>(dataGroupTemplates);
@@ -36,7 +36,7 @@ public class DataGroupTemplatesController : ControllerBase
 
     // GET: data-group-templates/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<DataGroupTemplate>> GetDataGroupTemplate([FromRoute] Guid id)
+    public async Task<ActionResult> GetDataGroupTemplate([FromRoute] Guid id)
     {
         DataGroupTemplate? dataGroupTemplate = await _mediator.Send(new GetDataGroupTemplateQuery(id));
 
@@ -51,7 +51,7 @@ public class DataGroupTemplatesController : ControllerBase
 
     // POST: data-group-templates
     [HttpPost]
-    public async Task<IActionResult> CreateDataGroupTemplate([FromBody] DataGroupTemplatePostDto dataGroupTemplateDto)
+    public async Task<ActionResult> CreateDataGroupTemplate([FromBody] DataGroupTemplatePostDto dataGroupTemplateDto)
     {
         DataGroupTemplate? dataGroupTemplate = await _mediator.Send(new CreateDataGroupTemplateCommand(dataGroupTemplateDto.DataGroupTypeId, dataGroupTemplateDto.DataTemplateIds));
 
@@ -68,7 +68,7 @@ public class DataGroupTemplatesController : ControllerBase
     // DELETE: data-group-templates/5
     [HttpDelete]
     [Route("{id}")]
-    public async Task<IActionResult> DeleteDataGroupTemplate([FromRoute] Guid id)
+    public async Task<ActionResult> DeleteDataGroupTemplate([FromRoute] Guid id)
     {
         DataGroupTemplate? dataGroupTemplate = await _mediator.Send(new DeleteDataGroupTemplateCommand(id));
 
@@ -82,7 +82,7 @@ public class DataGroupTemplatesController : ControllerBase
 
     // PUT: data-group-templates/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateDataGroupTemplate([FromRoute] Guid id, [FromBody] DataGroupTemplatePutDto dataGroupTemplateDto)
+    public async Task<ActionResult> UpdateDataGroupTemplate([FromRoute] Guid id, [FromBody] DataGroupTemplatePutDto dataGroupTemplateDto)
     {
         if (id != dataGroupTemplateDto.Id)
         {

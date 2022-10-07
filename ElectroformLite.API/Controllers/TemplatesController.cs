@@ -26,7 +26,7 @@ public class TemplatesController : ControllerBase
 
     // GET: templates
     [HttpGet]
-    public async Task<ActionResult<List<Template>>> GetTemplates()
+    public async Task<ActionResult> GetTemplates()
     {
         List<Template> templates = await _mediator.Send(new GetTemplatesQuery());
         List<TemplateGetPutDto> templateDtos = _mapper.Map<List<TemplateGetPutDto>>(templates);
@@ -36,7 +36,7 @@ public class TemplatesController : ControllerBase
 
     // GET: templates/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Template>> GetTemplate([FromRoute] Guid id)
+    public async Task<ActionResult> GetTemplate([FromRoute] Guid id)
     {
         Template? template = await _mediator.Send(new GetTemplateQuery(id));
 
@@ -51,7 +51,7 @@ public class TemplatesController : ControllerBase
 
     // POST: templates
     [HttpPost]
-    public async Task<IActionResult> CreateTemplate([FromBody] TemplatePostDto templateDto)
+    public async Task<ActionResult> CreateTemplate([FromBody] TemplatePostDto templateDto)
     {
         Template? template = await _mediator.Send(new CreateTemplateCommand(templateDto.Name, templateDto.Content, templateDto.AliasTemplateData));
 
@@ -68,7 +68,7 @@ public class TemplatesController : ControllerBase
     // DELETE: templates/5
     [HttpDelete]
     [Route("{id}")]
-    public async Task<IActionResult> DeleteTemplate([FromRoute] Guid id)
+    public async Task<ActionResult> DeleteTemplate([FromRoute] Guid id)
     {
         Template? template = await _mediator.Send(new DeleteTemplateCommand(id));
 
@@ -82,7 +82,7 @@ public class TemplatesController : ControllerBase
 
     // PUT: templates/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateTemplate([FromRoute] Guid id, [FromBody] TemplateGetPutDto templateDto)
+    public async Task<ActionResult> UpdateTemplate([FromRoute] Guid id, [FromBody] TemplateGetPutDto templateDto)
     {
         if (id != templateDto.Id)
         {
