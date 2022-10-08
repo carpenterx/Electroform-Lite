@@ -38,12 +38,8 @@ public class DataGroupTemplatesController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult> GetDataGroupTemplate([FromRoute] Guid id)
     {
-        DataGroupTemplate? dataGroupTemplate = await _mediator.Send(new GetDataGroupTemplateQuery(id));
+        DataGroupTemplate dataGroupTemplate = await _mediator.Send(new GetDataGroupTemplateQuery(id));
 
-        if (dataGroupTemplate == null)
-        {
-            return NotFound();
-        }
         DataGroupTemplateGetDto dataGroupTemplateDto = _mapper.Map<DataGroupTemplateGetDto>(dataGroupTemplate);
 
         return Ok(dataGroupTemplateDto);
@@ -53,12 +49,7 @@ public class DataGroupTemplatesController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> CreateDataGroupTemplate([FromBody] DataGroupTemplatePostDto dataGroupTemplateDto)
     {
-        DataGroupTemplate? dataGroupTemplate = await _mediator.Send(new CreateDataGroupTemplateCommand(dataGroupTemplateDto.DataGroupTypeId, dataGroupTemplateDto.DataTemplateIds));
-
-        if (dataGroupTemplate == null)
-        {
-            return NotFound();
-        }
+        DataGroupTemplate dataGroupTemplate = await _mediator.Send(new CreateDataGroupTemplateCommand(dataGroupTemplateDto.DataGroupTypeId, dataGroupTemplateDto.DataTemplateIds));
 
         DataGroupTemplateGetDto dtoFromDataGroupTemplate = _mapper.Map<DataGroupTemplateGetDto>(dataGroupTemplate);
 
@@ -70,12 +61,7 @@ public class DataGroupTemplatesController : ControllerBase
     [Route("{id}")]
     public async Task<ActionResult> DeleteDataGroupTemplate([FromRoute] Guid id)
     {
-        DataGroupTemplate? dataGroupTemplate = await _mediator.Send(new DeleteDataGroupTemplateCommand(id));
-
-        if (dataGroupTemplate == null)
-        {
-            return NotFound();
-        }
+        await _mediator.Send(new DeleteDataGroupTemplateCommand(id));
 
         return NoContent();
     }
@@ -89,12 +75,7 @@ public class DataGroupTemplatesController : ControllerBase
             return BadRequest();
         }
 
-        DataGroupTemplate? editedDataGroupTemplate = await _mediator.Send(new EditDataGroupTemplateCommand(dataGroupTemplateDto.Id, dataGroupTemplateDto.DataTemplateIds));
-
-        if (editedDataGroupTemplate == null)
-        {
-            return NotFound();
-        }
+        await _mediator.Send(new EditDataGroupTemplateCommand(dataGroupTemplateDto.Id, dataGroupTemplateDto.DataTemplateIds));
 
         return NoContent();
     }

@@ -3,7 +3,7 @@ using ElectroformLite.Domain.Models;
 
 namespace ElectroformLite.Application.Templates.Queries.GetTemplate;
 
-public class GetTemplateQuery : IRequest<Template?>
+public class GetTemplateQuery : IRequest<Template>
 {
     public Guid TemplateId { get; set; }
 

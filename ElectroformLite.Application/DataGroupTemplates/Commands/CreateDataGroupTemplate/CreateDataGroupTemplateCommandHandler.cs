@@ -1,10 +1,12 @@
-﻿using ElectroformLite.Application.Interfaces;
+﻿using ElectroformLite.Application.Exceptions;
+using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Application.Utils;
 using ElectroformLite.Domain.Models;
 using MediatR;
 
 namespace ElectroformLite.Application.DataGroupTemplates.Commands.CreateDataGroupTemplate;
 
-public class CreateDataGroupTemplateCommandHandler : IRequestHandler<CreateDataGroupTemplateCommand, DataGroupTemplate?>
+public class CreateDataGroupTemplateCommandHandler : IRequestHandler<CreateDataGroupTemplateCommand, DataGroupTemplate>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -13,13 +15,14 @@ public class CreateDataGroupTemplateCommandHandler : IRequestHandler<CreateDataG
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<DataGroupTemplate?> Handle(CreateDataGroupTemplateCommand request, CancellationToken cancellationToken)
+    public async Task<DataGroupTemplate> Handle(CreateDataGroupTemplateCommand request, CancellationToken cancellationToken)
     {
         DataGroupType? dataGroupType = await _unitOfWork.DataGroupTypeRepository.GetFullDataGroupType(request.DataGroupTypeId);
 
         if (dataGroupType is null)
         {
-            return null;
+            HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Data Group Type Not Found");
+            throw new NotFoundHttpResponseException(response);
         }
 
         DataGroupTemplate dataGroupTemplate = new();
@@ -31,7 +34,8 @@ public class CreateDataGroupTemplateCommandHandler : IRequestHandler<CreateDataG
 
             if (dataTemplate is null)
             {
-                return null;
+                HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Data Template Not Found");
+                throw new NotFoundHttpResponseException(response);
             }
 
             dataGroupTemplate.DataTemplates.Add(dataTemplate);

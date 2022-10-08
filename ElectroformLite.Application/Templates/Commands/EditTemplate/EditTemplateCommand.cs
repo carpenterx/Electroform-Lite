@@ -3,7 +3,7 @@ using MediatR;
 
 namespace ElectroformLite.Application.Templates.Commands.EditTemplate;
 
-public class EditTemplateCommand : IRequest<Template?>
+public class EditTemplateCommand : IRequest
 {
     public Template Template { get; set; }
 

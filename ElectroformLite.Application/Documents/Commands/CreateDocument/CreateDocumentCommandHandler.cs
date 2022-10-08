@@ -24,22 +24,6 @@ public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentComman
             throw new NotFoundHttpResponseException(response);
         }
 
-        /*if (template.DataGroupTemplates.Count != request.DataGroupIds.Count)
-        {
-            return null;
-        }
-
-        List<DataGroup> dataGroups = await _unitOfWork.DataGroupRepository.GetDataGroupsWithIds(request.DataGroupIds);*/
-
-        //Dictionary<string, string> dataDictionary = new();
-        /*foreach (DataGroup dataGroup in dataGroups)
-        {
-            foreach (Data data in dataGroup.UserData)
-            {
-                dataDictionary.Add($"[{dataGroup.DataGroupPlaceholder}.{data.DataTemplate.Placeholder}]", data.Value);
-            }
-        }*/
-
         List<Alias> aliases = new();
         Dictionary<string, string> dataDictionary = new();
         foreach (KeyValuePair<Guid, Guid> aliasDataItem in request.AliasData)
@@ -71,6 +55,7 @@ public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentComman
             
             aliases.Add(alias);
         }
+
         string documentName;
         if (string.IsNullOrEmpty(request.DocumentName))
         {
@@ -79,17 +64,15 @@ public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentComman
         {
             documentName = request.DocumentName;
         }
+
         documentName = TextUtilities.ReplacePlaceholders(documentName, dataDictionary);
         string documentContent = TextUtilities.ReplacePlaceholders(template.Content, dataDictionary);
         Document document = new(documentName, documentContent);
+
         _unitOfWork.DocumentRepository.Create(document);
         document.Aliases = aliases;
         template.Documents.Add(document);
         await _unitOfWork.Save();
-        //document.DataGroups.AddRange(dataGroups);
-        /*document.DataGroups = dataGroups;
-        template.Documents.Add(document);
-        await _unitOfWork.Save();*/
 
         return document;
     }

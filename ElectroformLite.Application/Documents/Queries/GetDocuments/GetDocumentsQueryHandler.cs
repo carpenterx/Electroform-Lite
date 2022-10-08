@@ -22,8 +22,6 @@ public class GetDocumentsQueryHandler : IRequestHandler<GetDocumentsQuery, Pagin
 
     public async Task<PaginatedResponse<List<DocumentGetDto>>> Handle(GetDocumentsQuery request, CancellationToken cancellationToken)
     {
-        //int pageNumber = -1;
-        //int pageSize = 4;
         int count = await _unitOfWork.DocumentRepository.GetCount();
 
         PaginationValidator pagination = new(request.PageNumber, request.PageSize, count);
@@ -32,7 +30,6 @@ public class GetDocumentsQueryHandler : IRequestHandler<GetDocumentsQuery, Pagin
         List<DocumentGetDto> documentDtos = _mapper.Map<List<DocumentGetDto>>(documents);
 
         var paginatedResponse = PaginationHelper.CreatePaginatedReponse<List<DocumentGetDto>>(documentDtos, pagination.PageNumber, pagination.PageSize, pagination.TotalPages , count, _uriService, request.Route);
-        //return new PaginatedResponse<List<DocumentGetDto>>(documentDtos, pagination.PageNumber, pagination.PageSize);
         return paginatedResponse;
     }
 }

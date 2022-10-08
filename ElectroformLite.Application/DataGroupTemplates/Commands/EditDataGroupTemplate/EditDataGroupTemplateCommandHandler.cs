@@ -1,10 +1,12 @@
-﻿using ElectroformLite.Application.Interfaces;
+﻿using ElectroformLite.Application.Exceptions;
+using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Application.Utils;
 using ElectroformLite.Domain.Models;
 using MediatR;
 
 namespace ElectroformLite.Application.DataGroupTemplates.Commands.EditDataGroupTemplate;
 
-public class EditDataGroupTemplateCommandHandler : IRequestHandler<EditDataGroupTemplateCommand, DataGroupTemplate?>
+public class EditDataGroupTemplateCommandHandler : IRequestHandler<EditDataGroupTemplateCommand>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -13,12 +15,13 @@ public class EditDataGroupTemplateCommandHandler : IRequestHandler<EditDataGroup
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<DataGroupTemplate?> Handle(EditDataGroupTemplateCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(EditDataGroupTemplateCommand request, CancellationToken cancellationToken)
     {
         DataGroupTemplate? dataGroupTemplateToEdit = await _unitOfWork.DataGroupTemplateRepository.GetDataGroupTemplate(request.DataGroupTemplateId);
         if (dataGroupTemplateToEdit == null)
         {
-            return null;
+            HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Data Group Template Not Found");
+            throw new NotFoundHttpResponseException(response);
         }
         dataGroupTemplateToEdit.DataTemplates.Clear();
         foreach (Guid dataTemplateId in request.DataTemplateIds)
@@ -27,7 +30,8 @@ public class EditDataGroupTemplateCommandHandler : IRequestHandler<EditDataGroup
 
             if (dataTemplate == null)
             {
-                return null;
+                HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Data Template Not Found");
+                throw new NotFoundHttpResponseException(response);
             }
 
             dataGroupTemplateToEdit.DataTemplates.Add(dataTemplate);
@@ -35,6 +39,6 @@ public class EditDataGroupTemplateCommandHandler : IRequestHandler<EditDataGroup
         _unitOfWork.DataGroupTemplateRepository.Update(dataGroupTemplateToEdit);
         await _unitOfWork.Save();
 
-        return dataGroupTemplateToEdit;
+        return Unit.Value;
     }
 }

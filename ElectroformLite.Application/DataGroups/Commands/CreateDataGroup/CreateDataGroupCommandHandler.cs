@@ -25,7 +25,6 @@ public class CreateDataGroupCommandHandler : IRequestHandler<CreateDataGroupComm
             throw new NotFoundHttpResponseException(response);
         }
 
-        //DataGroup dataGroup = new(request.Name,dataGroupTemplate.Name);
         DataGroup dataGroup = new(request.Name);
         _unitOfWork.DataGroupRepository.Create(dataGroup);
 
@@ -38,7 +37,6 @@ public class CreateDataGroupCommandHandler : IRequestHandler<CreateDataGroupComm
                 throw new NotFoundHttpResponseException(response);
             }
 
-            //Data data = new(dataTemplate.Placeholder, dataProperty.Value, dataTemplate.DataTypeValue);
             Data data = new(dataProperty.Value, dataTemplate.Id);
             _unitOfWork.DataRepository.Create(data);
             dataTemplate.UserData.Add(data);

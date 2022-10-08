@@ -38,12 +38,8 @@ public class TemplatesController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult> GetTemplate([FromRoute] Guid id)
     {
-        Template? template = await _mediator.Send(new GetTemplateQuery(id));
+        Template template = await _mediator.Send(new GetTemplateQuery(id));
 
-        if (template == null)
-        {
-            return NotFound();
-        }
         TemplateGetDto templateDto = _mapper.Map<TemplateGetDto>(template);
 
         return Ok(templateDto);
@@ -53,12 +49,7 @@ public class TemplatesController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> CreateTemplate([FromBody] TemplatePostDto templateDto)
     {
-        Template? template = await _mediator.Send(new CreateTemplateCommand(templateDto.Name, templateDto.Content, templateDto.AliasTemplateData));
-
-        if (template == null)
-        {
-            return NotFound();
-        }
+        Template template = await _mediator.Send(new CreateTemplateCommand(templateDto.Name, templateDto.Content, templateDto.AliasTemplateData));
 
         TemplateGetPutDto dtoFromTemplate = _mapper.Map<TemplateGetPutDto>(template);
 
@@ -70,12 +61,7 @@ public class TemplatesController : ControllerBase
     [Route("{id}")]
     public async Task<ActionResult> DeleteTemplate([FromRoute] Guid id)
     {
-        Template? template = await _mediator.Send(new DeleteTemplateCommand(id));
-
-        if (template == null)
-        {
-            return NotFound();
-        }
+        await _mediator.Send(new DeleteTemplateCommand(id));
 
         return NoContent();
     }
@@ -91,12 +77,7 @@ public class TemplatesController : ControllerBase
 
         Template templateFromDto = _mapper.Map<Template>(templateDto);
 
-        Template? editedTemplate = await _mediator.Send(new EditTemplateCommand(templateFromDto));
-
-        if (editedTemplate == null)
-        {
-            return NotFound();
-        }
+        await _mediator.Send(new EditTemplateCommand(templateFromDto));
 
         return NoContent();
     }

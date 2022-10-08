@@ -3,7 +3,7 @@ using MediatR;
 
 namespace ElectroformLite.Application.Templates.Commands.DeleteTemplate;
 
-public class DeleteTemplateCommand : IRequest<Template?>
+public class DeleteTemplateCommand : IRequest
 {
     public Guid TemplateId { get; set; }
 

@@ -38,12 +38,8 @@ public class DataController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult> GetData([FromRoute] Guid id)
     {
-        Data? data = await _mediator.Send(new GetDataQuery(id));
+        Data data = await _mediator.Send(new GetDataQuery(id));
 
-        if (data == null)
-        {
-            return NotFound();
-        }
         DataGetPutDto dataDto = _mapper.Map<DataGetPutDto>(data);
 
         return Ok(dataDto);
@@ -53,13 +49,7 @@ public class DataController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> CreateData([FromBody] DataPostDto dataDto)
     {
-        //Data dataFromDto = _mapper.Map<Data>(dataDto);
-        Data? data = await _mediator.Send(new CreateDataCommand(dataDto.DataTemplateId, dataDto.Value));
-
-        if (data == null)
-        {
-            return NotFound();
-        }
+        Data data = await _mediator.Send(new CreateDataCommand(dataDto.DataTemplateId, dataDto.Value));
 
         DataGetPutDto dtoFromData = _mapper.Map<DataGetPutDto>(data);
 
@@ -71,12 +61,7 @@ public class DataController : ControllerBase
     [Route("{id}")]
     public async Task<ActionResult> DeleteData([FromRoute] Guid id)
     {
-        Data? data = await _mediator.Send(new DeleteDataCommand(id));
-
-        if (data == null)
-        {
-            return NotFound();
-        }
+        await _mediator.Send(new DeleteDataCommand(id));
 
         return NoContent();
     }
@@ -92,12 +77,7 @@ public class DataController : ControllerBase
 
         Data dataFromDto = _mapper.Map<Data>(dataDto);
 
-        Data? editedData = await _mediator.Send(new EditDataCommand(dataFromDto));
-
-        if (editedData == null)
-        {
-            return NotFound();
-        }
+        await _mediator.Send(new EditDataCommand(dataFromDto));
 
         return NoContent();
     }
