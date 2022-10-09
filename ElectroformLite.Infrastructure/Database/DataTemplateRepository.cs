@@ -52,7 +52,9 @@ public class DataTemplateRepository : IDataTemplateRepository
 
     public async Task<List<DataTemplate>> GetDataTemplates()
     {
-        return await _context.DataTemplates.ToListAsync();
+        return await _context.DataTemplates
+            .Include(d => d.DataType)
+            .ToListAsync();
     }
 
     public void Update(DataTemplate dataTemplate)

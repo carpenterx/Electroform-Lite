@@ -29,7 +29,7 @@ public class DataTemplatesController : ControllerBase
     public async Task<ActionResult> GetDataTemplates()
     {
         List<DataTemplate> dataTemplates = await _mediator.Send(new GetDataTemplatesQuery());
-        List<DataTemplateGetPutDto> dataTemplateDtos = _mapper.Map<List<DataTemplateGetPutDto>>(dataTemplates);
+        List<DataTemplateGetDto> dataTemplateDtos = _mapper.Map<List<DataTemplateGetDto>>(dataTemplates);
 
         return Ok(dataTemplateDtos);
     }
