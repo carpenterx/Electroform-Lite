@@ -31,9 +31,10 @@ public class CreateDataTemplateCommandHandler : IRequestHandler<CreateDataTempla
         }
 
         DataTemplate dataTemplate = new(request.Placeholder, request.DataTypeId);
+        dataTemplate.DataType = dataType;
         _unitOfWork.DataTemplateRepository.Create(dataTemplate);
 
-        dataType.DataTemplates.Add(dataTemplate);
+        //dataType.DataTemplates.Add(dataTemplate);
         await _unitOfWork.Save();
 
         return dataTemplate;
