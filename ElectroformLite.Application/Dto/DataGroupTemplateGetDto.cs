@@ -7,4 +7,6 @@ public class DataGroupTemplateGetDto
     //public string Name { get; set; }
 
     public ICollection<DataTemplateGetPutDto> DataTemplates { get; set; }
+
+    public DataGroupTypeDto DataGroupType { get; set; }
 }

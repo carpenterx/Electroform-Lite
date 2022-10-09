@@ -37,6 +37,7 @@ public class DataGroupTemplateRepository : IDataGroupTemplateRepository
     {
         return await _context.DataGroupTemplates
             .Include(d => d.DataTemplates)
+            .Include(d => d.DataGroupType)
             .ToListAsync();
     }
 
