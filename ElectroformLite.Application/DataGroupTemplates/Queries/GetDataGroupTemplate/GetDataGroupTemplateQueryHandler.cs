@@ -17,7 +17,7 @@ public class GetDataGroupTemplateQueryHandler : IRequestHandler<GetDataGroupTemp
 
     public async Task<DataGroupTemplate> Handle(GetDataGroupTemplateQuery request, CancellationToken cancellationToken)
     {
-        DataGroupTemplate? dataGroupTemplate = await _unitOfWork.DataGroupTemplateRepository.GetDataGroupTemplate(request.DataGroupTemplateId);
+        DataGroupTemplate? dataGroupTemplate = await _unitOfWork.DataGroupTemplateRepository.GetDataGroupTemplateWithDataGroupType(request.DataGroupTemplateId);
 
         if (dataGroupTemplate == null)
         {

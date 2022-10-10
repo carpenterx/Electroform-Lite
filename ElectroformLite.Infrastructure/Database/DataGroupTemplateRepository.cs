@@ -26,8 +26,43 @@ public class DataGroupTemplateRepository : IDataGroupTemplateRepository
     public async Task<DataGroupTemplate?> GetDataGroupTemplate(Guid id)
     {
         DataGroupTemplate? dataGroupTemplate = await _context.DataGroupTemplates
+            .SingleOrDefaultAsync(d => d.Id == id);
+
+        return dataGroupTemplate;
+    }
+
+    public async Task<DataGroupTemplate?> GetDataGroupTemplateWithDataGroups(Guid id)
+    {
+        DataGroupTemplate? dataGroupTemplate = await _context.DataGroupTemplates
             .Include(d => d.DataGroups)
+            .SingleOrDefaultAsync(d => d.Id == id);
+
+        return dataGroupTemplate;
+    }
+
+    public async Task<DataGroupTemplate?> GetDataGroupTemplateWithDataTemplates(Guid id)
+    {
+        DataGroupTemplate? dataGroupTemplate = await _context.DataGroupTemplates
             .Include(d => d.DataTemplates)
+            .SingleOrDefaultAsync(d => d.Id == id);
+
+        return dataGroupTemplate;
+    }
+
+    public async Task<DataGroupTemplate?> GetDataGroupTemplateWithAliasTemplates(Guid id)
+    {
+        DataGroupTemplate? dataGroupTemplate = await _context.DataGroupTemplates
+            .Include(d => d.AliasTemplates)
+            .SingleOrDefaultAsync(d => d.Id == id);
+
+        return dataGroupTemplate;
+    }
+
+    public async Task<DataGroupTemplate?> GetDataGroupTemplateWithDataGroupType(Guid id)
+    {
+        DataGroupTemplate? dataGroupTemplate = await _context.DataGroupTemplates
+            .Include(d => d.DataTemplates)
+            .Include(d => d.DataGroupType)
             .SingleOrDefaultAsync(d => d.Id == id);
 
         return dataGroupTemplate;

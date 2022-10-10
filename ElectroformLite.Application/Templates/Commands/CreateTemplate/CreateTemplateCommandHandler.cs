@@ -22,7 +22,7 @@ public class CreateTemplateCommandHandler : IRequestHandler<CreateTemplateComman
 
         foreach (KeyValuePair<Guid, string> aliasTemplateDataItem in request.AliasTemplateData)
         {
-            DataGroupTemplate? dataGroupTemplate = await _unitOfWork.DataGroupTemplateRepository.GetDataGroupTemplate(aliasTemplateDataItem.Key);
+            DataGroupTemplate? dataGroupTemplate = await _unitOfWork.DataGroupTemplateRepository.GetDataGroupTemplateWithAliasTemplates(aliasTemplateDataItem.Key);
 
             if (dataGroupTemplate == null)
             {

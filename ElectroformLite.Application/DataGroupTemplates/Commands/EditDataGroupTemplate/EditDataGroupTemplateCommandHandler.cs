@@ -17,7 +17,7 @@ public class EditDataGroupTemplateCommandHandler : IRequestHandler<EditDataGroup
 
     public async Task<Unit> Handle(EditDataGroupTemplateCommand request, CancellationToken cancellationToken)
     {
-        DataGroupTemplate? dataGroupTemplateToEdit = await _unitOfWork.DataGroupTemplateRepository.GetDataGroupTemplate(request.DataGroupTemplateId);
+        DataGroupTemplate? dataGroupTemplateToEdit = await _unitOfWork.DataGroupTemplateRepository.GetDataGroupTemplateWithDataTemplates(request.DataGroupTemplateId);
         if (dataGroupTemplateToEdit == null)
         {
             HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Data Group Template Not Found");
