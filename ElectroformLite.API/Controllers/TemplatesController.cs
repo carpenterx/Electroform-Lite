@@ -68,16 +68,14 @@ public class TemplatesController : ControllerBase
 
     // PUT: templates/5
     [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateTemplate([FromRoute] Guid id, [FromBody] TemplateGetPutDto templateDto)
+    public async Task<ActionResult> UpdateTemplate([FromRoute] Guid id, [FromBody] TemplatePutDto templateDto)
     {
         if (id != templateDto.Id)
         {
             return BadRequest();
         }
 
-        Template templateFromDto = _mapper.Map<Template>(templateDto);
-
-        await _mediator.Send(new EditTemplateCommand(templateFromDto));
+        await _mediator.Send(new EditTemplateCommand(templateDto.Id, templateDto.Name, templateDto.Content, templateDto.AliasTemplatesData));
 
         return NoContent();
     }
