@@ -11,15 +11,17 @@ public class AliasTemplate
     public string Name { get; set; }
 
     public Guid DataGroupTemplateId { get; set; }
+    public Guid TemplateId { get; set; }
 
     public DataGroupTemplate DataGroupTemplate { get; set; }
-    public ICollection<Template> Templates { get; set; }
+    public Template Template { get; set; }
+    //public ICollection<Template> Templates { get; set; }
     public ICollection<Alias> Aliases { get; set; }
 
     public AliasTemplate(string name)
     {
         Name = name;
-        Templates = new HashSet<Template>();
+        //Templates = new HashSet<Template>();
         Aliases = new HashSet<Alias>();
     }
 }

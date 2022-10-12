@@ -38,7 +38,7 @@ public class DataTypesController : ControllerBase
 
     // GET: data-types/5
     [HttpGet("{id}")]
-    public async Task<ActionResult> GetDataType([FromRoute] Guid id)
+    public async Task<ActionResult<DataType>> GetDataType([FromRoute] Guid id)
     {
         DataType dataType = await _mediator.Send(new GetDataTypeQuery(id));
         DataTypeDto dataTypeDto = _mapper.Map<DataTypeDto>(dataType);
