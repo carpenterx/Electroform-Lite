@@ -7,4 +7,6 @@ public class DocumentGetDto
     public string Name { get; set; }
 
     public string Content { get; set; }
+
+    public Guid TemplateId { get; set; }
 }
