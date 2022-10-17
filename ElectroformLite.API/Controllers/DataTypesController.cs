@@ -12,8 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ElectroformLite.API.Controllers;
 
+[Authorize]
 [ApiController]
-//[Authorize]
 [Route("data-types")]
 public class DataTypesController : ControllerBase
 {

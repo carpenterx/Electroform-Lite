@@ -29,7 +29,9 @@ builder.Services.AddDbContext<ElectroformDbContext>(o =>
     o.UseSqlServer(builder.Configuration.GetConnectionString("Local")));
 builder.Services.AddMediatR(typeof(IDataRepository));
 
-builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ElectroformDbContext>();
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<ElectroformDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -39,7 +41,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-    options.TokenValidationParameters = new TokenValidationParameters
+    options.TokenValidationParameters = new TokenValidationParameters()
     {
         ValidateIssuer = true,
         ValidateAudience = true,
