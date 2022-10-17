@@ -43,6 +43,8 @@ public class UsersController : ControllerBase
                 authClaims.Add(new Claim(ClaimTypes.Role, userRole));
             }
 
+            bool isAdmin = userRoles.Contains("admin");
+
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetValue<string>("SecurityKey")));
 
             var token = new JwtSecurityToken
@@ -57,7 +59,10 @@ public class UsersController : ControllerBase
             return Ok(new
             {
                 token = new JwtSecurityTokenHandler().WriteToken(token),
-                expiration = token.ValidTo
+                expiration = token.ValidTo,
+                isAdmin,
+                userName,
+
             });
         }
         return Unauthorized();
