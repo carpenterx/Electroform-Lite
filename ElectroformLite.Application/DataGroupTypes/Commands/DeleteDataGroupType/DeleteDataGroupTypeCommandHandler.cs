@@ -1,5 +1,6 @@
 ﻿using ElectroformLite.Application.Exceptions;
 using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Application.Utils;
 using ElectroformLite.Domain.Models;
 using MediatR;
 using System.ComponentModel.DataAnnotations;
@@ -22,19 +23,21 @@ public class DeleteDataGroupTypeCommandHandler : IRequestHandler<DeleteDataGroup
 
         if (dataGroupType == null)
         {
-            var response = new HttpResponseMessage(HttpStatusCode.NotFound)
+            /*var response = new HttpResponseMessage(HttpStatusCode.NotFound)
             {
                 ReasonPhrase = "Data Group Type Not Found"
-            };
+            };*/
+            HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Data Group Type Not Found");
             throw new NotFoundHttpResponseException(response);
         }
 
         if (dataGroupType.DataGroupTemplates.Count > 0)
         {
-            var response = new HttpResponseMessage(HttpStatusCode.Forbidden)
+            /*var response = new HttpResponseMessage(HttpStatusCode.Forbidden)
             {
                 ReasonPhrase = "Data Group Type Cannot Be Deleted"
-            };
+            };*/
+            HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Data Group Type Cannot Be Deleted", HttpStatusCode.Forbidden);
             throw new CantDeleteHttpResponseException(response);
         }
 

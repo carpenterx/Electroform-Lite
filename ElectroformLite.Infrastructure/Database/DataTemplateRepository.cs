@@ -31,7 +31,7 @@ public class DataTemplateRepository : IDataTemplateRepository
         return dataTemplate;
     }
 
-    public async Task<DataTemplate?> GetDataTemplateAndData(Guid id)
+    public async Task<DataTemplate?> GetDataTemplateWithData(Guid id)
     {
         DataTemplate? dataTemplate = await _context.DataTemplates
             .Include(d => d.UserData)
@@ -40,7 +40,7 @@ public class DataTemplateRepository : IDataTemplateRepository
         return dataTemplate;
     }
 
-    public async Task<DataTemplate?> GetDataTemplateAndDataAndDataGroupTemplates(Guid id)
+    public async Task<DataTemplate?> GetDataTemplateWithDataAndDataGroupTemplates(Guid id)
     {
         DataTemplate? dataTemplate = await _context.DataTemplates
             .Include(d => d.UserData)
@@ -52,7 +52,9 @@ public class DataTemplateRepository : IDataTemplateRepository
 
     public async Task<List<DataTemplate>> GetDataTemplates()
     {
-        return await _context.DataTemplates.ToListAsync();
+        return await _context.DataTemplates
+            .Include(d => d.DataType)
+            .ToListAsync();
     }
 
     public void Update(DataTemplate dataTemplate)

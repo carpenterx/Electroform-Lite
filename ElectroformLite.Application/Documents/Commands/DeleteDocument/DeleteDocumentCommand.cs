@@ -1,9 +1,8 @@
-﻿using ElectroformLite.Domain.Models;
-using MediatR;
+﻿using MediatR;
 
 namespace ElectroformLite.Application.Documents.Commands.DeleteDocument;
 
-public class DeleteDocumentCommand : IRequest<Document?>
+public class DeleteDocumentCommand : IRequest
 {
     public Guid DocumentId { get; set; }
 

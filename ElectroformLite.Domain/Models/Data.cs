@@ -16,7 +16,11 @@ public class Data
 
     public Guid DataTemplateId { get; set; }
 
+    //[Required]
+    public Guid DataGroupId { get; set; }
+
     public DataTemplate DataTemplate { get; set; }
+    public DataGroup DataGroup { get; set; }
 
     public Data(string value, Guid dataTemplateId)
     {

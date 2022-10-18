@@ -8,12 +8,12 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.Property(e => e.Name)
+        /*builder.Property(e => e.Name)
                 .IsRequired()
                 .HasMaxLength(60);
 
         builder.Property(e => e.Password)
                 .IsRequired()
-                .HasMaxLength(60);
+                .HasMaxLength(60);*/
     }
 }

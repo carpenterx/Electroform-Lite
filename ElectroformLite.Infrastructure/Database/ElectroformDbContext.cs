@@ -1,12 +1,11 @@
-﻿using ElectroformLite.Application.Interfaces;
-using ElectroformLite.Domain.Models;
+﻿using ElectroformLite.Domain.Models;
 using ElectroformLite.Infrastructure.Database.Configurations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace ElectroformLite.Infrastructure.Database;
 
-public class ElectroformDbContext : DbContext
+public class ElectroformDbContext : IdentityDbContext<User>
 {
     public DbSet<Data> UserData { get; set; }
     public DbSet<DataGroup> DataGroups { get; set; }
@@ -18,7 +17,7 @@ public class ElectroformDbContext : DbContext
     public DbSet<Template> Templates { get; set; }
     public DbSet<Alias> Aliases { get; set; }
     public DbSet<AliasTemplate> AliasTemplates { get; set; }
-    public DbSet<User> Users { get; set; }
+    //public DbSet<User> Users { get; set; }
 
     public ElectroformDbContext(DbContextOptions<ElectroformDbContext> dbContextOptions) : base(dbContextOptions)
     {
@@ -33,6 +32,8 @@ public class ElectroformDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new DocumentConfiguration());
-        modelBuilder.ApplyConfiguration(new UserConfiguration());
+        //modelBuilder.ApplyConfiguration(new DataConfiguration());
+        //modelBuilder.ApplyConfiguration(new UserConfiguration());
+        base.OnModelCreating(modelBuilder);
     }
 }

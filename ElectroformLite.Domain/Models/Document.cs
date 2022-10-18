@@ -8,6 +8,8 @@ public class Document
 
     public string Content { get; set; }
 
+    public Guid TemplateId { get; set; }
+
     //public ICollection<DataGroup> DataGroups { get; set; }
     public ICollection<Alias> Aliases { get; set; }
 

@@ -1,10 +1,12 @@
-﻿using ElectroformLite.Application.Interfaces;
+﻿using ElectroformLite.Application.Exceptions;
+using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Application.Utils;
 using ElectroformLite.Domain.Models;
 using MediatR;
 
 namespace ElectroformLite.Application.Documents.Commands.DeleteDocument;
 
-public class DeleteDocumentCommandHandler : IRequestHandler<DeleteDocumentCommand, Document?>
+public class DeleteDocumentCommandHandler : IRequestHandler<DeleteDocumentCommand>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -13,17 +15,18 @@ public class DeleteDocumentCommandHandler : IRequestHandler<DeleteDocumentComman
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Document?> Handle(DeleteDocumentCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteDocumentCommand request, CancellationToken cancellationToken)
     {
         Document? document = await _unitOfWork.DocumentRepository.GetDocument(request.DocumentId);
         if (document == null)
         {
-            return null;
+            HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Document Not Found");
+            throw new NotFoundHttpResponseException(response);
         }
 
         _unitOfWork.DocumentRepository.Delete(document);
         await _unitOfWork.Save();
 
-        return document;
+        return Unit.Value;
     }
 }

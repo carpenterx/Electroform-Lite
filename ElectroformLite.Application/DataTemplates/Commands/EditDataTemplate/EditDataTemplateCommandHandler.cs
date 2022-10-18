@@ -1,5 +1,6 @@
 ﻿using ElectroformLite.Application.Exceptions;
 using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Application.Utils;
 using ElectroformLite.Domain.Models;
 using MediatR;
 using System.Net;
@@ -21,10 +22,11 @@ public class EditDataTemplateCommandHandler : IRequestHandler<EditDataTemplateCo
 
         if (dataTemplateToEdit == null)
         {
-            var response = new HttpResponseMessage(HttpStatusCode.NotFound)
+            /*var response = new HttpResponseMessage(HttpStatusCode.NotFound)
             {
                 ReasonPhrase = "Data Template Not Found"
-            };
+            };*/
+            HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Data Template Not Found");
             throw new NotFoundHttpResponseException(response);
         }
 
