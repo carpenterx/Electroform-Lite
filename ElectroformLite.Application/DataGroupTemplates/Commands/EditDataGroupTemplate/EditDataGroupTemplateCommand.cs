@@ -3,7 +3,7 @@ using MediatR;
 
 namespace ElectroformLite.Application.DataGroupTemplates.Commands.EditDataGroupTemplate;
 
-public class EditDataGroupTemplateCommand : IRequest<DataGroupTemplate?>
+public class EditDataGroupTemplateCommand : IRequest
 {
     public Guid DataGroupTemplateId { get; set; }
 

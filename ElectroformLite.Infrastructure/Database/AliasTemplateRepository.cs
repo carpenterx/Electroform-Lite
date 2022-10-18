@@ -23,7 +23,24 @@ public class AliasTemplateRepository : IAliasTemplateRepository
         throw new NotImplementedException();
     }
 
+    public async Task<Guid?> GetAliasTemplateId(Guid dataGroupTemplateId)
+    {
+        AliasTemplate? aliasTemplate = await _context.AliasTemplates
+            .SingleOrDefaultAsync(a => a.DataGroupTemplateId == dataGroupTemplateId);
+
+        return aliasTemplate?.Id;
+    }
+
     public async Task<AliasTemplate?> GetAliasTemplate(Guid id)
+    {
+        AliasTemplate? aliasTemplate = await _context.AliasTemplates
+            //.Include(a => a.Aliases)
+            .SingleOrDefaultAsync(a => a.Id == id);
+
+        return aliasTemplate;
+    }
+
+    public async Task<AliasTemplate?> GetAliasTemplateWithAliases(Guid id)
     {
         AliasTemplate? aliasTemplate = await _context.AliasTemplates
             .Include(a => a.Aliases)
@@ -32,9 +49,23 @@ public class AliasTemplateRepository : IAliasTemplateRepository
         return aliasTemplate;
     }
 
-    public Task<List<AliasTemplate>> GetAliasTemplates()
+    public async Task<AliasTemplate?> GetAliasTemplateWithDataGroupTemplate(Guid id)
     {
-        throw new NotImplementedException();
+        AliasTemplate? aliasTemplate = await _context.AliasTemplates
+            .Include(a => a.DataGroupTemplate)
+            .ThenInclude(d => d.DataTemplates)
+            .SingleOrDefaultAsync(a => a.Id == id);
+
+        return aliasTemplate;
+    }
+
+    public async Task<List<AliasTemplate>> GetAliasTemplates()
+    {
+        return await _context.AliasTemplates
+            .Include(a => a.DataGroupTemplate)
+            .ThenInclude(d => d.DataTemplates)
+            //.ThenInclude(d => d.DataGroupType)
+            .ToListAsync();
     }
 
     public void Update(AliasTemplate aliasTemplate)

@@ -17,25 +17,10 @@ namespace ElectroformLite.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("ProductVersion", "6.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("AliasTemplateTemplate", b =>
-                {
-                    b.Property<Guid>("AliasTemplatesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TemplatesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("AliasTemplatesId", "TemplatesId");
-
-                    b.HasIndex("TemplatesId");
-
-                    b.ToTable("AliasTemplateTemplate");
-                });
 
             modelBuilder.Entity("DataGroupTemplateDataTemplate", b =>
                 {
@@ -64,7 +49,7 @@ namespace ElectroformLite.Infrastructure.Migrations
                     b.Property<Guid>("DataGroupId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("DocumentId")
+                    b.Property<Guid>("DocumentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -92,9 +77,14 @@ namespace ElectroformLite.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<Guid>("TemplateId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DataGroupTemplateId");
+
+                    b.HasIndex("TemplateId");
 
                     b.ToTable("AliasTemplates");
                 });
@@ -105,14 +95,14 @@ namespace ElectroformLite.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("DataGroupId")
+                    b.Property<Guid>("DataGroupId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("DataTemplateId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .IsRequired()
@@ -144,8 +134,8 @@ namespace ElectroformLite.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -162,7 +152,7 @@ namespace ElectroformLite.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("DataGroupTypeId")
+                    b.Property<Guid>("DataGroupTypeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -243,8 +233,8 @@ namespace ElectroformLite.Infrastructure.Migrations
                     b.Property<Guid?>("TemplateId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -277,41 +267,200 @@ namespace ElectroformLite.Infrastructure.Migrations
 
             modelBuilder.Entity("ElectroformLite.Domain.Models.User", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<bool>("IsAdmin")
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)");
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)");
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("AliasTemplateTemplate", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
-                    b.HasOne("ElectroformLite.Domain.Models.AliasTemplate", null)
-                        .WithMany()
-                        .HasForeignKey("AliasTemplatesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasOne("ElectroformLite.Domain.Models.Template", null)
-                        .WithMany()
-                        .HasForeignKey("TemplatesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("DataGroupTemplateDataTemplate", b =>
@@ -343,13 +492,17 @@ namespace ElectroformLite.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ElectroformLite.Domain.Models.Document", null)
+                    b.HasOne("ElectroformLite.Domain.Models.Document", "Document")
                         .WithMany("Aliases")
-                        .HasForeignKey("DocumentId");
+                        .HasForeignKey("DocumentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AliasTemplate");
 
                     b.Navigation("DataGroup");
+
+                    b.Navigation("Document");
                 });
 
             modelBuilder.Entity("ElectroformLite.Domain.Models.AliasTemplate", b =>
@@ -360,14 +513,24 @@ namespace ElectroformLite.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ElectroformLite.Domain.Models.Template", "Template")
+                        .WithMany("AliasTemplates")
+                        .HasForeignKey("TemplateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("DataGroupTemplate");
+
+                    b.Navigation("Template");
                 });
 
             modelBuilder.Entity("ElectroformLite.Domain.Models.Data", b =>
                 {
-                    b.HasOne("ElectroformLite.Domain.Models.DataGroup", null)
+                    b.HasOne("ElectroformLite.Domain.Models.DataGroup", "DataGroup")
                         .WithMany("UserData")
-                        .HasForeignKey("DataGroupId");
+                        .HasForeignKey("DataGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ElectroformLite.Domain.Models.DataTemplate", "DataTemplate")
                         .WithMany("UserData")
@@ -378,6 +541,8 @@ namespace ElectroformLite.Infrastructure.Migrations
                     b.HasOne("ElectroformLite.Domain.Models.User", null)
                         .WithMany("UserData")
                         .HasForeignKey("UserId");
+
+                    b.Navigation("DataGroup");
 
                     b.Navigation("DataTemplate");
                 });
@@ -399,9 +564,13 @@ namespace ElectroformLite.Infrastructure.Migrations
 
             modelBuilder.Entity("ElectroformLite.Domain.Models.DataGroupTemplate", b =>
                 {
-                    b.HasOne("ElectroformLite.Domain.Models.DataGroupType", null)
+                    b.HasOne("ElectroformLite.Domain.Models.DataGroupType", "DataGroupType")
                         .WithMany("DataGroupTemplates")
-                        .HasForeignKey("DataGroupTypeId");
+                        .HasForeignKey("DataGroupTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DataGroupType");
                 });
 
             modelBuilder.Entity("ElectroformLite.Domain.Models.DataTemplate", b =>
@@ -424,6 +593,57 @@ namespace ElectroformLite.Infrastructure.Migrations
                     b.HasOne("ElectroformLite.Domain.Models.User", null)
                         .WithMany("Documents")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("ElectroformLite.Domain.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("ElectroformLite.Domain.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ElectroformLite.Domain.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("ElectroformLite.Domain.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ElectroformLite.Domain.Models.AliasTemplate", b =>
@@ -467,6 +687,8 @@ namespace ElectroformLite.Infrastructure.Migrations
 
             modelBuilder.Entity("ElectroformLite.Domain.Models.Template", b =>
                 {
+                    b.Navigation("AliasTemplates");
+
                     b.Navigation("Documents");
                 });
 

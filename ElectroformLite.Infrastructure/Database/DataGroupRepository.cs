@@ -1,6 +1,7 @@
 ﻿using ElectroformLite.Application.Interfaces;
 using ElectroformLite.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ElectroformLite.Infrastructure.Database;
 
@@ -26,6 +27,24 @@ public class DataGroupRepository : IDataGroupRepository
     public async Task<DataGroup?> GetDataGroup(Guid id)
     {
         DataGroup? dataGroup = await _context.DataGroups
+            .SingleOrDefaultAsync(d => d.Id == id);
+
+        return dataGroup;
+    }
+
+    public async Task<DataGroup?> GetDataGroupWithData(Guid id)
+    {
+        DataGroup? dataGroup = await _context.DataGroups
+            .Include(d => d.UserData)
+            .ThenInclude(u => u.DataTemplate)
+            .SingleOrDefaultAsync(d => d.Id == id);
+
+        return dataGroup;
+    }
+
+    public async Task<DataGroup?> GetDataGroupWithDataAndAliases(Guid id)
+    {
+        DataGroup? dataGroup = await _context.DataGroups
             .Include(d => d.Aliases)
             .Include(d => d.UserData)
             .ThenInclude(u => u.DataTemplate)
@@ -45,12 +64,20 @@ public class DataGroupRepository : IDataGroupRepository
 
     public async Task<List<DataGroup>> GetDataGroups()
     {
-        return await _context.DataGroups.Include(d => d.UserData).ToListAsync();
+        return await _context.DataGroups
+            .Include(d => d.UserData)
+            .ThenInclude(u => u.DataTemplate)
+            .Include(d => d.DataGroupTemplate)
+            .ThenInclude(t => t.DataGroupType)
+            .ToListAsync();
     }
 
-    public Task<List<DataGroup>> GetDataGroupsByType(Guid id)
+    public async Task<List<DataGroup>> GetDataGroupsByType(Guid dataGroupTypeId)
     {
-        throw new NotImplementedException();
+        return await _context.DataGroups
+            .Include(d => d.DataGroupTemplate)
+            .Where(d => d.DataGroupTemplate.DataGroupTypeId == dataGroupTypeId)
+            .ToListAsync();
     }
 
     public void Update(DataGroup dataGroup)

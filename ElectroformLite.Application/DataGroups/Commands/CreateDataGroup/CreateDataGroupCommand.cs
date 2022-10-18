@@ -3,7 +3,7 @@ using MediatR;
 
 namespace ElectroformLite.Application.DataGroups.Commands.CreateDataGroup;
 
-public class CreateDataGroupCommand : IRequest<DataGroup?>
+public class CreateDataGroupCommand : IRequest<DataGroup>
 {
     public Guid DataGroupTemplateId { get; set; }
     public string Name { get; set; }

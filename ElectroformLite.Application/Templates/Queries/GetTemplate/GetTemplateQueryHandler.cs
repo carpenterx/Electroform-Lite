@@ -1,10 +1,12 @@
-﻿using ElectroformLite.Application.Interfaces;
+﻿using ElectroformLite.Application.Exceptions;
+using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Application.Utils;
 using ElectroformLite.Domain.Models;
 using MediatR;
 
 namespace ElectroformLite.Application.Templates.Queries.GetTemplate;
 
-public class GetTemplateQueryHandler : IRequestHandler<GetTemplateQuery, Template?>
+public class GetTemplateQueryHandler : IRequestHandler<GetTemplateQuery, Template>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -13,9 +15,15 @@ public class GetTemplateQueryHandler : IRequestHandler<GetTemplateQuery, Templat
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Template?> Handle(GetTemplateQuery request, CancellationToken cancellationToken)
+    public async Task<Template> Handle(GetTemplateQuery request, CancellationToken cancellationToken)
     {
-        Template? template = await _unitOfWork.TemplateRepository.GetTemplate(request.TemplateId);
+        Template? template = await _unitOfWork.TemplateRepository.GetTemplateWithAliasTemplates(request.TemplateId);
+
+        if (template == null)
+        {
+            HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Template Not Found");
+            throw new NotFoundHttpResponseException(response);
+        }
 
         return template;
     }

@@ -3,7 +3,7 @@ using MediatR;
 
 namespace ElectroformLite.Application.UserData.Commands.DeleteData;
 
-public class DeleteDataCommand : IRequest<Data?>
+public class DeleteDataCommand : IRequest
 {
     public Guid DataId { get; set; }
 

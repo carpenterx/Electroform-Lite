@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
-using ElectroformLite.API.Dto;
 using ElectroformLite.Application.Documents.Commands.CreateDocument;
 using ElectroformLite.Application.Documents.Commands.DeleteDocument;
 using ElectroformLite.Application.Documents.Commands.EditDocument;
 using ElectroformLite.Application.Documents.Queries.GetDocument;
 using ElectroformLite.Application.Documents.Queries.GetDocuments;
+using ElectroformLite.Application.Dto;
+using ElectroformLite.Application.Utils;
 using ElectroformLite.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -26,24 +27,33 @@ public class DocumentsController : ControllerBase
 
     // GET: documents
     [HttpGet]
-    public async Task<ActionResult<List<Document>>> GetDocuments()
+    public async Task<ActionResult> GetDocuments([FromQuery] int pageNumber, [FromQuery] int pageSize)
     {
-        List<Document> documents = await _mediator.Send(new GetDocumentsQuery());
-        List<DocumentGetDto> documentDtos = _mapper.Map<List<DocumentGetDto>>(documents);
+        string? route = Request.Path.Value;
+        if (Request.Query.ContainsKey(nameof(pageNumber)) == false)
+        {
+            pageNumber = PaginationValidator.DEFAULT_PAGE_NUMBER;
+        }
+        if (Request.Query.ContainsKey(nameof(pageSize)) == false)
+        {
+            pageSize = PaginationValidator.DEFAULT_PAGE_SIZE;
+        }
+        if (route is not null)
+        {
+            PaginatedResponse<List<DocumentGetDto>> documentDtosPage = await _mediator.Send(new GetDocumentsQuery(route, pageNumber, pageSize));
 
-        return Ok(documentDtos);
+            return Ok(documentDtosPage);
+        }
+        
+
+        return BadRequest("Invalid route");
     }
 
     // GET: documents/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Document>> GetDocument([FromRoute] Guid id)
+    public async Task<ActionResult> GetDocument([FromRoute] Guid id)
     {
-        Document? document = await _mediator.Send(new GetDocumentQuery(id));
-
-        if (document == null)
-        {
-            return NotFound();
-        }
+        Document document = await _mediator.Send(new GetDocumentQuery(id));
 
         DocumentGetDto documentDto = _mapper.Map<DocumentGetDto>(document);
 
@@ -52,14 +62,9 @@ public class DocumentsController : ControllerBase
 
     // POST: documents
     [HttpPost]
-    public async Task<IActionResult> CreateDocument([FromBody] DocumentPostDto documentDto)
+    public async Task<ActionResult> CreateDocument([FromBody] DocumentPostDto documentDto)
     {
-        Document? document = await _mediator.Send(new CreateDocumentCommand(documentDto.TemplateId, documentDto.AliasData));
-
-        if (document == null)
-        {
-            return NotFound();
-        }
+        Document? document = await _mediator.Send(new CreateDocumentCommand(documentDto.DocumentName, documentDto.TemplateId, documentDto.AliasData));
 
         DocumentGetDto dtoFromDocument = _mapper.Map<DocumentGetDto>(document);
 
@@ -69,33 +74,23 @@ public class DocumentsController : ControllerBase
     // DELETE: documents/5
     [HttpDelete]
     [Route("{id}")]
-    public async Task<IActionResult> DeleteDocument([FromRoute] Guid id)
+    public async Task<ActionResult> DeleteDocument([FromRoute] Guid id)
     {
-        Document? document = await _mediator.Send(new DeleteDocumentCommand(id));
-
-        if (document == null)
-        {
-            return NotFound();
-        }
+        await _mediator.Send(new DeleteDocumentCommand(id));
 
         return NoContent();
     }
 
     // PATCH: documents/5
     [HttpPatch("{id}")]
-    public async Task<IActionResult> UpdateDocumentName([FromRoute] Guid id, [FromBody] DocumentPatchDto documentDto)
+    public async Task<ActionResult> UpdateDocumentName([FromRoute] Guid id, [FromBody] DocumentPatchDto documentDto)
     {
         if (id != documentDto.Id)
         {
             return BadRequest();
         }
 
-        Document? editedDocument = await _mediator.Send(new EditDocumentCommand(documentDto.Id, documentDto.Name));
-
-        if (editedDocument == null)
-        {
-            return NotFound();
-        }
+        await _mediator.Send(new EditDocumentCommand(documentDto.Id, documentDto.Name));
 
         return NoContent();
     }
@@ -103,7 +98,7 @@ public class DocumentsController : ControllerBase
     /*// POST: documents/5/data-groups/6
     [HttpPost]
     [Route("{documentId}/data-groups/{dataGroupId}")]
-    public async Task<IActionResult> AddDataGroupToDocument([FromRoute] Guid documentId, [FromRoute] Guid dataGroupId)
+    public async Task<ActionResult> AddDataGroupToDocument([FromRoute] Guid documentId, [FromRoute] Guid dataGroupId)
     {
         Document? document = await _mediator.Send(new AddDataGroupToDocumentCommand(documentId, dataGroupId));
 
@@ -120,7 +115,7 @@ public class DocumentsController : ControllerBase
     /*// DELETE: documents/5/data-groups/6
     [HttpDelete]
     [Route("{documentId}/data-groups/{dataGroupId}")]
-    public async Task<IActionResult> DeleteDataGroupFromDocument([FromRoute] Guid documentId, [FromRoute] Guid dataGroupId)
+    public async Task<ActionResult> DeleteDataGroupFromDocument([FromRoute] Guid documentId, [FromRoute] Guid dataGroupId)
     {
         Document? document = await _mediator.Send(new DeleteDataGroupFromDocumentCommand(documentId, dataGroupId));
 

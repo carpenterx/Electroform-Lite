@@ -1,5 +1,6 @@
 ﻿using ElectroformLite.Application.Exceptions;
 using ElectroformLite.Application.Interfaces;
+using ElectroformLite.Application.Utils;
 using ElectroformLite.Domain.Models;
 using MediatR;
 using System.ComponentModel.DataAnnotations;
@@ -18,23 +19,25 @@ public class DeleteDataTemplateCommandHandler : IRequestHandler<DeleteDataTempla
 
     public async Task<Unit> Handle(DeleteDataTemplateCommand request, CancellationToken cancellationToken)
     {
-        DataTemplate? dataTemplate = await _unitOfWork.DataTemplateRepository.GetDataTemplateAndDataAndDataGroupTemplates(request.DataTemplateId);
+        DataTemplate? dataTemplate = await _unitOfWork.DataTemplateRepository.GetDataTemplateWithDataAndDataGroupTemplates(request.DataTemplateId);
 
         if (dataTemplate == null)
         {
-            var response = new HttpResponseMessage(HttpStatusCode.NotFound)
+            /*var response = new HttpResponseMessage(HttpStatusCode.NotFound)
             {
                 ReasonPhrase = "Data Template Not Found"
-            };
+            };*/
+            HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Data Template Not Found");
             throw new NotFoundHttpResponseException(response);
         }
 
         if (dataTemplate.UserData.Count > 0 || dataTemplate.DataGroupTemplates.Count > 0)
         {
-            var response = new HttpResponseMessage(HttpStatusCode.Forbidden)
+            /*var response = new HttpResponseMessage(HttpStatusCode.Forbidden)
             {
                 ReasonPhrase = "Data Template Cannot Be Deleted"
-            };
+            };*/
+            HttpResponseMessage response = HttpUtilities.HttpResponseMessageBuilder("Data Template Cannot Be Deleted", HttpStatusCode.Forbidden);
             throw new CantDeleteHttpResponseException(response);
         }
 

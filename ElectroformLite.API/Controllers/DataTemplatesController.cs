@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using ElectroformLite.API.Dto;
 using ElectroformLite.Application.DataTemplates.Commands.CreateDataTemplate;
 using ElectroformLite.Application.DataTemplates.Commands.DeleteDataTemplate;
 using ElectroformLite.Application.DataTemplates.Commands.EditDataTemplate;
 using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplate;
 using ElectroformLite.Application.DataTemplates.Queries.GetDataTemplates;
+using ElectroformLite.Application.Dto;
 using ElectroformLite.Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -26,17 +26,17 @@ public class DataTemplatesController : ControllerBase
 
     // GET: data-templates
     [HttpGet]
-    public async Task<ActionResult<List<DataTemplate>>> GetDataTemplates()
+    public async Task<ActionResult> GetDataTemplates()
     {
         List<DataTemplate> dataTemplates = await _mediator.Send(new GetDataTemplatesQuery());
-        List<DataTemplateGetPutDto> dataTemplateDtos = _mapper.Map<List<DataTemplateGetPutDto>>(dataTemplates);
+        List<DataTemplateGetDto> dataTemplateDtos = _mapper.Map<List<DataTemplateGetDto>>(dataTemplates);
 
         return Ok(dataTemplateDtos);
     }
 
     // GET: data-templates/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<DataTemplate>> GetDataTemplate([FromRoute] Guid id)
+    public async Task<ActionResult> GetDataTemplate([FromRoute] Guid id)
     {
         DataTemplate dataTemplate = await _mediator.Send(new GetDataTemplateQuery(id));
         DataTemplateGetPutDto dataTemplateDto = _mapper.Map<DataTemplateGetPutDto>(dataTemplate);
@@ -46,10 +46,10 @@ public class DataTemplatesController : ControllerBase
 
     // POST: data-templates
     [HttpPost]
-    public async Task<IActionResult> CreateDataTemplate([FromBody] DataTemplatePostDto dataTemplateDto)
+    public async Task<ActionResult> CreateDataTemplate([FromBody] DataTemplatePostDto dataTemplateDto)
     {
         DataTemplate dataTemplate = await _mediator.Send(new CreateDataTemplateCommand(dataTemplateDto.DataTypeId, dataTemplateDto.Placeholder));
-        DataTemplateGetPutDto dtoFromDataTemplate = _mapper.Map<DataTemplateGetPutDto>(dataTemplate);
+        DataTemplateGetDto dtoFromDataTemplate = _mapper.Map<DataTemplateGetDto>(dataTemplate);
 
         return CreatedAtAction(nameof(GetDataTemplate), new { dtoFromDataTemplate.Id }, dtoFromDataTemplate);
     }
@@ -57,7 +57,7 @@ public class DataTemplatesController : ControllerBase
     // DELETE: data-templates/5
     [HttpDelete]
     [Route("{id}")]
-    public async Task<IActionResult> DeleteDataTemplate([FromRoute] Guid id)
+    public async Task<ActionResult> DeleteDataTemplate([FromRoute] Guid id)
     {
         await _mediator.Send(new DeleteDataTemplateCommand(id));
 
@@ -66,7 +66,7 @@ public class DataTemplatesController : ControllerBase
 
     // PUT: data-templates/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateDataTemplate([FromRoute] Guid id, [FromBody] DataTemplateGetPutDto dataTemplateDto)
+    public async Task<ActionResult> UpdateDataTemplate([FromRoute] Guid id, [FromBody] DataTemplateGetPutDto dataTemplateDto)
     {
         if (id != dataTemplateDto.Id)
         {

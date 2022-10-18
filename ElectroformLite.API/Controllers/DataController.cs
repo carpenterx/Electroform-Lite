@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ElectroformLite.API.Dto;
+using ElectroformLite.Application.Dto;
 using ElectroformLite.Application.UserData.Commands.CreateData;
 using ElectroformLite.Application.UserData.Commands.DeleteData;
 using ElectroformLite.Application.UserData.Commands.EditData;
@@ -26,7 +26,7 @@ public class DataController : ControllerBase
 
     // GET: data
     [HttpGet]
-    public async Task<ActionResult<List<Data>>> GetData()
+    public async Task<ActionResult> GetData()
     {
         List<Data> data = await _mediator.Send(new GetDataListQuery());
         List<DataGetPutDto> dataDtos = _mapper.Map<List<DataGetPutDto>>(data);
@@ -36,14 +36,10 @@ public class DataController : ControllerBase
 
     // GET: data/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Data>> GetData([FromRoute] Guid id)
+    public async Task<ActionResult> GetData([FromRoute] Guid id)
     {
-        Data? data = await _mediator.Send(new GetDataQuery(id));
+        Data data = await _mediator.Send(new GetDataQuery(id));
 
-        if (data == null)
-        {
-            return NotFound();
-        }
         DataGetPutDto dataDto = _mapper.Map<DataGetPutDto>(data);
 
         return Ok(dataDto);
@@ -51,15 +47,9 @@ public class DataController : ControllerBase
 
     // POST: data
     [HttpPost]
-    public async Task<IActionResult> CreateData([FromBody] DataPostDto dataDto)
+    public async Task<ActionResult> CreateData([FromBody] DataPostDto dataDto)
     {
-        //Data dataFromDto = _mapper.Map<Data>(dataDto);
-        Data? data = await _mediator.Send(new CreateDataCommand(dataDto.DataTemplateId, dataDto.Value));
-
-        if (data == null)
-        {
-            return NotFound();
-        }
+        Data data = await _mediator.Send(new CreateDataCommand(dataDto.DataTemplateId, dataDto.Value));
 
         DataGetPutDto dtoFromData = _mapper.Map<DataGetPutDto>(data);
 
@@ -69,21 +59,16 @@ public class DataController : ControllerBase
     // DELETE: data/5
     [HttpDelete]
     [Route("{id}")]
-    public async Task<IActionResult> DeleteData([FromRoute] Guid id)
+    public async Task<ActionResult> DeleteData([FromRoute] Guid id)
     {
-        Data? data = await _mediator.Send(new DeleteDataCommand(id));
-
-        if (data == null)
-        {
-            return NotFound();
-        }
+        await _mediator.Send(new DeleteDataCommand(id));
 
         return NoContent();
     }
 
     // PUT: data/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateData([FromRoute] Guid id, [FromBody] DataGetPutDto dataDto)
+    public async Task<ActionResult> UpdateData([FromRoute] Guid id, [FromBody] DataGetPutDto dataDto)
     {
         if (id != dataDto.Id)
         {
@@ -92,12 +77,7 @@ public class DataController : ControllerBase
 
         Data dataFromDto = _mapper.Map<Data>(dataDto);
 
-        Data? editedData = await _mediator.Send(new EditDataCommand(dataFromDto));
-
-        if (editedData == null)
-        {
-            return NotFound();
-        }
+        await _mediator.Send(new EditDataCommand(dataFromDto));
 
         return NoContent();
     }
