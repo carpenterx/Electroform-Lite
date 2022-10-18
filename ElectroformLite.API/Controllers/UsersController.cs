@@ -91,7 +91,40 @@ public class UsersController : ControllerBase
             return BadRequest("Failed to create user");
         }
 
-        return Ok("User created successfully");
+        //return Ok("User created successfully");
+        var userRoles = await _userManager.GetRolesAsync(user);
+
+        var authClaims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.Name, user.UserName),
+            };
+
+        foreach (var userRole in userRoles)
+        {
+            authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+        }
+
+        bool isAdmin = userRoles.Contains("admin");
+
+        var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetValue<string>("SecurityKey")));
+
+        var token = new JwtSecurityToken
+        (
+            issuer: "https://localhost:7188",
+            audience: "http://localhost:4200",
+            claims: authClaims,
+            expires: DateTime.UtcNow.AddHours(3),
+            signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+        );
+
+        return Ok(new
+        {
+            token = new JwtSecurityTokenHandler().WriteToken(token),
+            expiration = token.ValidTo,
+            isAdmin,
+            userName,
+
+        });
     }
 
     [HttpPost]
