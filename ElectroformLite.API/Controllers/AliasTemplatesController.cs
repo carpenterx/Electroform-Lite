@@ -5,7 +5,9 @@ using ElectroformLite.Application.AliasTemplates.Queries.GetAliasTemplates;
 using ElectroformLite.Application.Dto;
 using ElectroformLite.Domain.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace ElectroformLite.API.Controllers;
 
@@ -23,6 +25,7 @@ public class AliasTemplatesController : ControllerBase
     }
 
     // GET: alias-templates
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult> GetAliasTemplates()
     {
@@ -33,6 +36,7 @@ public class AliasTemplatesController : ControllerBase
     }
 
     // GET: alias-templates/5
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<ActionResult> GetAliasTemplate([FromRoute] Guid id)
     {
@@ -44,6 +48,7 @@ public class AliasTemplatesController : ControllerBase
     }
 
     // GET: alias-templates/get-id/5
+    [Authorize]
     [HttpGet("get-id/{dataGroupTemplateId}")]
     public async Task<ActionResult> GetAliasTemplateId([FromRoute] Guid dataGroupTemplateId)
     {

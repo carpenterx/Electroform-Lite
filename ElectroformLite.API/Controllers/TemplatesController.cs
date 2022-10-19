@@ -7,7 +7,9 @@ using ElectroformLite.Application.Templates.Queries.GetTemplate;
 using ElectroformLite.Application.Templates.Queries.GetTemplates;
 using ElectroformLite.Domain.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace ElectroformLite.API.Controllers;
 
@@ -25,6 +27,7 @@ public class TemplatesController : ControllerBase
     }
 
     // GET: templates
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult> GetTemplates()
     {
@@ -35,6 +38,7 @@ public class TemplatesController : ControllerBase
     }
 
     // GET: templates/5
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<ActionResult> GetTemplate([FromRoute] Guid id)
     {
@@ -46,6 +50,7 @@ public class TemplatesController : ControllerBase
     }
 
     // POST: templates
+    [Authorize(Roles = "admin")]
     [HttpPost]
     public async Task<ActionResult> CreateTemplate([FromBody] TemplatePostDto templateDto)
     {
@@ -57,6 +62,7 @@ public class TemplatesController : ControllerBase
     }
 
     // DELETE: templates/5
+    [Authorize(Roles = "admin")]
     [HttpDelete]
     [Route("{id}")]
     public async Task<ActionResult> DeleteTemplate([FromRoute] Guid id)
@@ -67,6 +73,7 @@ public class TemplatesController : ControllerBase
     }
 
     // PUT: templates/5
+    [Authorize(Roles = "admin")]
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateTemplate([FromRoute] Guid id, [FromBody] TemplatePutDto templateDto)
     {

@@ -7,6 +7,7 @@ using ElectroformLite.Application.UserData.Queries.GetData;
 using ElectroformLite.Application.UserData.Queries.GetDataList;
 using ElectroformLite.Domain.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ElectroformLite.API.Controllers;
@@ -25,6 +26,7 @@ public class DataController : ControllerBase
     }
 
     // GET: data
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult> GetData()
     {
@@ -35,6 +37,7 @@ public class DataController : ControllerBase
     }
 
     // GET: data/5
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<ActionResult> GetData([FromRoute] Guid id)
     {
@@ -46,6 +49,7 @@ public class DataController : ControllerBase
     }
 
     // POST: data
+    [Authorize(Roles = "admin")]
     [HttpPost]
     public async Task<ActionResult> CreateData([FromBody] DataPostDto dataDto)
     {
@@ -57,6 +61,7 @@ public class DataController : ControllerBase
     }
 
     // DELETE: data/5
+    [Authorize(Roles = "admin")]
     [HttpDelete]
     [Route("{id}")]
     public async Task<ActionResult> DeleteData([FromRoute] Guid id)
@@ -67,6 +72,7 @@ public class DataController : ControllerBase
     }
 
     // PUT: data/5
+    [Authorize(Roles = "admin")]
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateData([FromRoute] Guid id, [FromBody] DataGetPutDto dataDto)
     {

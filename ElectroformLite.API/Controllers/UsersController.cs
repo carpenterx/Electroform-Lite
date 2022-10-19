@@ -1,7 +1,9 @@
 ﻿using ElectroformLite.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -123,10 +125,10 @@ public class UsersController : ControllerBase
             expiration = token.ValidTo,
             isAdmin,
             userName,
-
         });
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPost]
     [Route("assign-role")]
     public async Task<ActionResult> AssignRole(string userName, string roleName)

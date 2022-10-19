@@ -7,7 +7,9 @@ using ElectroformLite.Application.DataGroupTypes.Queries.GetDataGroupTypes;
 using ElectroformLite.Application.Dto;
 using ElectroformLite.Domain.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace ElectroformLite.API.Controllers;
 
@@ -25,6 +27,7 @@ public class DataGroupTypesController : ControllerBase
     }
 
     // GET: data-group-types
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult> GetDataGroupTypes()
     {
@@ -35,6 +38,7 @@ public class DataGroupTypesController : ControllerBase
     }
 
     // GET: data-group-types/5
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<ActionResult> GetDataGroupType([FromRoute] Guid id)
     {
@@ -45,6 +49,7 @@ public class DataGroupTypesController : ControllerBase
     }
 
     // POST: data-group-types
+    [Authorize(Roles = "admin")]
     [HttpPost]
     public async Task<ActionResult> CreateDataGroupType([FromBody] string type)
     {
@@ -55,6 +60,7 @@ public class DataGroupTypesController : ControllerBase
     }
 
     // DELETE: data-group-types/5
+    [Authorize(Roles = "admin")]
     [HttpDelete]
     [Route("{id}")]
     public async Task<ActionResult> DeleteDataGroupType([FromRoute] Guid id)
@@ -65,6 +71,7 @@ public class DataGroupTypesController : ControllerBase
     }
 
     // PUT: data-group-types/5
+    [Authorize(Roles = "admin")]
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateDataGroupType([FromRoute] Guid id,[FromBody] DataGroupTypeDto dataGroupTypeDto)
     {

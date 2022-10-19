@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ElectroformLite.API.Controllers;
 
-[Authorize]
 [ApiController]
 [Route("data-types")]
 public class DataTypesController : ControllerBase
@@ -27,6 +26,7 @@ public class DataTypesController : ControllerBase
     }
 
     // GET: data-types
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult> GetDataTypes()
     {
@@ -37,6 +37,7 @@ public class DataTypesController : ControllerBase
     }
 
     // GET: data-types/5
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<ActionResult<DataType>> GetDataType([FromRoute] Guid id)
     {
@@ -47,6 +48,7 @@ public class DataTypesController : ControllerBase
     }
 
     // POST: data-types
+    [Authorize(Roles = "admin")]
     [HttpPost]
     public async Task<ActionResult> CreateDataType([FromBody] string type)
     {
@@ -57,6 +59,7 @@ public class DataTypesController : ControllerBase
     }
 
     // DELETE: data-types/5
+    [Authorize(Roles = "admin")]
     [HttpDelete]
     [Route("{id}")]
     public async Task<ActionResult> DeleteDataType([FromRoute] Guid id)
@@ -67,6 +70,7 @@ public class DataTypesController : ControllerBase
     }
 
     // PUT: data-types/5
+    [Authorize(Roles = "admin")]
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateDataType([FromRoute] Guid id, [FromBody] DataTypeDto dataTypeDto)
     {

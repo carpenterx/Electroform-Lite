@@ -8,6 +8,7 @@ using ElectroformLite.Application.Dto;
 using ElectroformLite.Application.Utils;
 using ElectroformLite.Domain.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ElectroformLite.API.Controllers;
@@ -26,6 +27,7 @@ public class DocumentsController : ControllerBase
     }
 
     // GET: documents
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult> GetDocuments([FromQuery] int pageNumber, [FromQuery] int pageSize)
     {
@@ -50,6 +52,7 @@ public class DocumentsController : ControllerBase
     }
 
     // GET: documents/5
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<ActionResult> GetDocument([FromRoute] Guid id)
     {
@@ -61,6 +64,7 @@ public class DocumentsController : ControllerBase
     }
 
     // POST: documents
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult> CreateDocument([FromBody] DocumentPostDto documentDto)
     {
@@ -72,6 +76,7 @@ public class DocumentsController : ControllerBase
     }
 
     // DELETE: documents/5
+    [Authorize]
     [HttpDelete]
     [Route("{id}")]
     public async Task<ActionResult> DeleteDocument([FromRoute] Guid id)
@@ -82,6 +87,7 @@ public class DocumentsController : ControllerBase
     }
 
     // PATCH: documents/5
+    [Authorize]
     [HttpPatch("{id}")]
     public async Task<ActionResult> UpdateDocumentName([FromRoute] Guid id, [FromBody] DocumentPatchDto documentDto)
     {

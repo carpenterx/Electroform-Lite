@@ -7,6 +7,7 @@ using ElectroformLite.Application.DataGroupTemplates.Queries.GetDataGroupTemplat
 using ElectroformLite.Application.Dto;
 using ElectroformLite.Domain.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ElectroformLite.API.Controllers;
@@ -25,6 +26,7 @@ public class DataGroupTemplatesController : ControllerBase
     }
 
     // GET: data-group-templates
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult> GetDataGroupTemplates()
     {
@@ -35,6 +37,7 @@ public class DataGroupTemplatesController : ControllerBase
     }
 
     // GET: data-group-templates/5
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<ActionResult> GetDataGroupTemplate([FromRoute] Guid id)
     {
@@ -46,6 +49,7 @@ public class DataGroupTemplatesController : ControllerBase
     }
 
     // POST: data-group-templates
+    [Authorize(Roles = "admin")]
     [HttpPost]
     public async Task<ActionResult> CreateDataGroupTemplate([FromBody] DataGroupTemplatePostDto dataGroupTemplateDto)
     {
@@ -57,6 +61,7 @@ public class DataGroupTemplatesController : ControllerBase
     }
 
     // DELETE: data-group-templates/5
+    [Authorize(Roles = "admin")]
     [HttpDelete]
     [Route("{id}")]
     public async Task<ActionResult> DeleteDataGroupTemplate([FromRoute] Guid id)
@@ -67,6 +72,7 @@ public class DataGroupTemplatesController : ControllerBase
     }
 
     // PUT: data-group-templates/5
+    [Authorize(Roles = "admin")]
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateDataGroupTemplate([FromRoute] Guid id, [FromBody] DataGroupTemplatePutDto dataGroupTemplateDto)
     {
