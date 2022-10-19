@@ -67,6 +67,7 @@ public class CreateDocumentCommandHandler : IRequestHandler<CreateDocumentComman
 
         documentName = TextUtilities.ReplacePlaceholders(documentName, dataDictionary);
         string documentContent = TextUtilities.ReplacePlaceholders(template.Content, dataDictionary);
+        documentContent = TextUtilities.ReplaceDirectives(documentContent);
         Document document = new(documentName, documentContent);
 
         _unitOfWork.DocumentRepository.Create(document);

@@ -16,4 +16,11 @@ public static class TextUtilities
     {
         return $"[{aliasName}.{dataPlaceholder}]";
     }
+
+    public static string ReplaceDirectives(string value)
+    {
+        string output = value;
+        output = output.Replace("{DateTime.Today}", DateTime.Today.ToString("dd-MM-yyyy"));
+        return output;
+    }
 }
